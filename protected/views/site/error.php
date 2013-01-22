@@ -1,0 +1,1 @@
+<?php $this->widget('Error', array('code' => $code, 'message' => $message)); ?>

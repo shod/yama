@@ -1,0 +1,103 @@
+html {}
+body {background: #f2f2f2 url(../images/body-bg.gif) repeat-x left top;}
+body, td {font-family: arial, verdana, tahoma; font-size: 12px; color: #333;}
+
+
+/******************/
+/*  BASIC LAYOUT  */
+/******************/
+
+.wrapper { min-width: 1004px; background: no-repeat center top;}
+.wrp {margin: 0 auto; position: relative; zoom: 1; z-index: 3; min-width: 1004px; max-width: 1280px;}
+.wrp-c {padding: 0 10px;}
+.wrp-bd {padding-top: 18px;}
+.wrp-bd .wrp-c {background: #fff;}
+
+
+.body-wrapper {width: 100%; position: relative; zoom: 1;}
+.body {float: left; width: 100%;}
+.body .body-cont {margin: 0 250px 0 230px; position: relative; zoom: 1;}
+.body-left {margin-left: -100%; width: 220px; float: left; position: relative; zoom: 1;}
+.body-right {margin-left: -240px; width: 240px; float: left; position: relative; zoom: 1;}
+
+.body-layout02 {}
+.body-layout02 .body .body-cont {margin-left: 0;}
+
+.body-layout03 {}
+.body-layout03 .body .body-cont {margin-right: 260px; margin-left: 0;}
+.body-layout03 .body-right {margin-left: -250px; width: 250px;}
+
+.body-layout04 {}
+.body-layout04 .body .body-cont {margin-right: 0;}
+
+.body-layout05 {}
+.body-layout05 .body .body-cont {margin-left: 392px;}
+.body-layout05 .body-left {width: 372px;}
+
+
+.header {padding-top: 7px; position: relative; z-index: 9; zoom: 1;margin-bottom:0px;}
+.footer {}
+
+.cols {}
+.cols .col {display: block; float: left;}
+.cols .col-cont {padding-right: 5px;}
+.cols .col-last {}
+.cols .col-last .col-cont {padding-right: 0; padding-left: 5px;}
+.cols2 .col {width: 50%;}
+
+
+/******************/
+/*    CSS RULES   */
+/******************/
+
+a {color: #165f85; text-decoration: none;}
+a:hover {color: #165f85; text-decoration: underline;}
+
+.mlogo {}
+.mlogo a,
+.mlogo span {margin-top: 12px; left: 7px; position: absolute; z-index: 9; display: block; width: 216px; height: 84px; text-indent: -9999px; background: url(../images/logo.png) no-repeat;}
+/*.mlogo span {margin-top: 1px; left: 0px; margin-left: -12px; position: absolute; z-index: 9; display: block; width: 234px; height: 103px; text-indent: -9999px; background: url(../i/logo.jpg) no-repeat;}*/
+.logo4 span {margin-top: 0px; right: 7px; position: absolute; z-index: 9; display: block; width: 178px; height: 99px;}
+
+
+.content {margin-top__: -23px; position: relative; zoom: 1; z-index: 3; padding: 0 10px;}
+
+/* for xeditor html-content */
+.html {}
+.html strong {font-weight:bold;}
+.html table {border-spacing:1px;}
+.html table[border] {border:1px solid #000000;}
+.html table[border='0'] {border:none;}
+.html td, .html td[align=center] {text-align: center !important;}
+.html td[align=right] {text-align: right !important;}
+.html td[align=left] {text-align: left !important;}
+.html ol, .html ul {list-style-position:inside; list-style-type:disc;}
+.html img {display:inline !important}
+
+.overflow{overflow:hidden; zoom:1;}
+
+#popupLogin {width: 716px; height: 364px; background: transparent url(../images/login_bg.png) no-repeat left top;padding: 1px 30px 25px;text-align: left;}
+#popupLogin a {color: #777; text-decoration:underline;}
+#popupLogin a:hover {text-decoration: none;}
+#popupLogin label input {vertical-align: -2px;}
+#popupLogin .contentLogin {float: left; width: 360px; padding: 30px 0 0 6px; }
+#popupLogin .contentLogin h2 {font-size: 20px; margin-bottom: 5px; color:#1C2530;}
+#popupLogin .contentLogin h4 {font: 13px Arial,Helvetica,sans-serif;margin-bottom: 2px;}
+#popupLogin .contentLogin .inp {background: url(../images/login_input_bg.gif) no-repeat scroll 0 0 transparent;height: 29px; margin-bottom:0px; width: 175px;}
+#popupLogin .contentLogin .inp input {background: none repeat scroll 0 0 transparent;border: medium none;font-size: 14px; padding: 2px 5px 8px;width: 165px;}
+#popupLogin .contentLogin .submit {margin-top:7px;margin-bottom:6px;}
+#popupLogin .contentLogin .idle {font-size: 11px;}
+#popupLogin .contentLogin .social {margin-left:-2px;}
+#popupLogin .contentLogin .social input {cursor:pointer;}
+
+#popupLogin .contentRegistration {float: right; width: 290px; padding-top: 6px; text-align:center;}
+#popupLogin .contentRegistration .title {width:233px; height:111px; background: transparent url(../images/reg_bg.gif) no-repeat left top; font-size:14px; padding:15px 25px 0;margin-bottom:10px;}
+#popupLogin .contentRegistration .title h2 {font-size: 40px;}
+#popupLogin .contentRegistration h4 {margin-bottom:2px;}
+#popupLogin .contentRegistration .inp {background: url(../images/reg_input_bg.gif) no-repeat scroll 0 0 transparent;height: 35px; margin-bottom:0px; width: 283px; margin-bottom:10px;}
+#popupLogin .contentRegistration .inp input {background: none repeat scroll 0 0 transparent;border: medium none;font-size: 16px; padding: 5px;width: 273px;}
+#popupLogin .contentRegistration  .agree {margin-bottom: 0px;}
+#popupLogin .contentRegistration  .rules {margin-bottom: 12px;}
+#popupLogin .contentRegistration  .error {display:block; height: 14px; font-size:11px;}
+
+.clear { clear:both; }

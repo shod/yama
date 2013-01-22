@@ -1,0 +1,24 @@
+/* RESET*/
+body {background: none;}
+
+
+.registration *{margin:0; padding:0; outline:0;}
+.registration img{border:0;}
+.registration a{color:#555;}
+.registration a:hover{text-decoration:none;}
+.registration ul{list-style-type:none;}
+
+.registration{width:630px; margin:0 auto; text-align:left; font:12px Arial, Helvetica, sans-serif; color:#333;}
+
+
+/* HEAD */
+.head{height:97px; position:relative;}
+.logo{position:absolute; top:33px; left:18px;}
+.nav{position:absolute; top:50px; left:314px; font-size:14px;}
+.nav a{color:#165f85; text-decoration:none; margin-right:20px;}
+.nav a:hover{text-decoration:underline;}
+
+/* FOOTER */
+.footer{padding:25px 34px; overflow:hidden; zoom:1; font-size:12px;}
+.footer strong{color:#4d9901;}
+.copy{float:left;}

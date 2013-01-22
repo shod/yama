@@ -1,0 +1,383 @@
+body {font: 11px tahoma}
+a {text-decoration: none}
+a:hover {text-decoration:underline}
+a img {border: 0}
+
+<<<<<<< HEAD
+.lenta {position: relative; padding: 10px 300px 65px 0;background:url(/images/lenta-line.png) repeat-y 210px top;min-height:900px}
+
+.navigation {float: left; width: 210px;position:absolute}
+=======
+.lenta {position: relative; padding: 30px 300px 65px 0;background:url(/images/lenta-line.png) repeat-y 210px top;min-height:500px; font: 11px tahoma}
+
+.navigation {float: left; width: 210px;position:absolute;}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+
+.navigation .heading {padding-left: 30px; padding-right: 10px}
+.navigation .category {padding-bottom: 10px}
+
+.navigation .heading {height: 30px; line-height: 30px; text-align: justify}
+.navigation .heading > * {display: inline-block; line-height: normal}
+.navigation .heading .title {font-size: 15px; font-family: arial; color: #000;text-decoration:underline}
+.navigation .heading .title:hover {text-decoration:none}
+.navigation .heading .count {display: none; color: #fff; background-color: #09c; padding: 1px 4px}
+.navigation .heading:after {content: ""; display: inline-block; width: 100%}
+
+.navigation .options {padding-left:26px;display: none; line-height: 25px; padding-top: 5px; padding-bottom: 10px}
+.navigation .options label {display: block;cursor:pointer}
+.navigation .options input {margin-right: 5px}
+.navigation .options input, .navigation .options span {vertical-align: middle}
+
+.navigation .current .heading {background-color: #fafbfc}
+.navigation .current .heading .title {font-weight: bold}
+.navigation .current .count {display: inline-block}
+.navigation .current .options {display: block}
+
+.main {margin-left: 210px; border-left: 1px solid #dcdcdc}
+
+.wall {margin-top:-7px;margin-left: 210px; border-left: 1px solid #dcdcdc}
+.wall .close {display: none; position: absolute; right: 0; top: 0; width: 25px; height: 25px; background-image: url(/images/close.png); cursor: pointer}
+.wall .show-more {display: block; text-align: center; color: #777; line-height: 26px; background-color: #f6f8fa; cursor: pointer}
+.wall .show-more:hover span {text-decoration:underline}
+.wall > .show-more {margin-top: 20px}
+
+<<<<<<< HEAD
+.post {padding: 0 0 20px 70px; color: #333; border-top: 1px solid #ebebeb}
+=======
+.post {padding: 0 0 20px 70px; color: #333; border-top: 1px solid #ebebeb; margin-right: 20px;}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.post:first-child {border: 0}
+.post img {display: block}
+.post a {color: #165f85}
+.post a:hover {/*text-decoration:underline*/}
+.post strong {color: #b00000}
+
+.post .actions {text-align: right; line-height: 16px; margin-top: 5px}
+.post .actions .reply {float: left; color: #165f85; cursor: pointer}
+.post .actions .reply:hover {text-decoration:underline}
+.post .actions .feedback {color: #777}
+.post .actions .feedback span {display: inline-block; cursor: pointer; margin-left: 5px}
+.post .actions .feedback span:after {content: ""; display: inline-block; vertical-align: top; width: 16px; height: 16px; margin-left: 2px; background: url(/images/like.png) left -1px}
+.post .actions .feedback .dislike:after {background-position: bottom}
+
+.post .related {text-transform: uppercase; line-height: 45px; color: #1c2530; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; padding-right: 25px; position: relative}
+.post .related a {text-transform: none; color: #777; margin-left: 5px; border: 0}
+.post .related a:hover {/*text-decoration:underline*/}
+.post .related .close {top: 10px}
+.post:hover .related .close {display: block}
+
+.post .author, .post .body {font-size: 13px; font-family: arial}
+.post .author {font-weight: bold; color: #1c2530}
+.post .author:hover {/*text-decoration:underline*/}
+.post .date {color: #777; margin-left: 5px}
+.post .date:hover {/*text-decoration:underline*/}
+<<<<<<< HEAD
+.post .body {margin-top:3px!important;white-space: pre-line; max-height: 50px; overflow: hidden;line-height:1.35em}
+=======
+.post .body {margin-top:10px!important;white-space: pre-line;  overflow: hidden;line-height:1.35em}
+.post .body.short {max-height: 50px;}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.post .body.expanded {max-height: none}
+
+.post .message {position: relative}
+.post .message > .avatar {position: absolute; left: -60px; top: 3px; max-width: 50px}
+.post .message > .body, .post .message .attachments {margin: 10px 0}
+.post .message .attachments a {display: inline-block; vertical-align: top; border: 0}
+.post .extras {margin-top: 15px}
+.post .extras div, .post .extras a, .post .extras span {display: inline-block; vertical-align: top; text-align: center}
+.post .extras a {border: 0}
+.post .extras a img {display: block; max-width: 30px; max-height: 30px}
+.post .extras span {width: 30px; height: 30px; font: bold 15px/30px arial; color: #4d9901}
+.post .extras .likes {margin-right:30px}
+.post .extras .dislikes {}
+.post .extras .dislikes span {color: #b00000}
+
+.post .comments {padding-top: 10px}
+.post .comment {position: relative; margin-top: 15px; padding-left: 40px}
+.post .comment .avatar {position: absolute; left: 0; top: 0; max-width: 30px}
+.post .comment .body {margin: 5px 0}
+.post .comment .actions {visibility: hidden}
+.post .comment:hover .actions {visibility: visible}
+
+.thing {display: inline-block; vertical-align: top; width: 230px; margin: 20px 0; text-align: center; line-height: 25px; position: relative}
+.thing .photo img {display: block; max-width: 130px; margin: 0 auto}
+.thing .status {display: inline-block; margin-top: 10px; border: 1px solid transparent; border-radius: 2px}
+.thing .status > * {float: left; width: 36px; height: 24px}
+.thing .status .heart {background: url(../images/heart.png) center no-repeat}
+.thing .status .check {background: url(../images/check.png) top no-repeat; cursor: pointer; display: none}
+.thing .status .check:hover {background-position: bottom}
+.thing .status:hover {border-color: #d3d4d6; margin-left: 36px}
+.thing .status:hover .check, .thing .status.checked .check {display: block}
+.thing .status.checked {margin-left: 0; border-color: transparent}
+.thing .status.checked .heart {display: none}
+.thing .status.checked .check {background-position: bottom; cursor: default}
+.thing .title {font: 15px arial; padding: 0 20px}
+.thing .title a {color: #3a5f85!important}
+.thing .owners a {color: #1c2530; text-decoration:underline;}
+.thing .owners a:hover {text-decoration:none}
+.thing:hover .close {display: block}
+
+<<<<<<< HEAD
+.aside {position: absolute; top: 10px; right: 0; width: 300px; text-align: center; }
+=======
+.aside {position: absolute; top: 30px; right: 0; width: 300px; text-align: center;  }
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+
+
+/* 29.10.2012 */
+
+.profile {padding-left: 30px}
+<<<<<<< HEAD
+.profile, .profile a, .profile table th {color: #777}
+.profile strong, .profile table caption {color: #1c2530}
+.profile .summary {overflow: hidden}
+=======
+.profile, .profile a, .profile a:hover, .profile a:visited, .profile table th {color: #777}
+.profile strong, .profile table caption {color: #1c2530}
+.profile .summary {overflow: hidden; padding-left:34px;}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.profile .summary .avatar {margin-right:20px;width: 96px; height: 96px;float: left; }
+.profile .summary .avatar div {}
+.profile .summary .change-avatar {margin-top:69px;padding:5px 0 10px 0 ;text-align:center;color:#fff; background-color:#000;filter:alpha(opacity=50); -khtml-opacity:0.5;-moz-opacity:0.50;opacity:0.50;}
+.profile .summary .change-avatar:hover {color:#fff; background-color:#000;filter:alpha(opacity=70); -khtml-opacity:0.7;-moz-opacity:0.70;opacity:0.70;}
+.profile .summary .name {float: left; font-size: 11px}
+.profile .summary .name strong,  .profile .summary .name strong a {font: bold 25px arial;color:#000}
+<<<<<<< HEAD
+.profile .info {float: right; clear: right; text-align: right; line-height: 16px}
+.profile .info + .info {margin-top: 10px}
+.profile a {text-decoration:underline}
+.profile a:hover {text-decoration:none}
+.profile strong {display: block; font-weight: normal}
+=======
+.profile .info {float: right; clear: right; text-align: right; line-height: 16px; padding-top: 6px;}
+.profile .info + .info {margin-top: 10px}
+.profile .info strong {margin-top: 3px}
+.profile .name .online {color: #81B400;}
+.profile a {text-decoration:underline}
+.profile a:hover {text-decoration:none}
+.profile strong {display: block; font-weight: normal; margin-top: -5px;}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.profile table, .profile input, .profile select {font-size: 13px; font-family: arial}
+.profile table {width: 100%; border-collapse: collapse; table-layout: fixed; margin-top: -41px}
+.profile table caption {font-size: 15px; line-height: 30px; border-bottom: 1px solid #ebebeb; text-align: left; margin-bottom: 10px; padding-top: 10px}
+.profile table th, .profile table td {line-height: 28px; padding: 0}
+<<<<<<< HEAD
+.profile table th {font-weight: normal; text-align: right; width: 95px; padding-right: 20px}
+=======
+.profile table th {font-weight: normal; text-align: right; width: 130px; padding-right: 20px}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.profile table td, .profile input, .profile select {color: #333}
+.profile table + table {margin-top: 20px}
+.profile table a {color: #195e85;text-decoration:none;}
+
+/* :hover  text-decoration:underline; */
+.profile table a:hover, .profile .buttons .cancel-link a:hover {text-decoration:underline;}
+
+/* inputs */
+.profile input[type=text], .profile select, .profile input[type=password],
+.auth .signin input[type=text], .auth .signin input[type=password], .auth .signin input[type=email],
+.auth .signup input[type=email],
+.password-recover input[type=email]
+{border: 1px solid #bec0c2; box-shadow: inset 1px 1px 2px rgba(0,0,0,.1); padding: 5px; margin: 5px 0}
+
+.profile input[type=text], .profile input[type=password] {width: 210px}
+.profile select.regions {width:222px}
+.profile label input[type=checkbox], .profile label input[type=radio], .profile label span {vertical-align: middle}
+
+.profile .birth th {vertical-align: top; line-height: 38px}
+<<<<<<< HEAD
+.profile .birth select {float: left}
+.profile .birth select + select {margin-left: 11px}
+.profile .birth label {float: left; clear: left; line-height: normal; margin-bottom: 10px}
+.profile .birth label span, .profile .collapsible label span {cursor:pointer}
+.profile .birth .day, .profile .birth .month {width: 60px}
+=======
+/*.profile .birth select {float: left}*/
+.profile .birth select + select {margin-left: 11px}
+.profile .birth label {float: left; clear: left; line-height: normal; margin-bottom: 10px}
+.profile .birth label span, .profile .collapsible label span {cursor:pointer}
+.profile .birth .day, .profile .birth .month {width: 56px}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.profile .birth .year {width: 80px}
+
+.profile .collapsible caption  {color: #195e85;border-top: 1px solid #ebebeb; border-bottom: 0; padding-bottom: 10px; margin-bottom: 0;}
+.profile .collapsible caption p {padding-right:10px; cursor: pointer;display:inline;background:url(../images/arr-down.png) no-repeat right 10px;}
+.profile .collapsible caption p span {background:url(../images/link....png) repeat-x left 15px;}
+.profile .collapsible caption p span:hover {background:none;}
+.profile .collapsible tbody {margin-bottom: 10px}
+.profile .collapsible tr {display: none}
+.profile .collapsible + table {margin-top: 0}
+.profile .collapsible.expanded {margin-bottom: 20px}
+.profile .collapsible.expanded tr {display: table-row}
+.profile .collapsible.expanded caption {color: #1c2530}
+.profile .collapsible.expanded caption span {border-color: #1c2530}
+.profile .collapsible.expanded caption p {padding-right:10px;display:inline;background:url(../images/arr-up.png) no-repeat right 10px;}
+
+<<<<<<< HEAD
+.profile .buttons, .profile table caption {padding-left: 115px}
+.profile .buttons {margin-top: 40px;}
+.profile .buttons button {margin-right:20px;display:inline}
+.profile .buttons .cancel-link {display:inline}
+.profile .buttons .cancel-link a {color:#165f85!important;font-size:11px;font-family:arial, tahoma, verdana, 'sans-serif';text-decoration:underline}
+.profile .buttons .cancel-link a:hover {text-decoration:none}
+
+=======
+.profile .buttons, .profile table caption {margin-left: 150px}
+.profile .buttons {margin-top: 40px;}
+.profile .buttons button {margin-right:20px;display:inline}
+.profile .buttons .cancel-link {display:inline}
+.profile .buttons .cancel-link a {color:#777777!important;font-size:11px;text-decoration:underline}
+.profile .buttons .cancel-link a:hover {text-decoration:none}
+
+.profile .google_oauth, .profile .facebook, .profile .vkontakte {display: inline-block;line-height: 16px;background: url(../images/mini-social.png) no-repeat;margin: 0 0px;padding-left: 14px;}
+
+.profile .google_oauth {background-position: 0 -32px;}
+.profile .facebook {background-position: 0 -16px;}
+.profile .vkontakte {background-position: 0 0;}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+
+/* 01.11.2012 */
+
+.auth, .auth table {font-family: arial;}
+.auth > *, .auth table {font-size: 15px}
+.auth {text-align: center; margin-top: 23px; font-size: 0}
+<<<<<<< HEAD
+.auth .logo, .auth-question .logo {background: url(../images/logo.png) center no-repeat; display: inline-block; width: 223px; height: 61px}
+.auth .logo {margin-left: -15px}
+.auth p {margin: 0}
+.auth > p {margin: 28px 0 16px}
+.auth label {display: inline-block}
+.auth label input[type=text] {margin-top: 5px}
+.auth em {display: block; height: 28px; font-style: normal; font-size: 13px}
+.auth input[type=text], .auth input[type=password] {width: 100%; height:  margin: 0; -moz-box-sizing: border-box; box-szinig: border-box}
+=======
+.auth-question .logo {background: url("http://static.migom.by/img/design/logo_new.png")  scroll left top no-repeat; display: inline-block; width: 223px; height: 54px}
+.auth .logo {margin-left: -15px; 
+background: url("http://static.migom.by/img/design/logo_new.png") no-repeat scroll left top ;
+height: 54px;
+display: inline-block; width: 223px;
+}
+.auth p {margin: 0}
+.auth > p {margin: 18px 0 16px}
+.auth label {display: inline-block}
+.auth label input[type=text] {margin-top: 5px}
+.auth em {display: block; height: 28px; font-style: normal; font-size: 13px}
+/*.auth input[type=text], .auth input[type=password] {width: 100%; height:  margin: 0; -moz-box-sizing: border-box; box-szinig: border-box} разные инпуты в фф в форме авторизации*/
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.auth .social {display: table; margin: 0 auto 50px; font-size: 0}
+.auth .social a {display: inline-block; vertical-align: middle}
+.auth .social a + a {margin-left: 10px}
+.auth .social img {display: block; border: 0}
+.auth .panel {display: inline-block; border: 1px solid transparent; vertical-align: bottom; text-align: left; width: 261px; padding: 20px 19px}
+.auth .panel .header {color: #1c2530; font-size: 23px; margin: -8px 0 17px}
+.auth .panel a {color: #165f85}
+.auth .panel a:hover {text-decoration:underline}
+.auth .panel + .panel {margin-left: 19px}
+.auth .signup {margin-left: 101px}
+.auth .signup input[type=email] {width:247px;margin-left:1px}
+.auth .signup {border-color: #e5e5e5}
+.auth .signup label {margin-bottom: 7px}
+<<<<<<< HEAD
+.auth .signup label span, .auth .signin label div {display:block;margin-bottom: 3px}
+=======
+.auth .signup label span, .auth .signin label div {display:block;}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+.auth .signup p + p {margin-top: 16px}
+
+.auth .signin {margin-top:1px;padding-bottom:22px}
+.auth .signin p {margin-top: 3px}
+.auth .signin p + p {margin-top: 13px}
+.auth .signin input[type=email], .auth .signin input[type=password] {width: 180px; margin-right: 8px}
+
+.auth .signin .buttons {margin-top:12px}
+.auth .signin .buttons button {margin:0 10px 0 0}
+.auth .signin .buttons span {font-size:13px;vertical-align:top;}
+
+.auth .signin .remind {padding:0 1px;font: 11px tahoma; cursor: pointer; color: #777; background:url(/images/underline777.png) repeat-x bottom right;}
+.auth .signin .remind:hover {background:none}
+
+.auth .social, .auth .signup label, .auth .signin label {position: relative}
+.auth .hint {position: absolute; color: #777; font-size: 13px; text-align: left}
+.auth .social .hint {width: 160px; left: -180px; padding-top: 24px; background: url(../images/decor/hint-stroke-1.gif) right top no-repeat}
+.auth .signup .hint {width: 165px; left: -170px; top: 23px; padding-top: 75px; background: url(../images/decor/hint-stroke-2.gif) right top no-repeat}
+.auth .signin .hint {width:150px;height: 63px; left: 64px; top: -68px; padding-left: 80px; background: url(../images/decor/hint-stroke-3.gif) left bottom no-repeat}
+
+.auth-question {font: 13px arial; color: #1c2530; padding: 20px 50px 0}
+.auth-question p {line-height: 18px; margin: 12px 0 20px}
+.auth-question .vk {display: inline-block; line-height: 16px; background: url(../images/vkontakte-small.png) left no-repeat; margin: 0 5px; padding-left: 20px}
+.auth-question .google_oauth, .auth-question .facebook, .auth-question .vkontakte{
+    display: inline-block;
+    line-height: 16px;
+    background: url(../images/mini-social.png) no-repeat;
+    margin: 0 5px;
+    padding-left: 20px;
+}
+.auth-question .google_oauth {background-position: 0 -32px;}
+.auth-question .facebook {background-position: 0 -16px;}
+.auth-question .vkontakte {background-position: 0 0;}
+
+.auth-question button {margin-right: 10px}
+
+.popup-fader, .popup {display: none; position: fixed;}
+.popup-fader {left: 0; top: 0; width: 100%; height: 100%; background-color: #000; background-color: rgba(0,0,0,.3); filter: alpha(opacity=50)}
+.popup {top: 40%; left: 50%; background-color: #fff; font: 15px arial; padding: 30px 30px 38px 70px; box-shadow: -2px 2px 5px rgba(0,0,0,.3)}
+.popup h1 {font-size: 25px; font-weight: normal; margin: 0 0 10px;padding-bottom:1px!important}
+.popup .close {position: absolute; right: 10px; top: 10px; color: #999; font: 18px/9px verdana, monospace; cursor: pointer}
+
+.password-recover {width: 590px; margin-left: -305px; -moz-box-sizing: border-box; box-sizing: border-box}
+.password-recover h1 {}
+.password-recover p {line-height:1.4em;}
+.password-recover input[type=email], .password-recover button {padding:0 0 2px 0;width: 190px; -moz-box-sizing: border-box; box-sizing: border-box}
+.password-recover input[type=email] {padding:5px;margin:0}
+.password-recover .cancel-link a {font-size: 11px; font-family:tahoma, arial, "sans-serif";color: #777; margin-left: 20px; cursor: pointer;text-decoration:underline}
+.password-recover .cancel-link a:hover {text-decoration:none}
+
+
+.error-message {position: absolute; font: 13px arial; color: #fff; background: url(../images/decor/message.png) 9px bottom no-repeat; padding-bottom: 10px}
+.error-message div {background-color: #777; padding: 6px 10px}
+
+.error {border-color: #f00 !important}
+
+/*input, select, button {font-family: arial}
+input, select {font-size: 13px}
+input[type=text], input[type=password], select {border: 1px solid #bec0c2; box-shadow: inset 1px 1px 2px rgba(0,0,0,.1); padding: 0 5px; height: 31px}
+label input[type=checkbox], label input[type=radio], label span {vertical-align: middle}*/
+
+button {font-size: 15px; border: 1px solid #a6b0b7; box-shadow: inset 0 0 1px #fff3a0; padding: 0 18px; line-height: 32px; text-shadow: 0 1px #fff; cursor: pointer;
+	background: #fff5a3;
+	background: -moz-linear-gradient(top,  #fff5a3 0%, #fccc42 100%);
+	background: -webkit-linear-gradient(top,  #fff5a3 0%,#fccc42 100%);
+	background: linear-gradient(to bottom,  #fff5a3 0%,#fccc42 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fff5a3', endColorstr='#fccc42',GradientType=0 );
+}
+<<<<<<< HEAD
+button::-moz-focus-inner {border: 0; padding: 0}
+
+
+
+/*News-comments*/
+.b-news-comments{padding:0 130px 0 0px;position:relative}
+.b-news-comments__title-1{margin:0 0 26px;padding:0 0 5px 60px;border-bottom:1px solid #ebebeb;line-height:21px;font-weight:normal;font-size:15px;color:#333}
+.b-news-comments__title-1 span{color:#777}
+.b-news-comments__reply-form{margin:0;padding:17px 0 0 90px;background:#f6f8fa;position:relative}
+.b-news-comments__reply-form .author-img{margin:3px -100% 0 0;float:left;position:relative;left:-60px}
+.b-news-comments__reply-form .author{padding:0 0 8px}
+
+.b-news-comments__log-in{margin:0 0 22px 0;padding:13px 0 16px 30px;background:#f6f8fa;line-height:21px;font-size:17px;color:#000}
+.b-news-comments__log-in .log-in-link{color:#165f85 }
+.b-news-comments__log-in .soc-net-list{margin:0 0 0 4px;display:inline;position:relative;top:2px}
+.b-news-comments__log-in .soc-net-list li{display:-moz-inline-stack;display:inline-block}
+.ie7 .b-news-comments__log-in .soc-net-list li{margin:0 5px 0 0;display:inline}
+.b-news-comments__log-in .soc-net-list li a{width:20px;height:20px;background:red url(http://static.migom.by/img/design/news_item_sprite.png) no-repeat;display:block;text-indent:-9999px}
+.b-news-comments__log-in .soc-net-list li a.vkontakte{background-position:0 -100px}
+.b-news-comments__log-in .soc-net-list li a.facebook{background-position:-55px -100px}
+.b-news-comments__log-in .soc-net-list li a.google{background-position:-112px -100px}
+.b-news-comments__log-in .soc-net-list li a.twitter{background-position:-166px -100px}
+
+.b-news-comments__reply-form-editor{margin:0 0 22px;padding:0 140px 0 0;position:relative;}
+.b-news-comments__reply-form-editor .info{width:130px;display:block;position:absolute;top:6px;right:0;font:normal 11px/15px Tahoma,Verdana,Arial,Sans-serif;color:#777}
+.b-news-comments__reply-form .txt-editor{width:100%;height:108px;padding:8px 0 0 10px;resize:vertical;outline:medium none;border:0 none;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;font-size:15px;line-height:20px}
+.ie7 .b-news-comments__reply-form .txt-editor{width:98%}
+=======
+button::-moz-focus-inner {border: 0; padding: 0}
+>>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
