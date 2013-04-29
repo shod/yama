@@ -9,7 +9,11 @@ return array(
     'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
+	'social'        => require(dirname(__FILE__) . '/components/social.php'),
     'log'           => require(dirname(__FILE__) . '/components/log.php'),
+	'notify' => array(
+		'class' => 'core.components.QUserNotify',
+	),
     'image' => array(
         'class' => 'core.extensions.image.CImageComponent',
         // GD or ImageMagick
@@ -23,7 +27,7 @@ return array(
     ),
     'user' => array(
         // enable cookie-based authentication
-        'allowAutoLogin' => true,
+        'allowAutoLogin' => false,
         'class' => 'WebUser',
         'loginUrl' => array('login'),
         'defaultRole' => 'guest',
@@ -53,24 +57,13 @@ return array(
         'rules' => array(
             'api' => 'api/default/index',
             'ads' => 'ads/default/index',
-<<<<<<< HEAD
             '' => 'site/index',
-=======
-			'gii'=>'gii',
-            'gii/<controller:\w+>'=>'gii/<controller>',
-            'gii/<controller:\w+>/<action:\w+>'=>'gii/<controller>/<action>',
-            'user/<id:\d+>' => 'user/index',
-            'user' => 'user/index',
-            'profile/<id:\d+>' => 'user/profile',
-            'profile' => 'user/profile',
-            'profile/edit' => 'user/edit',
-            '' => 'user/index',
-			'<action:(login|logout)>' => 'site/<action>',
->>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
+			'ahimsa/<id:\d+>' => 'ahimsa/view',
             '<controller:\w+>/<id:\d+>' => '<controller>/view',
             '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-			'<url\w*>' => 'site/static',
+			'<controller:\w+>/<action:\w+>/<url>' => '<controller>/<action>',
+			'<query>' => 'site/index',
         ),
     ),
     'request' => array(

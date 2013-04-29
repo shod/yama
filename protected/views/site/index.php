@@ -1,11 +1,210 @@
-<div id="gs_lc0" style="position: relative;">
-    <input id="gbqfq" class="gbqfif" name="q" type="text" autocomplete="off" value="" style="border: none; padding: 0px; margin: 0px; height: auto; width: 100%; background-image: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D); background-color: transparent; position: absolute; z-index: 6; left: 0px; outline: none; background-position: initial initial; background-repeat: initial initial;" dir="ltr" spellcheck="false">
-    <div class="gbqfif" style="background-color: transparent; color: transparent; padding: 0px; position: absolute; z-index: 2; white-space: pre; visibility: hidden; background-position: initial initial; background-repeat: initial initial;" id="gs_sc0">
+<div class="body">
 
-    </div>
-    <input class="gbqfif" disabled="" autocomplete="off" style="border: none; padding: 0px; margin: 0px; height: auto; width: 100%; position: absolute; z-index: 1; background-color: transparent; -webkit-text-fill-color: silver; color: silver; left: 0px;" id="gs_taif0" dir="ltr">
-    <input class="gbqfif" disabled="" autocomplete="off" style="border: none; padding: 0px; margin: 0px; height: auto; width: 100%; position: absolute; z-index: 1; background-color: transparent; -webkit-text-fill-color: silver; color: silver; left: 0px; visibility: hidden;" id="gs_htif0" dir="ltr">
+
+
+    <!--Market-->
+    
+    <script type="text/javascript">
+        $(document).ready(function(){
+            if($('.videoteaser').length){
+                $('.videoteaser .close-btn').click(function(e){
+                    e.preventDefault();
+                    $(this).parent().remove();
+                    $('.b-main-page__col-1 .b-main-page__banner-1').addClass('m-t')
+                });
+            }
+
+            if($('.tags-list').length){
+                $('.tags-list li a').click(function(e){
+                    e.preventDefault();
+                    if($(this).parent('li').hasClass('active')){
+                        return false;
+                    }else{
+                        $('.tags-list li.active').removeClass('active');
+                        $(this).parents('li').addClass('active');
+                    }
+                });
+            }
+
+            $(window).load(function(){
+                $('.b-market__middle-i').masonry({
+                    itemSelector: '.b-market__item-preview'
+                })
+            });
+        });
+    </script>
+    <div class="b-market">
+        <?php Widget::create('YamaTop', 'yamatop', array('query' => $query))->html() ?>
+		<!--
+        <ul class="b-market__tags-line">
+            <li>мобильный</li>
+            <li>телефон</li>
+            <li>apple</li>
+            <li>16 Gb</li>
+            <li>мобильный</li>
+            <li>телефон</li>
+            <li>apple</li>
+            <li>16 Gb</li>
+            <li class="last"><a href="#">Еще 120 уточнений</a></li>
+        </ul>
+        <aside class="b-market__banner-1">
+            <a href="#">Купить баннер в разделе «Электроника» с 11 по 17 марта</a>
+        </aside>
+		-->
+        <div class="b-market__middle">
+            <div class="b-market__middle-i">
+				<?php	$this->renderPartial('list', array('model' => $model, 'users' => $users, 'else' => $else)); ?>
+            </div>
+			<a href="javascript:void(0)" class="more-items-btn" offset-value="<?= $offset ?>" <?php if(!$else): ?>style="display:none;"<?php endif; ?>><span>Ещё объявления</span></a>
+        </div>
+        <div class="b-market__bottom">
+            <figure class="b-market__bottom-logo">
+                <a href="<?= Yii::app()->getBaseUrl(true) ?>">
+					<?= CHtml::image('/images/market_logo_2.png', 'migom.by', array('width' => 77, 'height' => 34)) ?>
+                </a>    
+            </figure>
+            <div class="b-market__bottom-sub">
+                <form action="" method="" id="">
+                    <label>Подписаться на этот фильтр </label>
+					<div class="sub">
+					<?php if(Yii::app()->user->isGuest): ?>
+						<?= Widget::create('EAuthWidget', 'eauth', array('action' => Yii::app()->params['socialBaseUrl'].'/login', 'mini' => true), true) ?>
+					<?php else: ?>
+						<button class="button_yellow btn-submit-1" onclick="subscribe(); return false;" type="submit">Подписаться</button>
+					<?php endif; ?>
+					</div>
+                    <!--<input class="sub" type="text" name="" placeholder="example@gmail.com" />
+                    <button class="button_yellow btn-submit-1" type="submit">Подписаться</button>-->
+                </form>   
+            </div>   
+        </div>
+        
+    </div>         
 </div>
 
+<?php
+			$this->beginWidget('zii.widgets.jui.CJuiDialog', array(
+                    'id' => 'itemWindow',
+                    'options' => array(
+						'dialogClass' => 'b-market__item',
+                        'autoOpen' => false,
+						'modal' => true,
+						'width' => '715px',
+						'resizable' => false,
+						'closeOnEscape' => true,
+						//'beforeClose'=>'js:function(){YamaBy.index.closeModal("advert", "itemWindow")}',
+                    ),
+                ));
+                ?>
+	<div class="content"></div>
 
-<table cellspacing="0" cellpadding="0" style="height: 27px; padding: 0px;" id="gs_id0" class="gstl_0 lst-t"><tbody><tr><td id="gs_ttc0" style="white-space: nowrap;" dir="ltr"></td><td id="gs_tti0" class="gsib_a"><div id="gs_lc0" style="position: relative;"><input id="gbqfq" class="gbqfif" name="q" type="text" autocomplete="off" value="" style="border: none; padding: 0px; margin: 0px; height: auto; width: 100%; background-image: url(data:image/gif;base64,R0lGODlhAQABAID/AMDAwAAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw%3D%3D); background-color: transparent; position: absolute; z-index: 6; left: 0px; outline: none; background-position: initial initial; background-repeat: initial initial;" dir="ltr" spellcheck="false"><div class="gbqfif" style="background-color: transparent; color: transparent; padding: 0px; position: absolute; z-index: 2; white-space: pre; visibility: hidden; background-position: initial initial; background-repeat: initial initial;" id="gs_sc0"></div><input class="gbqfif" disabled="" autocomplete="off" style="border: none; padding: 0px; margin: 0px; height: auto; width: 100%; position: absolute; z-index: 1; background-color: transparent; -webkit-text-fill-color: silver; color: silver; left: 0px;" id="gs_taif0" dir="ltr"><input class="gbqfif" disabled="" autocomplete="off" style="border: none; padding: 0px; margin: 0px; height: auto; width: 100%; position: absolute; z-index: 1; background-color: transparent; -webkit-text-fill-color: silver; color: silver; left: 0px; visibility: hidden;" id="gs_htif0" dir="ltr"></div></td><td class="gsib_b"><div class="gsst_b" id="gs_st0" style="line-height: 27px;" dir="ltr"><a class="gsst_a" href="javascript:void(0)"><span class="gsok_a gsst_e" id="gs_ok0"><img src="//www.gstatic.com/inputtools/images/tia.png" tia_field_name="q" tia_disable_swap="true" tia_property="web"></span></a></div></td></tr></tbody></table>
+<?php
+$this->endWidget('zii.widgets.jui.CJuiDialog');
+?>
+
+<?php WComments::registerWidgetScripts(); ?>
+
+<?php 
+	Yii::app()->clientScript->registerScript('auction', "
+		jQuery(document).on('click', '.auction', function(){
+			if(!$('.b-market__item-form-i .auction-price').attr('value')){
+				return false;
+			}
+			$.post('" . Yii::app()->getBaseUrl(true) . '/ahimsa/auction' . "', 
+						{
+							price: $('.b-market__item-form-i .auction-price').attr('value'), 
+							id: $('.b-market__item-form-i .auction-ahimsa').attr('value')
+						}, function(data){
+							res = $.parseJSON(data)
+							if(res.success == true){
+								$('.offer-list').css({ opacity: 1 });
+								$('.offer-list').append(res.content)
+								$('.b-market__item-form-i').html('<p>" . Yii::t('Yama', 'Ваша ставка принята') . "</p>')
+							}
+						}
+				)
+			return false;
+		})
+	", CClientScript::POS_END);
+?>
+
+<script>
+
+	var pageLimit = <?= Adverts::LIMIT ?>;
+	
+	subscribe = function(){
+		$.post('<?= Yii::app()->getBaseUrl(true) . '/site/subscribe/text/' ?>' + $('#searchYama').val())
+		$(this).attr('disabled', 'disabled')
+	}
+	
+	jQuery('#itemWindow').on('click', '.b-market__item-i .changeStatus', function(){
+		if($(this).hasClass('unactivate')){
+			$(this).removeClass('unactivate')
+			$(this).addClass('activate')
+			$('.b-market__item-i .tag-1').hide()
+			$.post('<?= Yii::app()->getBaseUrl(true) . '/ahimsa/changeStatus/id/' ?>' + $('#itemWindow .b-market__item').attr('id'), {status: 1})
+		} else {
+			$(this).addClass('unactivate')
+			$(this).removeClass('activate')
+			$('.b-market__item-i .tag-1').show()
+			$.post('<?= Yii::app()->getBaseUrl(true) . '/ahimsa/changeStatus/id/' ?>' + $('#itemWindow .b-market__item').attr('id'), {status: 2})
+		}
+	})
+	
+	jQuery('#itemWindow').on('click', '.up', function(){
+		if($(this).hasClass('unactive')){
+			return false;
+		}
+		$.post('<?= Yii::app()->getBaseUrl(true) . '/ahimsa/up/id/' ?>' + $('#itemWindow .b-market__item').attr('id'))
+		$(this).addClass('unactive')
+	})
+	
+	jQuery('#itemWindow').on('click', '.bookmark-link', function(){
+		if($(this).hasClass('active')){
+			return false;
+		}
+		$.post('<?= Yii::app()->getBaseUrl(true) . '/ahimsa/marks/id/' ?>' + $('.b-market__item').attr('id'))
+		$(this).addClass('active')
+	})
+	
+	jQuery('#itemWindow').on('click', '.close', function(){
+			$('#itemWindow').dialog('close')
+			YamaBy.index.closeModal("advert", "itemWindow")
+			return false; 
+	})
+	
+	jQuery(document).on('click', '.ui-widget-overlay', function(){
+			$('#itemWindow').dialog('close')
+			YamaBy.index.closeModal("advert", "itemWindow")
+			return false; 
+	});
+
+	jQuery('#searchYama').on('change', function(){
+			YamaBy.index.search('<?= Yii::app()->getBaseUrl(true) ?>', this.value)
+			$('.more-items-btn').attr('offset-value', pageLimit)
+			return true;
+	})
+	
+	jQuery('.more-items-btn').on('click', function(){
+		YamaBy.index.moreItems('<?= Yii::app()->getBaseUrl(true) ?>', $('#searchYama').val(), $(this).attr('offset-value'))
+		$(this).attr('offset-value', parseFloat($(this).attr('offset-value')) + pageLimit)
+		return true;
+	})
+	
+     $(function() {
+        $('.b-market__item-img').fotorama({  
+            width:640,
+            height:493,
+            background:"#fff",
+            margin:0,
+            navPosition:"bottom",
+            thumbSize:67,
+            thumbMargin:0,
+            zoomToFit: true,
+            thumbBorderColor:"#fff",
+            thumbsCentered: false,
+            shadows:false
+        });
+    });
+
+</script>

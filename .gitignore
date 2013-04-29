@@ -1,3 +1,4 @@
+.htaccess
 assets/
 protected/runtime/
 themes/classic/views/
@@ -5,6 +6,7 @@ themes/classic/views/
 !/protected/modules/ads/assets/
 !/protected/extensions/EAjaxUpload/assets/
 images/users/
+images/ahimsa/*
 protected/config/components/
 protected/config/params.php
 /protected/config/components/

@@ -10,10 +10,13 @@ class ApiModule extends CWebModule {
         'GET' => array(
             'api' => 'default/index',
             'api/auth/login/<key:\w+>' => 'api/auth/getLogin',
-
+			'api/<controller:\w+>/<_a:(find)>' => 'api/<controller>/<_a>',
+            'api/<controller:\w+>/<_a:(find|findAll)bypk>/<id>' => 'api/<controller>/<_a>',
+			
+			'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
             'api/<controller:\w+>/<action:\w+>/<entity:\w+>' => 'api/<controller>/get<action>',
-            'api/<controller:\w+>/<action:\w+>/<id:\d+>' => 'api/<controller>/get<action>',
+            
             'api/<controller:\w+>/<_a:(list)>' => 'api/<controller>/get<_a>',
         ),
         'POST' => array(
@@ -46,7 +49,6 @@ class ApiModule extends CWebModule {
         $this->setComponents(array(
                                 'render'=>array('class'=>'ERestRender'),
             ), true);
-
         Yii::app()->urlManager->addRules($this->urlManager[CHttpRequest::getRequestType()], false);
 
         Yii::app()->getErrorHandler()->errorAction = 'api/auth/pageNotFound';
@@ -59,12 +61,13 @@ class ApiModule extends CWebModule {
                 return false;
             }
         }
-//        var_dump($className);
-//        var_dump($action);
-//        die('------');
+        //dd($className);
+        //dd($action);
+        //die('------');
         if (parent::beforeControllerAction($controller, $action)) {
             // this method is called before any module controller action is performed
             // you may place customized code here
+			//die("it is good");
             return true;
         }
         else

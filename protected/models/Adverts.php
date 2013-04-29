@@ -8,11 +8,20 @@
  * @property string $title
  * @property string $text
  */
-class Adverts extends CActiveRecord
+class Adverts extends ActiveRecord
 {
-	const IMAGE_PATH = '/images/adverts';
-	const IMAGE_TEMP_PATH = '/images/temp';
-
+	const IMAGE_PATH = '/images/ahimsa';
+	const LIMIT = 20;
+	public static $currency = array(0 => 'USD', 1 => 'BYR', 2 => 'RUR');
+	public static $currencySymbol = array(0 => '$', 1 => 'BYR', 2 => 'RUR');
+	public static $size = array('min' => array('x' => 1500, 'y' => 1500));
+	public static $publicSizeTypes = array(
+		'mini' => array('x' => 85, 'y' => 65, 'op' => 'crop'),
+		'thumbs' => array('x' => 100, 'y' => 63, 'op' => 'auto'),
+		'index' => array('x' => 210, 'y' => 500, 'op' => 'auto'),
+		'view' => array('x' => 640, 'y' => 1500, 'op' => 'min'),
+	);
+	public $free;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -40,12 +49,40 @@ class Adverts extends CActiveRecord
 		// NOTE: you should only define rules for those attributes that
 		// will receive user inputs.
 		return array(
-			array('text', 'required'),
-			array('title', 'length', 'max'=>200),
+			array('text, email, description', 'required', 'except' => array('new')),
+			array('text', 'length', 'max'=>4500),
+			array('description', 'length', 'max'=>500),
+			array('email', 'email'),
+			array('text, description, name', 'filter', 'filter' => array(new CHtmlPurifier(), 'purify')),
+			array('price, last_up', 'numerical'),
+			array('name', 'length', 'max'=>30),
+			array('image', 'length', 'max'=>255),
+			array('phone', 'phone', 'length'=>9),
+			array('price', 'price', 'except' => array('new', 'specialUpdate')),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
-			array('id, title, text', 'safe', 'on'=>'search'),
+			array('id, region, category, description, text', 'safe', 'on'=>'search'),
+			array('description, region, category, text, price, name, email, free, currency, product_id, image, phone', 'safe', 'on'=>'update'),
+			array('id, region, category, description, text, price, name, email, free, currency, product_id, image, user_id, phone', 'safe', 'on'=>'clone'),
 		);
+	}
+	
+	public function price($attribute,$params)
+	{
+		if(!$this->price && !$this->free){
+			$this->addError($attribute, Yii::t('Site', 'Если отдаете даром, поставьте галочку'));
+		} elseif($this->free) {
+			$this->price = 0;
+		}
+	}
+	
+	public function phone($attribute,$params)
+	{
+		$phone = str_replace(array('(',')','+375','-'), '', $this->phone);
+		if(strlen($phone) != $params['length'] && strlen($phone) > 0 && $phone){
+			$this->addError($attribute, Yii::t('Site', 'Телефон введен не верно'));
+		}
+		$this->phone = $phone;
 	}
 
 	/**
@@ -56,6 +93,7 @@ class Adverts extends CActiveRecord
 		// NOTE: you may need to adjust the relation name and the related
 		// class name for the relations automatically generated below.
 		return array(
+			'auctions' => array(self::HAS_MANY, 'Auction', 'advert_id'),
 		);
 	}
 
@@ -70,6 +108,23 @@ class Adverts extends CActiveRecord
 			'text' => 'Text',
 		);
 	}
+	
+	protected function beforeSave()
+	{
+		if(parent::beforeSave())
+		{
+			if($this->image && count(explode('/', $this->image))){
+				$this->image = array_pop(explode('/', $this->image));
+			}
+			if($this->isNewRecord)
+			{
+				$this->last_up = $this->created_at;
+			}
+			return true;
+		}
+		else
+			return false;
+	}
 
 	/**
 	 * Retrieves a list of models based on the current search/filter conditions.
@@ -83,7 +138,7 @@ class Adverts extends CActiveRecord
 		$criteria=new CDbCriteria;
 
 		$criteria->compare('id',$this->id);
-		$criteria->compare('title',$this->title,true);
+		$criteria->compare('description',$this->description,true);
 		$criteria->compare('text',$this->text,true);
 
 		return new CActiveDataProvider($this, array(

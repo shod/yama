@@ -1,19 +1,24 @@
+Order Deny,Allow
+Deny from all
+#office migom
+Allow from 86.57.245.247
+Allow from 178.172.181.139
+
 RewriteEngine on
-<<<<<<< HEAD
+
+RewriteCond %{REMOTE_ADDR} !86.57.245.247
+RewriteCond %{REMOTE_ADDR} !178.172.181.139
+RewriteRule ^(.*)$ http://migom.by/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule images/ahimsa/(\d+)/(mini|index|view|thumbs)/([A-Za-z0-9-_!@().$]+)\.(gif|jpe?g|png|bmp) http://www.sell.ek.dev.migom.by/ahimsa/getImage/id/$1/type/$2/image/$3.$4 [NC,L]
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://www.social.ek.dev.migom.by/user/createuseravatar/id/$1 [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.social.ek.dev.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/(\d+)/avatar-temp_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.social.ek.dev.migom.by/user/createuseravatar/id/$1/x/$2/y/$3/tempFlag/1 [NC,L]
-=======
-#RewriteCond %{DOCUMENT_ROOT}%{REQUEST_URI} !-f
-#RewriteRule images/users/(\d+)/avatar\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1 [NC,L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule images/users/(\d+)/avatar_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3 [NC,L]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule images/users/(\d+)/avatar-temp_(\d+)x(\d+)\.(gif|jpe?g|png|bmp) http://www.test.social.migom.by/user/createuseravatar/id/$1/x/$2/y/$3/tempFlag/1 [NC,L]
->>>>>>> 729c14eb4329246cfb2151baa1fdb683afdd9faf
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteRule images/users/avatar\.(gif|jpe?g|png|bmp) /images/users/default_avatar.png [NC,L]
 

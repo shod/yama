@@ -1,4 +1,5 @@
 <?php
+define('YII_DEBUG',true);
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $yiiEx  = dirname(__FILE__) . '/../core/YiiBaseEx.php';

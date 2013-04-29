@@ -15,8 +15,11 @@ return CMap::mergeArray(
         'components' => require(dirname(__FILE__) . '/components.php'),
         'import' => array(
             'core.models.api.*',
+			'core.models.*',
             'application.models.*',
-            'application.models.mongo.*',
+			'application.widgets.*',
+            'core.models.mongo.*',
+			'application.services.*',
             'core.components.*',
             'core.widgets.*',
             'core.services.*',

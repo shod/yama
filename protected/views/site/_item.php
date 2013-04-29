@@ -1,50 +1,24 @@
-<?php
-/* @var $this AdvertsController */
-/* @var $data Adverts */
-$avatar_size['x'] = 30;
-$avatar_size['y'] = 30;
+<article class="b-market__item-preview <?php if($data->premium): ?>outline<?php endif; ?>">
+	<a href="<?= Yii::app()->getBaseUrl(true). $this->createUrl('/ahimsa/view', array('id' => $data->id)) ?>" class="item_to">
+		<?php if($data->image): ?>
+		<figure>
+			<?= CHtml::image(Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image, $data->description); ?>
+		</figure>
+		<?php endif; ?>
 
-?>
-
-<div class="pin" data-id="278519558177115222" data-closeup-url="http://media-cache-ec4.pinterest.com/upload/278519558177115222_TiNCAw4J_c.jpg" 
-data-width="500" data-height="331" style="top: 421px; left: 237px;" data-col="1">
-    <div class="PinHolder">
-		<!--div class="actions">
-			<a class="Button Button11 WhiteButton ContrastButton repin_link" data-componenttype="MODAL_REPIN" data-id="278519558177115222" href="/pin/278519558177115222/repin/">
-			<em></em><span>Repin</span>
-			</a>
-			<a class="Button WhiteButton ContrastButton Button11 likebutton" data-id="278519558177115222" data-text-like="Like" data-text-unlike="Unlike" href="#">
-    <em></em>Like
-  </a>
-
-        
-        
-  <a class="Button Button11 WhiteButton ContrastButton comment" data-id="278519558177115222" href="#">
-    <em></em>Comment
-  </a>
-
-      </div-->
-      <a href="/pin/278519558177115222/" class="PinImage ImgLink">
-          <img src="http://media-cache-ec6.pinterest.com/upload/278519558177115222_TiNCAw4J_b.jpg" alt="." data-componenttype="MODAL_PIN" class="PinImageImg" style="height: 127px;">
-      </a>
-    </div>
-    <p class="description"><?= $data->text; ?></p>
-    <!--p class="stats colorless">
-      <span class="LikesCount">
-          14 likes
-      </span>
-      <span class="CommentsCount hidden">
-      </span>
-        <span class="RepinsCount">
-          20 repins
-        </span>
-    </p-->
-    <!--div class="convo attribution clearfix">
-        <a href="<?= Yii::app()->params->socialBaseUrl . 'user_id' ?>" title="Laila La La" class="ImgLink">
-          <img src="http://media-cache-ec4.pinterest.com/avatars/Gaizin-1345771394.jpg" alt="Profile picture of Laila La La">
-        </a>
-        <p class="NoImage">
-                <a href="<?= Yii::app()->params->socialBaseUrl . 'user_id' ?>">username</a> о <a href="/Gaizin/cars-motorcycles/"><?= $data->title; ?></a>
-        </p>
-    </div-->
-  </div>
+		<p class="txt"><?= $data->description ?></p>
+		<div class="info cfix">
+			<span class="price"><? if($data->price): ?><b><?= $data->price ?></b> <?= Adverts::$currencySymbol[$data->currency]; ?><?php endif; ?></span>
+			<!--<span class="up">1 <b>UP</b></span>-->
+			<!--<span class="comments">214<i class="icon"></i></span>-->
+			<i class="icon arr"></i>
+		</div>
+		<div class="author">
+			<figure>
+				<?= UserService::printAvatar($data->user_id, $users[$data->user_id]->name, 30, true); ?>
+			</figure>
+			<strong><?= $users[$data->user_id]->name ?></strong>
+			<small><?= SiteService::getStrDate($data->created_at); ?><!--добавил 1 минуту назад--></small>
+		</div>
+	</a>      
+</article>

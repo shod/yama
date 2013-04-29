@@ -1,0 +1,1 @@
+<li><a href="<?= Yii::app()->params['socialBaseUrl'] . 'user/' . Yii::app()->user->id ?>"><?= Yii::app()->user->name ?></a> купит за <b><?= $price ?></b> $</li>
