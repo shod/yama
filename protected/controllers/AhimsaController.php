@@ -7,8 +7,9 @@ class AhimsaController extends Controller
 	 * using two-column layout. See 'protected/views/layouts/column2.php'.
 	 */
 	public $layout='yama';
-	public $title='Yama.by';
+	public $title='Yama.Migom.by';
 	public $description='Сайт бесплатных объявлений';
+	public $keywords = '';
 
 
 
@@ -22,8 +23,8 @@ class AhimsaController extends Controller
 		$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
 		$images = FileServices::getImagesFromDir($imageDir);
 		$auction = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
-		$this->title = '#' . $id;
-		$this->description = $model->description;
+		$this->title = '#' . $id . ' ' . mb_substr($model->description, 0, 230);
+		$this->description = mb_substr($model->text, 0, 480);
 		
 		$auctFlag = true;
 		$uids = array();
@@ -46,7 +47,7 @@ class AhimsaController extends Controller
 				'auction' => $auction,
 				'auctFlag' => $auctFlag,
 			), true, false);
-			echo CJSON::encode(array('selector' => '#itemWindow .content', 'title' => Yii::t('Yama', 'Ямка, {advert}', array('{advert}' => $model->description)), 'html' => $html));
+			echo CJSON::encode(array('selector' => '#itemWindow .content', 'title' => $this->title, 'description' => $this->description, 'html' => $html));
 			Yii::app()->end();
 		}
 
@@ -67,7 +68,8 @@ class AhimsaController extends Controller
 	public function actionCreate()
 	{
 		if(Yii::app()->user->isGuest){
-			$this->redirect(Yii::app()->params['socialBaseUrl']);
+			Yii::app()->user->returnUrl = Yii::app()->getBaseUrl(true) . $this->createUrl('/ahimsa/create');
+			$this->redirect(Yii::app()->params['socialBaseUrl'] . '/login');
 		}
 
 		$model=new Adverts_Temp('new');
@@ -75,6 +77,7 @@ class AhimsaController extends Controller
 		
 		if($_POST){
 			$model->phone = $_POST['phone_prefix'] . $_POST['phone_postfix'];
+			$model->free = $_POST['Adverts_Temp']['free'];
 		}
 
 		if (Yii::app()->getRequest()->isAjaxRequest) {
@@ -109,6 +112,7 @@ class AhimsaController extends Controller
 
 			$model->attributes = $_POST['Adverts_Temp'];
 			$model->phone = $_POST['phone_prefix'] . $_POST['phone_postfix'];
+			$model->free = $_POST['Adverts_Temp']['free'];
 
 			if($model->validate()){
 				$publicModel = new Adverts('clone');
@@ -117,23 +121,38 @@ class AhimsaController extends Controller
 				
 				if($publicModel->save()){
 					$tags = Tags::model();
-					$tags->postProductLink(array('text' => $publicModel->text, 'entity_type_id' => 4, 'entity_id' => $publicModel->id));
-					$tags->postProductLink(array('text' => $publicModel->description, 'entity_type_id' => 4, 'entity_id' => $publicModel->id));
+					$textToTags = $publicModel->text . ' ' . $publicModel->description;
+					$textToTags = $textToTags . ' ' . Regions::model()->findByPk($publicModel->region)->title;
+					$textToTags = $textToTags . ' ' . Categories::model()->findByPk($publicModel->category)->title;
+					$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $publicModel->id));
 				}
 				$this->redirect('/');
 			}
 		}
 
 		$model->save();
+		
+		$regions = Regions::model()->findAll('parent_id = 1 OR to_menu = 1 OR id = :city ORDER BY to_menu DESC', array(':city' => $advert->region));
 
 		$this->render('create',array(
 			'model'=>$model,
 			'infoProd' => $infoProd,
+			'regions' => $regions,
 		));
 	}
+	
+	public function actionRegions(){
+        if(Yii::app()->user->getIsGuest()) return false;
+
+        $regions = Regions::model()->findAll('parent_id = :parent_id', array(':parent_id' => Yii::app()->request->getParam('parent_id')));
+        if(count($regions)){
+            $this->renderPartial('regions', array('regions' => $regions, 'name' => Yii::app()->request->getParam('name')));
+        }
+    }
 
 	public function actionUpdate($id)
 	{
+	
 		$model=$this->loadModel($id);
 		if($model->user_id != Yii::app()->user->id){
 			throw new CHttpException(403, Yii::t('Site', 'Ошибка'));
@@ -175,17 +194,24 @@ class AhimsaController extends Controller
 		{
 			$model->attributes=$_POST['Adverts'];
 			$model->phone = $_POST['phone_prefix'] . $_POST['phone_postfix'];
+			$model->free = $_POST['Adverts']['free'];
 			if($model->save()){
 				$tags = Tags::model();
-				$tags->postProductLink(array('text' => $model->text, 'entity_type_id' => 4, 'entity_id' => $model->id));
+				$textToTags = $model->text . ' ' . $model->description;
+				$textToTags = $textToTags . ' ' . Regions::model()->findByPk($model->region)->title;
+				$textToTags .= ' ' . Categories::model()->findByPk($model->category)->title;
+				$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $model->id));
 				$this->redirect('/');
 			}
 		}
+		
+		$regions = Regions::model()->findAll('parent_id = 1 OR to_menu = 1 OR id = :city ORDER BY to_menu DESC', array(':city' => $model->region));
 
 		$this->render('update',array(
 			'model'		=> $model,
 			'infoProd'	=> $infoProd,
 			'images' => $images,
+			'regions' => $regions,
 		));
 	}
 
@@ -353,8 +379,8 @@ class AhimsaController extends Controller
 		if($res['success']){
 			$notify = Api_AuctionNotify::model();
 			$notify->postNew(array(
-				'auction' => $auction->attributes,
 				'advert' => $advert->attributes,
+				'auction' => $auction->attributes,
 			));
 		}
 		Yii::app()->end();

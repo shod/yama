@@ -1,1 +1,1 @@
-<?php echo $this->renderPartial('_form', array('model'=>$model, 'infoProd' => $infoProd, 'images' => array())); ?>
+<?php echo $this->renderPartial('_form', array('regions' => $regions, 'model'=>$model, 'infoProd' => $infoProd, 'images' => array())); ?>

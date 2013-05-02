@@ -13,9 +13,9 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 if(YII_DEBUG === true){
 	ini_set('error_reporting', E_ALL);
 	ini_set('display_errors', 1);
-    include_once '../core/functions.php';
-}
 
+}
+include_once '../core/functions.php';
 function autoload($className){
     $className = ucfirst($className);
     return YiiBase::autoload($className);

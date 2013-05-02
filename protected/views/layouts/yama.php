@@ -16,7 +16,7 @@
 	<script type="text/javascript" src="./for_delete/modernizr.js"></script>
 	<script type="text/javascript" src="./for_delete/html5fix.js"></script>-->
 	<title> <?= $this->title ?> </title>
-	<meta name="keywords" content="<?= $this->description ?>">
+	<meta name="keywords" content="<?= $this->keywords ?>">
 	<meta name="description" content="<?= $this->description ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="Cache-Control" content="max-age=3600, must-revalidate">

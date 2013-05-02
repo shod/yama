@@ -59,7 +59,13 @@ YamaBy.index = {
 			this.addModals(this._options.modals[i])
 		}
 		var url = window.location.origin + window.location.pathname
-		History.replaceState({"html":$(YamaBy.index._options.contentBlockSelector).html(), 'selector': YamaBy.index._options.contentBlockSelector, 'q': '', 'url': url, 'modal': YamaBy.index._openedModals}, '', url)
+		var resultAfterParse = this.parseUrl(window.location.search);
+		var q = ''
+		if(resultAfterParse.q){
+			q = decodeURIComponent(resultAfterParse.q)
+			url = url + '?q=' + q
+		}
+		History.replaceState({"html":$(YamaBy.index._options.contentBlockSelector).html(), 'selector': YamaBy.index._options.contentBlockSelector, 'q': q, 'url': url, 'modal': YamaBy.index._openedModals}, '', url)
 		/*
 		$("#loading").bind("ajaxSend", function(){
 			$(this).show();
@@ -160,10 +166,10 @@ YamaBy.index = {
 	addToHistory: function(response, url){
 		this._urls[this._urls.length] = url;
 		title = ''
-		/*
+
 		if(response.title){
 			title = response.title
-		}*/
+		}
 		response.q = $(YamaBy.index._options.searchField).attr('value')
 		History.pushState(response, title, url)
 	},
@@ -184,6 +190,7 @@ YamaBy.index = {
 		var query = url;
 		var vars = query.split("&");
 		for (var i=0;i<vars.length;i++) {
+			vars[i] = vars[i].replace(/^\?/, '')
 			var pair = vars[i].split("=");
 				// If first entry with this name
 			if (typeof query_string[pair[0]] === "undefined") {

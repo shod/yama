@@ -35,10 +35,16 @@ class Mongo_Users extends EMongoDocument {
 				$needed[] = $id;
 			}
 		}
-		$apiUsers = Users::model()->getInfoByIds('list', array('ids' => $needed));
+		$apiUsers = Users::model();
+		//$apiUsers->debug = 1;
+		$apiUsers = $apiUsers->getInfoByIds('list', array('ids' => $needed));
+		
 		if(!$apiUsers){
 			return $res;
 		}
+		
+		
+		
 		$apiUsers = $apiUsers->message;
 		foreach($apiUsers as $apiUser){
 			$user = new Mongo_Users;

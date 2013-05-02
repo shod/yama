@@ -6,7 +6,7 @@ return CMap::mergeArray(
         'basePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..',
         'runtimePath' => dirname(__FILE__) . DIRECTORY_SEPARATOR . '..'
         . DIRECTORY_SEPARATOR . 'runtime',
-        'name' => 'Social Migom BY',
+        'name' => 'yama',
         // preloading 'log' component
         'preload' => array('log'),
         'defaultController' => 'site',

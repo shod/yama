@@ -1,6 +1,6 @@
 <div class="b-market__item <?php if($popup): ?>pop-up active<?php endif; ?>" id="<?= $model->id ?>">
 	<?php if(!$popup): ?>
-		<?php Widget::create('YamaTop', 'yamatop')->html(); ?>
+		<?php //Widget::create('YamaTop', 'yamatop')->html(); ?>
 		<?php 
 			Yii::app()->clientScript->registerScript('yamatop', "
 				jQuery('#searchYama').on('change', function(){
@@ -22,25 +22,25 @@
             <ul class="add-links">
                 <li>
 					
-					<a href="javascript:void(0)" class="changeStatus <?php if($model->status == 1): ?>activate<?php elseif($model->status == 2): ?>unactivate<?php endif;?>">
-						<span class="unactive">(не актуально)</span>
-						<span class="active">(сделать активным)</span>
-					</a>
+					<a href="javascript:void(0)" class="changeStatus <?php if($model->status == 1): ?>activate<?php elseif($model->status == 2): ?>unactivate<?php endif;?>">[ 
+						<span class="unactive">не актуально</span>
+						<span class="active">сделать активным</span>
+					 ]</a>
 					
                 </li>
                 <li>
-                    <a href="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/update/' . $model->id ?>">(редактировать)</a>
+                    <a href="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/update/' . $model->id ?>">[ редактировать ]</a>
                 </li>
             </ul>
 			<?php endif; ?>
             <p class="info-1">
                 <strong><?= $users[$model->user_id]->name ?></strong>
-                <small><?= Yii::t('Yama', 'размещено') ?> <?= SiteService::getStrDate($model->created_at); ?></small>
+                <small>№<?= $model->id ?> <?= Yii::t('Yama', 'размещено') ?> <?= SiteService::getStrDate($model->created_at); ?></small>
                 <?php if($model->user_id == Yii::app()->user->id && $model->status == 1): ?>
-				<a href="javascript:void(0)" title="Объявление поднимется в выдаче, будет среди новых" class="up<?php if($model->last_up > time() - 3600): ?> unactive<?php endif; ?>">(поднять)</a>
+				<a href="javascript:void(0)" title="Объявление поднимется в выдаче, будет среди новых" class="up<?php if($model->last_up > time() - 3600): ?> unactive<?php endif; ?>">[ поднять ]</a>
 				<?php endif; ?>
             </p>
-            <p class="info-2"><?= $model->description ?></p>
+            <h1 class="info-2"><?= $model->description ?></h1>
 				<b class="tag-1" style="<?php if($model->status == 1): ?>display:none;<?php endif; ?>">НЕАКТУАЛЬНО</b>
 			<i class="shd"></i>
         </div>
@@ -72,7 +72,9 @@
                 </div>
 				<?php //endif; ?>
             
-			<?php endif; ?>
+			<?php else: ?>
+				<span class="price"><?= Yii::t('Yama', 'Отдаю даром'); ?></span>
+			<?php endif;?>
             <ul class="offer-list" <?php if(!count($auction)): ?>style="opacity:0;"<?php endif; ?>>
 				<?php foreach($auction as $auc): ?>
                 <li>
@@ -252,7 +254,7 @@
 			}
 			<?php endforeach; ?>
 		],
-		fullscreenIcon: true
+		fullscreenIcon: false
 	});
 
 	/*$(function() {

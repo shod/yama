@@ -34,19 +34,16 @@
         });
     </script>
     <div class="b-market">
-        <?php Widget::create('YamaTop', 'yamatop', array('query' => $query))->html() ?>
-		<!--
+        <?php //Widget::create('YamaTop', 'yamatop', array('query' => $query))->html() ?>
+		<?php if(count($categories)): ?>
         <ul class="b-market__tags-line">
-            <li>мобильный</li>
-            <li>телефон</li>
-            <li>apple</li>
-            <li>16 Gb</li>
-            <li>мобильный</li>
-            <li>телефон</li>
-            <li>apple</li>
-            <li>16 Gb</li>
-            <li class="last"><a href="#">Еще 120 уточнений</a></li>
+			<?php foreach($categories as $cat):?>
+				<li><?= CHtml::link($cat->title, array('/site/index', 'q' => $cat->title)); ?></li>
+			<?php endforeach; ?>
+            <!--<li class="last"><a href="#">Еще 120 уточнений</a></li>-->
         </ul>
+		<?php endif; ?>
+		<!--
         <aside class="b-market__banner-1">
             <a href="#">Купить баннер в разделе «Электроника» с 11 по 17 марта</a>
         </aside>
@@ -63,9 +60,11 @@
 					<?= CHtml::image('/images/market_logo_2.png', 'migom.by', array('width' => 77, 'height' => 34)) ?>
                 </a>    
             </figure>
+			<?php if(Yii::app()->request->getParam('q')): ?>
             <div class="b-market__bottom-sub">
-                <form action="" method="" id="">
-                    <label>Подписаться на этот фильтр </label>
+				<label for="" class="success" style="display:none;"><?= Yii::t('Yama', 'Вы получите уведомления о всех новый объявлениях в разделе'); ?> "<span></span>"</label>
+                <form action="" method="" class="">
+                    <label>Подписаться на фильтр "<span><?= Yii::app()->request->getParam('q') ?></span>"</label>
 					<div class="sub">
 					<?php if(Yii::app()->user->isGuest): ?>
 						<?= Widget::create('EAuthWidget', 'eauth', array('action' => Yii::app()->params['socialBaseUrl'].'/login', 'mini' => true), true) ?>
@@ -77,6 +76,7 @@
                     <button class="button_yellow btn-submit-1" type="submit">Подписаться</button>-->
                 </form>   
             </div>   
+			<?php endif; ?>
         </div>
         
     </div>         
@@ -133,9 +133,13 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 	var pageLimit = <?= Adverts::LIMIT ?>;
 	
 	subscribe = function(){
-		$.post('<?= Yii::app()->getBaseUrl(true) . '/site/subscribe/text/' ?>' + $('#searchYama').val())
-		$(this).attr('disabled', 'disabled')
+		$.post('<?= Yii::app()->getBaseUrl(true) . '/site/subscribe/text/' ?>' + $('.seachline-input').val())
+		$(".b-market__bottom-sub form").hide()
+		$(".b-market__bottom-sub label.success").html($('.seachline-input').val())
+		$(".b-market__bottom-sub label.success").show()
 	}
+	
+	
 	
 	jQuery('#itemWindow').on('click', '.b-market__item-i .changeStatus', function(){
 		if($(this).hasClass('unactivate')){
@@ -179,14 +183,17 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 			return false; 
 	});
 
-	jQuery('#searchYama').on('change', function(){
+	jQuery('.seachline-input').on('change', function(){
 			YamaBy.index.search('<?= Yii::app()->getBaseUrl(true) ?>', this.value)
 			$('.more-items-btn').attr('offset-value', pageLimit)
+			$(".b-market__bottom-sub form").show()
+			$(".b-market__bottom-sub label.success").hide()
+			$(".b-market__bottom-sub form label span").html($('.seachline-input').val())
 			return true;
 	})
 	
 	jQuery('.more-items-btn').on('click', function(){
-		YamaBy.index.moreItems('<?= Yii::app()->getBaseUrl(true) ?>', $('#searchYama').val(), $(this).attr('offset-value'))
+		YamaBy.index.moreItems('<?= Yii::app()->getBaseUrl(true) ?>', $('.seachline-input').val(), $(this).attr('offset-value'))
 		$(this).attr('offset-value', parseFloat($(this).attr('offset-value')) + pageLimit)
 		return true;
 	})

@@ -1,0 +1,1 @@
+<?= CHtml::dropDownList($name . '[region]', '', CHtml::listData($regions, 'id', 'title'), array('class' => 'regions', 'style' => 'margin-top: 10px')) ?>

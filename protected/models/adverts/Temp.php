@@ -43,7 +43,7 @@ class Adverts_Temp extends ActiveRecord
 			array('text', 'length', 'max'=>4500),
 			array('description', 'length', 'max'=>500),
 			array('email', 'email'),
-			array('price, currency, product_id', 'numerical'),
+			array('price, currency, product_id, region, category', 'numerical'),
 			array('name', 'length', 'max'=>30),
 			array('price', 'price', 'except' => array('new')),
 			array('image', 'length', 'max'=>255),

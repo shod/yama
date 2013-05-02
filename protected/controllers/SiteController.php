@@ -3,8 +3,9 @@
 class SiteController extends Controller {
 
 	public $layout = 'yama';
-	public $title = 'Yama.by';
-	public $description = 'Yama.by';
+	public $title = 'Яма - бесплантые объявления';
+	public $description = 'Яма - бесплантые объявления. Подать объяление на доске частных объявлений бесплатно.';
+	public $keywords = 'бесплантые объявления,подать,доска,частные,минск,беларусь,отдам даром,сайт,дать,подать';
 
     public function filters() {
         return array(
@@ -66,7 +67,7 @@ class SiteController extends Controller {
 		$query = Yii::app()->request->getParam('q', '', 'string');
 		$offset = Yii::app()->request->getParam('offset', 0, 'int');
 		$user = Yii::app()->request->getParam('user', 0, 'int');
-		$model = Tags::model();
+		
 		if($query){
 			$this->description = $query;
 			$adverts = $this->_prepareData($query, Adverts::LIMIT + 1, $offset);
@@ -88,7 +89,7 @@ class SiteController extends Controller {
 					'params' => array(':uId' => $user),
 				));
 		}
-		
+
 		$count = count($adverts);
 		$else = false;
 		if($count > Adverts::LIMIT){
@@ -96,18 +97,26 @@ class SiteController extends Controller {
 			array_pop($adverts);
 		}
 		$offset = Adverts::LIMIT + $offset;
+		$categories = array();
 		$uids = array();
+		$catIds = array();
 		foreach($adverts as $adv){
 			$uids[] = $adv->user_id;
+			$catIds[] = $adv->category;
 		}
-		$users = Mongo_Users::getUsers($uids);
+		array_unique($catIds);
+		if(count($catIds) && !$query){
+			$categories = Categories::model()->findAll('id != 0 AND id in ('.implode(',', $catIds).')');
+		}
 		
+		$users = Mongo_Users::getUsers($uids);
+
 		if(Yii::app()->request->isAjaxRequest){
 			$html = $this->renderPartial('list', array(
 				'model'=>$adverts,
 				'users'=>$users,
 			), true, true);
-			echo CJSON::encode(array('else' => $else, 'offset' => $offset, 'selector' => '.b-market__middle-i', 'title' => Yii::t('Yama', 'Ямка'), 'html' => $html));
+			echo CJSON::encode(array('else' => $else, 'offset' => $offset, 'selector' => '.b-market__middle-i', 'title' => $this->title, 'html' => $html));
 			Yii::app()->end();
 		}
 		$this->render('index', array(
@@ -116,6 +125,7 @@ class SiteController extends Controller {
 			'users'=>$users,
 			'else' => $else,
 			'offset' => $offset,
+			'categories' => $categories,
 		));
     }
 	

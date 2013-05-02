@@ -75,7 +75,7 @@
 					<li>apple&nbsp;<i class="del" title="Удалить"></i></li>
 					<li>16 Gb&nbsp;<i class="del" title="Удалить"></i></li>
 				</ul>-->
-				<?php echo $form->textArea($model,'description', array('limited-text' => 500, 'cols' => 30, 'rows' => 5, 'class' => 'txt-2 limited-text')); ?>
+				<?php echo $form->textArea($model,'description', array('limited-text' => 500, 'cols' => 30, 'rows' => 5, 'class' => ($model->description) ? 'txt-2 limited-text processed' : 'txt-2 limited-text')); ?>
 				<?php echo $form->error($model,'description'); ?>
 				<small class="counter">Осталось <b>500</b> знаков</small>
 			</div>
@@ -97,9 +97,9 @@
 					</dl>
 					<span>или</span>
 					<label>
-						<?php if(!$model->isNewRecord && !$model->price && get_class($this) == 'Adverts') $model->free = true; ?>
+						<?php if(!$model->isNewRecord && !$model->price && get_class($model) == 'Adverts') $model->free = true; ?>
 						<?php echo $form->checkBox($model,'free'); ?>
-						<?php //echo $form->error($model,'free'); ?>
+						<?php echo $form->error($model,'free'); ?>
 						<span>отдать даром</span>
 					</label>
 				</div>
@@ -222,7 +222,7 @@
 					</dd>
 				</dl>
 				<div class="region-i">
-					<?= $form->dropDownList($model,'category', CHtml::listData(Regions::model()->findAll(), 'id', 'title')); ?>
+					<?= $form->dropDownList($model,'region', CHtml::listData($regions, 'id', 'title'), array('class' => 'regions')); ?>
 				</div>
 			</div>
 			<div class="b-market__add-item-form-i phone cfix">
@@ -277,6 +277,14 @@
 
 <?php 
 	$cs = Yii::app()->getClientScript();
+		
+	$cs->registerScript(
+		'ajaxRegions',
+		'jQuery(function($){$(\'body\').on(\'change\',\'.regions\',function(){ var block = this;  $.post("'.
+				CController::createUrl('/ahimsa/regions', array('name' => get_class($model), 'parent_id' => ''))
+			.'"+$(this).val()).success(function(data) { $(block).next("select").remove(); $(data).insertAfter($(block));  });   return false;}); });',
+	  CClientScript::POS_END
+	);
 		
 	$cs->registerScript(
 		'getProduct',

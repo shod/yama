@@ -8,7 +8,13 @@
 
 		<p class="txt"><?= $data->description ?></p>
 		<div class="info cfix">
-			<span class="price"><? if($data->price): ?><b><?= $data->price ?></b> <?= Adverts::$currencySymbol[$data->currency]; ?><?php endif; ?></span>
+			<span class="price">
+				<?php if($data->price): ?>
+					<b><?= $data->price ?></b> <?= Adverts::$currencySymbol[$data->currency]; ?>
+				<?php else: ?>
+					<?= Yii::t('Yama', 'Отдаю даром'); ?>
+				<?php endif; ?>
+			</span>
 			<!--<span class="up">1 <b>UP</b></span>-->
 			<!--<span class="comments">214<i class="icon"></i></span>-->
 			<i class="icon arr"></i>
