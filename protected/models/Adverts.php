@@ -12,7 +12,7 @@ class Adverts extends ActiveRecord
 {
 	const IMAGE_PATH = '/images/ahimsa';
 	const LIMIT = 20;
-	public static $currency = array(0 => 'USD', 1 => 'BYR', 2 => 'RUR');
+	public static $currency = array(0 => 'USD', 1 => 'BYR');
 	public static $currencySymbol = array(0 => '$', 1 => 'BYR', 2 => 'RUR');
 	public static $size = array('min' => array('x' => 1500, 'y' => 1500));
 	public static $publicSizeTypes = array(

@@ -3,9 +3,9 @@
 class SiteController extends Controller {
 
 	public $layout = 'yama';
-	public $title = 'Яма - бесплантые объявления';
-	public $description = 'Яма - бесплантые объявления. Подать объяление на доске частных объявлений бесплатно.';
-	public $keywords = 'бесплантые объявления,подать,доска,частные,минск,беларусь,отдам даром,сайт,дать,подать';
+	public $title = 'Яма - бесплатные объявления. Подать объявление на доске частных объявлений бесплатно.';
+	public $description = 'Яма - бесплатные объявления. Подать объявление на доске частных объявлений бесплатно.';
+	public $keywords = 'бесплатные объявления,подать,доска,частные,минск,беларусь,отдам даром,сайт,дать,подать';
 
     public function filters() {
         return array(
@@ -34,6 +34,12 @@ class SiteController extends Controller {
 		if(!$entities = Tags::model()->getSearch(array('text' => $text, 'entity_type_id' => 4))){
 			return array();
 		}
+		
+		/*if(Yii::app()->request->getParam('debug', 0)){
+			d($entities);
+		}*/
+		
+		
 		$ids = array();
 		$levels = array();
 		foreach($entities as $ent){
@@ -46,9 +52,11 @@ class SiteController extends Controller {
 		}
 		
 		$sIds = implode(',', $ids);
-		$model = Adverts::model()->findAll(array('condition' => "id IN ({$sIds}) AND status = 1", 'order' => 'last_up DESC', 'limit' => $limit, 'offset' => $offset));
+		$model = Adverts::model()->findAll(
+			array('condition' => "id IN ({$sIds}) AND status = 1", 'order' => 'last_up DESC', 'limit' => $limit, 'offset' => $offset));
 		$res = array();
 		krsort($levels);
+		
 		foreach($levels as $l){
 			foreach($model as $k => $m){
 				foreach($entities as $ent){
@@ -67,11 +75,26 @@ class SiteController extends Controller {
 		$query = Yii::app()->request->getParam('q', '', 'string');
 		$offset = Yii::app()->request->getParam('offset', 0, 'int');
 		$user = Yii::app()->request->getParam('user', 0, 'int');
+		$category = Yii::app()->request->getParam('category', 0, 'string');
+		$region = Yii::app()->request->getParam('region', 0, 'string');
+		//$cacheKey = $query . '|#|' . $offset . '|#|' . $user . 'eugen_was_here:)';
+		// start to cache!!
 		
-		if($query){
-			$this->description = $query;
-			$adverts = $this->_prepareData($query, Adverts::LIMIT + 1, $offset);
+		$querySearch = $query;
+		
+		if($category){
+			$querySearch = $querySearch . ' ' . $category;
+		}
+		if($region){
+			$querySearch = $querySearch . ' ' . $region;
+		}
+	
+		if($querySearch){
+			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts order by last_up desc limit 1');
+			$this->description = $querySearch;
+			$adverts = $this->_prepareData($querySearch, Adverts::LIMIT + 1, $offset);
 		} elseif(!$user) {
+			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts order by last_up desc limit 1');
 			$adverts = Adverts::model()->findAll(
 				array(
 					'condition' => 'status = 1',
@@ -80,9 +103,10 @@ class SiteController extends Controller {
 					'offset' => $offset,
 				));
 		} else {
+			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts where user_id = '.$user.' order by last_up desc limit 1');
 			$adverts = Adverts::model()->findAll(
 				array(
-					'condition' => 'status = 1 AND user_id = :uId',
+					'condition' => 'user_id = :uId',
 					'order' => 'last_up DESC',
 					'limit' => Adverts::LIMIT + 1,
 					'offset' => $offset,
@@ -119,14 +143,16 @@ class SiteController extends Controller {
 			echo CJSON::encode(array('else' => $else, 'offset' => $offset, 'selector' => '.b-market__middle-i', 'title' => $this->title, 'html' => $html));
 			Yii::app()->end();
 		}
-		$this->render('index', array(
+		$html = $this->render('index', array(
 			'model'=>$adverts,
 			'query'=>$query,
 			'users'=>$users,
 			'else' => $else,
 			'offset' => $offset,
 			'categories' => $categories,
-		));
+		), true, true);
+		//Yii::app()->cache->set($cacheKey, $html, '', $dependency);
+		echo $html;
     }
 	
 	public function actionSubscribe(){

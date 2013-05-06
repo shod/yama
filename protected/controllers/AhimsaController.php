@@ -11,8 +11,6 @@ class AhimsaController extends Controller
 	public $description='Сайт бесплатных объявлений';
 	public $keywords = '';
 
-
-
 	/**
 	 * Displays a particular model.
 	 * @param integer $id the ID of the model to be displayed
@@ -23,7 +21,7 @@ class AhimsaController extends Controller
 		$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
 		$images = FileServices::getImagesFromDir($imageDir);
 		$auction = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
-		$this->title = '#' . $id . ' ' . mb_substr($model->description, 0, 230);
+		$this->title = mb_substr($model->description, 0, 230);
 		$this->description = mb_substr($model->text, 0, 480);
 		
 		$auctFlag = true;
@@ -67,6 +65,7 @@ class AhimsaController extends Controller
 	 */
 	public function actionCreate()
 	{
+		$this->title = Yii::t('Yama', 'Создать объявление');
 		if(Yii::app()->user->isGuest){
 			Yii::app()->user->returnUrl = Yii::app()->getBaseUrl(true) . $this->createUrl('/ahimsa/create');
 			$this->redirect(Yii::app()->params['socialBaseUrl'] . '/login');
@@ -152,7 +151,7 @@ class AhimsaController extends Controller
 
 	public function actionUpdate($id)
 	{
-	
+		$this->title = Yii::t('Yama', 'Редактировать объявление');
 		$model=$this->loadModel($id);
 		if($model->user_id != Yii::app()->user->id){
 			throw new CHttpException(403, Yii::t('Site', 'Ошибка'));
@@ -348,7 +347,7 @@ class AhimsaController extends Controller
 			$res = (array) $res;
 			$res['success'] = true;
 			echo CJSON::encode($res);
-			die;
+			Yii::app()->end();
 		}
 		$res['success'] = false;
 		echo CJSON::encode((array) $res);
@@ -362,18 +361,30 @@ class AhimsaController extends Controller
 
 		$id = Yii::app()->request->getParam('id', 0, 'int');
 		$price = Yii::app()->request->getParam('price', 0, 'int');
+		if(!$id || !$price){
+			echo CJSON::encode($res);
+		}
 		$auc = Auction::model()->find('advert_id = :id AND user_id = :user_id', array(':id' => $id, ':user_id' => Yii::app()->user->id));
 		$advert = Adverts::model()->findByPk($id);
-
-		if($id && $price && !$auc){
-			$auction = new Auction();
-			$auction->price = $price;
-			$auction->advert_id = $id;
-			$auction->user_id = Yii::app()->user->id;
-			if($auction->save()){
-				$res = array('success' => true, 'content' => $this->renderPartial('auctionPost', array('price' => $price), true, true));
-			}
+		
+		if($auc){
+			$auc->delete();
 		}
+		$auction = new Auction();
+		$auction->price = $price;
+		$auction->advert_id = $id;
+		$auction->user_id = Yii::app()->user->id;
+
+		if($auction->save()){
+			$auctions = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
+			foreach($auctions as $auct){
+				$uids[$auct->user_id] = $auct->user_id;
+			}
+			
+			$users = Mongo_Users::getUsers($uids);
+			$res = array('success' => true, 'content' => $this->renderPartial('auctionPost', array('auctions' => $auctions, 'users' => $users), true, true));
+		}
+
 		echo CJSON::encode($res);
 		
 		if($res['success']){

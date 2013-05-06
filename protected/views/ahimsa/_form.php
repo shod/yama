@@ -60,9 +60,9 @@
 				</div>
 				<?php endif;?>
 				
-				<?php echo $form->textArea($model,'text', array('limited-text' => 4500, 'cols' => 30, 'rows' => 5, 'class' => 'txt-1 limited-text', 'placeholder' => Yii::t('Yama', 'Продам...'))); ?>
+				<?php echo $form->textArea($model,'text', array('limited-text' => 2500, 'cols' => 30, 'rows' => 5, 'class' => 'txt-1 limited-text', 'placeholder' => Yii::t('Yama', 'Продам...'))); ?>
 				<?php echo $form->error($model,'text'); ?>
-				<small class="counter">Осталось <b>4500</b> знаков</small>
+				<small class="counter">Осталось <b>2500</b> знаков</small>
 			</div>
 			<div class="b-market__add-item-form-i short-description cfix">
 				<dl>
@@ -75,9 +75,9 @@
 					<li>apple&nbsp;<i class="del" title="Удалить"></i></li>
 					<li>16 Gb&nbsp;<i class="del" title="Удалить"></i></li>
 				</ul>-->
-				<?php echo $form->textArea($model,'description', array('limited-text' => 500, 'cols' => 30, 'rows' => 5, 'class' => ($model->description) ? 'txt-2 limited-text processed' : 'txt-2 limited-text')); ?>
+				<?php echo $form->textArea($model,'description', array('limited-text' => 250, 'cols' => 30, 'rows' => 5, 'class' => ($model->description) ? 'txt-2 limited-text processed' : 'txt-2 limited-text')); ?>
 				<?php echo $form->error($model,'description'); ?>
-				<small class="counter">Осталось <b>500</b> знаков</small>
+				<small class="counter">Осталось <b>250</b> знаков</small>
 			</div>
 			<div class="b-market__add-item-form-i price cfix">
 				<dl>
@@ -110,10 +110,11 @@
 					<dd>Загрузите фото. Котов в мешке покупают единицы.</dd>
 				</dl>
 				<dl class="hint">
-					<dt><b>Инструкция.</b> Как добавить фото?<i class="icon"></i></dt>
-					<dd>Можно нажать на кнопку и выбрать фото.<i class="icon"></i></dd>
-					<dd>Можно перетащить фото на кнопку.<i class="icon"></i></dd>
-					<dd>Можно загрузить сразу несколько.<i class="icon"></i></dd>
+					<dt><b>Как добавить фото?</b><i class="icon"></i></dt>
+					<dd>Нажать на кнопку и выбрать фото.<i class="icon"></i></dd>
+					<dd>Перетащить фото на кнопку.<i class="icon"></i></dd>
+					<dd>Выделить несколько и загрузить сразу.<i class="icon"></i></dd>
+					<dd><a href="javaScript:void(0)" onclick="toggleForm(this); return false">Вставить ссылку</a>.<i class="icon"></i></dd>
 				</dl>
 				<?php echo $form->hiddenField($model,'image'); ?>
 				<?php 
@@ -211,7 +212,7 @@
 					</dd>
 				</dl>
 				<div class="region-i">
-					<?= $form->dropDownList($model,'category', CHtml::listData(Categories::model()->findAll(), 'id', 'title')); ?>
+					<?= $form->dropDownList($model,'category', CHtml::listData(Categories::model()->findAll(array('order' => 'sort ASC')), 'id', 'title')); ?>
 				</div>
 			</div>
 			<div class="b-market__add-item-form-i region cfix">
@@ -251,7 +252,8 @@
 					<dt>Другое имя:</dt>
 					<dd>Имя продавца к которому будут обращаться</dd>
 				</dl>
-				<input class="value-5" type="text" name="" placeholder="">
+				<?php if(!$model->name) $model->name = Yii::app()->user->name ?>
+				<?php echo $form->textField($model,'name', array('class' => 'value-5')); ?>
 			</div>
 			<div class="b-market__add-item-form-i email">
 				<dl>

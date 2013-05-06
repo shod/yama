@@ -1,4 +1,8 @@
 <div class="body">
+	<?php 
+		Yii::app()->clientScript->registerScriptFile('/js/jquery.lazyload.js'); 
+	?>
+	
 
 
 
@@ -25,8 +29,17 @@
                     }
                 });
             }
-
-            $(window).load(function(){
+			/*$(function() {
+				$("img.lazyload").lazyload({
+					effect      : "fadeIn",
+					event: "scroll",
+					callback: function(){
+						$('.b-market__middle-i').masonry('reload')
+					}
+				});
+			});*/
+           $(window).load(function(){
+				
                 $('.b-market__middle-i').masonry({
                     itemSelector: '.b-market__item-preview'
                 })
@@ -34,14 +47,14 @@
         });
     </script>
     <div class="b-market">
-        <?php //Widget::create('YamaTop', 'yamatop', array('query' => $query))->html() ?>
+        <?php Widget::create('YamaTop', 'yamatop', array('query' => $query))->html() ?>
 		<?php if(count($categories)): ?>
-        <ul class="b-market__tags-line">
+        <!--<ul class="b-market__tags-line">
 			<?php foreach($categories as $cat):?>
 				<li><?= CHtml::link($cat->title, array('/site/index', 'q' => $cat->title)); ?></li>
 			<?php endforeach; ?>
-            <!--<li class="last"><a href="#">Еще 120 уточнений</a></li>-->
-        </ul>
+            <li class="last"><a href="#">Еще 120 уточнений</a></li>
+        </ul>-->
 		<?php endif; ?>
 		<!--
         <aside class="b-market__banner-1">
@@ -105,8 +118,14 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 <?php WComments::registerWidgetScripts(); ?>
 
 <?php 
-	Yii::app()->clientScript->registerScript('auction', "
-		jQuery(document).on('click', '.auction', function(){
+
+	$js = '';
+	if(Yii::app()->user->isGuest){
+		$js = "jQuery('#itemWindow').on('click', '.auction', function(){
+			window.location = '" . Yii::app()->params['socialBaseUrl'] . '/login' . "'
+		})";
+	} else {
+		$js = "jQuery('#itemWindow').on('click', '.auction', function(){
 			if(!$('.b-market__item-form-i .auction-price').attr('value')){
 				return false;
 			}
@@ -118,16 +137,17 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 							res = $.parseJSON(data)
 							if(res.success == true){
 								$('.offer-list').css({ opacity: 1 });
-								$('.offer-list').append(res.content)
+								$('.offer-list').html(res.content)
 								$('.b-market__item-form-i').html('<p>" . Yii::t('Yama', 'Ваша ставка принята') . "</p>')
 							}
 						}
 				)
 			return false;
-		})
-	", CClientScript::POS_END);
-?>
+		}) ";
+	}
 
+	Yii::app()->clientScript->registerScript('auction', $js, CClientScript::POS_END);
+?>
 <script>
 
 	var pageLimit = <?= Adverts::LIMIT ?>;
@@ -138,8 +158,6 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 		$(".b-market__bottom-sub label.success").html($('.seachline-input').val())
 		$(".b-market__bottom-sub label.success").show()
 	}
-	
-	
 	
 	jQuery('#itemWindow').on('click', '.b-market__item-i .changeStatus', function(){
 		if($(this).hasClass('unactivate')){
@@ -183,13 +201,17 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 			return false; 
 	});
 
-	jQuery('.seachline-input').on('change', function(){
+	jQuery('.seachline-input, #searchYama').on('change', function(){
 			YamaBy.index.search('<?= Yii::app()->getBaseUrl(true) ?>', this.value)
+			
+			$('.seachline-input').val(this.value)
+			$('#searchYama').val(this.value)
+			
 			$('.more-items-btn').attr('offset-value', pageLimit)
 			$(".b-market__bottom-sub form").show()
 			$(".b-market__bottom-sub label.success").hide()
-			$(".b-market__bottom-sub form label span").html($('.seachline-input').val())
-			return true;
+			$(".b-market__bottom-sub form label span").html(this.value)
+			return false;
 	})
 	
 	jQuery('.more-items-btn').on('click', function(){
@@ -197,21 +219,5 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 		$(this).attr('offset-value', parseFloat($(this).attr('offset-value')) + pageLimit)
 		return true;
 	})
-	
-     $(function() {
-        $('.b-market__item-img').fotorama({  
-            width:640,
-            height:493,
-            background:"#fff",
-            margin:0,
-            navPosition:"bottom",
-            thumbSize:67,
-            thumbMargin:0,
-            zoomToFit: true,
-            thumbBorderColor:"#fff",
-            thumbsCentered: false,
-            shadows:false
-        });
-    });
 
 </script>

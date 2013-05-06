@@ -19,9 +19,10 @@ class Mongo_Users extends EMongoDocument {
 	
 	public static function getUsers(array $ids){
 		$ids = array_unique($ids);
-		$criterea = new EMongoCriteria();
-        $criterea->addCond('id', 'in', $ids);
-		$users = Mongo_Users::model()->findAll($criterea);
+		//$criterea = new EMongoCriteria();
+        //$criterea->addCond('id', 'in', $ids);
+		//$users = Mongo_Users::model()->findAll($criterea); // временная мера, нужно синхронихировать.
+		$users = array();
 		$res = array();
 		foreach($users as $user){
 			$res[$user->id] = $user; 

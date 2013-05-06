@@ -22,15 +22,15 @@
 	<meta http-equiv="Cache-Control" content="max-age=3600, must-revalidate">
 	<meta http-equiv="Cache-Control" content="no-store">
 	<meta name="robots" content="INDEX,FOLLOW">
-	<meta http-equiv="Last-Modified" content="Sun, 31 Mar 2013 05:32:00 GMT">
-	<meta http-equiv="Expires" content="Sun, 31 Mar 2013 12:32:00 GMT">
+	<!--<meta http-equiv="Last-Modified" content="Sun, 31 Mar 2013 05:32:00 GMT">-->
+	<!--<meta http-equiv="Expires" content="Sun, 31 Mar 2013 12:32:00 GMT">-->
 
-	<meta name="yandex-verification" content="7b0ac52ad0d655c6"> 	
-	<meta name="yandex-verification" content="510cd02ecc10f67c">
-	<meta name="yandex-verification" content="4fd8abe117e04d03">
+	<!--<meta name="yandex-verification" content="7b0ac52ad0d655c6">-->
+	<!--<meta name="yandex-verification" content="510cd02ecc10f67c">-->
+	<!--<meta name="yandex-verification" content="4fd8abe117e04d03">-->
 
-	<meta name="verify-v1" content="VCc17jQosV3rw+MEGRBcJTP33LDUw8KU6tkKaKlHkNc=">
-	<meta name="verify-v1" content="1sqDKd0AanSP6K4mX+8TLRaaaYXbAtSo2yiLXpQIPgc=">
+	<!--<meta name="verify-v1" content="VCc17jQosV3rw+MEGRBcJTP33LDUw8KU6tkKaKlHkNc=">-->
+	<!--<meta name="verify-v1" content="1sqDKd0AanSP6K4mX+8TLRaaaYXbAtSo2yiLXpQIPgc=">-->
 
 	
 	<meta http-equiv="Content-Language" content="ru">
@@ -54,10 +54,11 @@
         Yii::app()->getClientScript()->registerCssFile('/css/yama.css');
 		Yii::app()->getClientScript()->registerCssFile('/css/fotorama.css');
         Yii::app()->clientScript->registerScriptFile('/js/form.js');
-		Yii::app()->clientScript->registerScriptFile('/js/yama.js');
+		
 		Yii::app()->clientScript->registerScriptFile('/js/history.js/scripts/bundled/html4+html5/jquery.history.js');
         Yii::app()->clientScript->registerCoreScript('jquery');
         Yii::app()->clientScript->registerCoreScript('jquery.ui');
+		Yii::app()->clientScript->registerScriptFile('/js/yama.js');
 		Yii::app()->getClientScript()->registerCssFile('/css/market_page.css');
 		Yii::app()->clientScript->registerScriptFile('/js/jquery.masonry.min.js');
 		Yii::app()->clientScript->registerScriptFile('/js/fotorama.js');
@@ -65,6 +66,21 @@
 	<link href='http://fonts.googleapis.com/css?family=Cuprum&subset=latin,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
 </head>
 <body cz-shortcut-listen="true" class="market-page">
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-1785065-11']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">(function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter21164008 = new Ya.Metrika({id:21164008, webvisor:true, clickmap:true, trackLinks:true, accurateTrackBounce:true, trackHash:true}); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks");</script><noscript><div><img src="//mc.yandex.ru/watch/21164008" style="position:absolute; left:-9999px;" alt="" /></div></noscript><!-- /Yandex.Metrika counter -->
     <div class="boby-container">
 
 <!--<div class="wrapper_banner"><div class="ad ad01" style="margin-top:5px;">
@@ -96,6 +112,34 @@
 			searchField: '#searchYama',
 			contentBlockSelector: '.b-market__middle-i',
 		});
+		
+		$(".dropdown-menu li").click(function(){
+			a = $(this).parent().parent().find('a')
+			a.html($(this).html())
+			var param = new Array()
+			param[a.attr('param')] = a.html()
+			YamaBy.index.changeLocation(param)
+		})
+		
 	</script>
+	<script type="text/javascript">
+    var reformalOptions = {
+        project_id: 96329,
+        project_host: "yamamigom.reformal.ru",
+        tab_orientation: "right",
+        tab_indent: "50%",
+        tab_bg_color: "#F05A00",
+        tab_border_color: "#FFFFFF",
+        tab_image_url: "http://tab.reformal.ru/0JLQsNGI0Lgg0L%252FRgNC10LTQu9C%252B0LbQtdC90LjRjw==/FFFFFF/e8e7be9d1ced12027178a9211575b4ae/right/0/tab.png",
+        tab_border_width: 2
+    };
+    
+    (function() {
+        var script = document.createElement('script');
+        script.type = 'text/javascript'; script.async = true;
+        script.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'media.reformal.ru/widgets/v3/reformal.js';
+        document.getElementsByTagName('head')[0].appendChild(script);
+    })();
+</script><noscript><a href="http://reformal.ru"><img src="http://media.reformal.ru/reformal.png" /></a><a href="http://yamamigom.reformal.ru">Ваши предложения</a></noscript>
 </body>
 </html>

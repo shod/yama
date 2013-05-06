@@ -2,7 +2,18 @@
 	<a href="<?= Yii::app()->getBaseUrl(true). $this->createUrl('/ahimsa/view', array('id' => $data->id)) ?>" class="item_to">
 		<?php if($data->image): ?>
 		<figure>
-			<?= CHtml::image(Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image, $data->description); ?>
+			<!--<?= CHtml::image(
+					Yii::app()->getBaseUrl(true) . '/images/grey.gif', 
+					$data->description,
+					array(
+						'data-original' => Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image, // lazy load
+						'class' => 'lazyload',
+					)
+				); ?>-->
+			<?= CHtml::image(
+					Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image,
+					$data->description
+			); ?>
 		</figure>
 		<?php endif; ?>
 
@@ -23,7 +34,13 @@
 			<figure>
 				<?= UserService::printAvatar($data->user_id, $users[$data->user_id]->name, 30, true); ?>
 			</figure>
-			<strong><?= $users[$data->user_id]->name ?></strong>
+			<?php if($data->name){
+				$name = $data->name;
+			} else {
+				$name = $users[$data->user_id]->name;
+			}
+			?>
+			<strong><?= Chtml::link($name, Yii::app()->params['socialBaseUrl'] . '/user/' . $data->user_id) ?></strong>
 			<small><?= SiteService::getStrDate($data->created_at); ?><!--добавил 1 минуту назад--></small>
 		</div>
 	</a>      

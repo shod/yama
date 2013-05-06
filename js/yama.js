@@ -14,6 +14,8 @@ YamaBy.index = {
 		
 		History.debug.enable = true;
 		
+		this._urlParams = Array('user','q','category','region','debug','offset')
+		
 		this._openedModals = [] // ids of modals that now are open
 		this._urls = []
 		this._options = {
@@ -22,12 +24,13 @@ YamaBy.index = {
 		};
 		
 		YamaBy.extend(this._options, o)
-		
-		
-		
+
 		window.onpopstate = function(e){
 			var State = History.getState()
 			if(e.state){
+				if($('.b-market__item-img').hasClass('fotorama_fullscreen')){
+					$('.b-market__item-img').trigger('fullscreenclose');
+				}
 				for(k in YamaBy.index._openedModals){
 					$("#"+YamaBy.index._openedModals[k]).dialog("close")
 				}
@@ -58,14 +61,21 @@ YamaBy.index = {
 		for(var i in this._options.modals){
 			this.addModals(this._options.modals[i])
 		}
-		var url = window.location.origin + window.location.pathname
+		
+		title = document.title
+		
 		var resultAfterParse = this.parseUrl(window.location.search);
+		
 		var q = ''
+		var user = ''
 		if(resultAfterParse.q){
 			q = decodeURIComponent(resultAfterParse.q)
-			url = url + '?q=' + q
+			title = title + ' ' + q
 		}
-		History.replaceState({"html":$(YamaBy.index._options.contentBlockSelector).html(), 'selector': YamaBy.index._options.contentBlockSelector, 'q': q, 'url': url, 'modal': YamaBy.index._openedModals}, '', url)
+		
+		url = this.createUrl(Array())
+		
+		History.replaceState({"html":$(YamaBy.index._options.contentBlockSelector).html(), 'selector': YamaBy.index._options.contentBlockSelector, 'q': q, 'url': url, 'modal': YamaBy.index._openedModals}, title, url)
 		/*
 		$("#loading").bind("ajaxSend", function(){
 			$(this).show();
@@ -102,14 +112,9 @@ YamaBy.index = {
 		})
 	},
 	search: function(url, string, offset){
-		if(string.length > 0){
-			url = url + '/?q=' + string
-			if(offset){
-				url = url + '&offset=' + offset
-			}
-		} else if(offset){
-			url = url + '/?offset=' + offset
-		}
+		params = new Array()
+		params.q = string
+		url = this.createUrl(params, this.getHost())
 		
 		YamaBy.index.getBlock(url, function(data){
 			response = jQuery.parseJSON(data)
@@ -122,14 +127,9 @@ YamaBy.index = {
 		})
 	},
 	moreItems: function(url, string, offset){
-		if(string.length > 0){
-			url = url + '/?q=' + string
-			if(offset){
-				url = url + '&offset=' + offset
-			}
-		} else if(offset){
-			url = url + '/?offset=' + offset
-		}
+		params = new Array()
+		params.q = string
+		url = this.createUrl(params, this.getHost())
 		
 		YamaBy.index.appendToBlock(url, function(data){
 			response = jQuery.parseJSON(data)
@@ -173,19 +173,42 @@ YamaBy.index = {
 		response.q = $(YamaBy.index._options.searchField).attr('value')
 		History.pushState(response, title, url)
 	},
-	createUrl: function(params){
-		var ret = [];
-		for (var d in params)
-			ret.push(encodeURIComponent(d) + "=" + encodeURIComponent(params[d]))
-		url = ret.join("&")
-		if(!url.length){
-			url = "/" + url;
+	getHost: function(){
+		return window.location.protocol + '//' + window.location.host
+	},
+	changeLocation: function(params){
+		host = this.getHost()
+		url = this.createUrl(params, host)
+		window.location = url
+	},
+	createUrl: function(params, url){
+		resultAfterParse = this.parseUrl(window.location.search)
+		first = false
+		if(!url){
+			var url = window.location.origin + window.location.pathname
+			if(!window.location.origin){
+				url = window.location.pathname
+			}
 		}
 		
+		for(var i in this._urlParams){
+			if(params[this._urlParams[i]]){
+				resultAfterParse[this._urlParams[i]] = params[this._urlParams[i]]
+			}
+		}
+		
+		for(var i in this._urlParams){
+			if(resultAfterParse[this._urlParams[i]] && !first){
+				first = true
+				url = url + '?' + this._urlParams[i] + '=' + decodeURIComponent(resultAfterParse[this._urlParams[i]])
+			} else if(resultAfterParse[this._urlParams[i]] && first){
+				url = url + '&' + this._urlParams[i] + '=' + decodeURIComponent(resultAfterParse[this._urlParams[i]])
+			}
+		}
+				
 	    return url
 	},
 	parseUrl: function(url){
-
 		var query_string = {};
 		var query = url;
 		var vars = query.split("&");

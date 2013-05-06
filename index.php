@@ -1,5 +1,5 @@
 <?php
-define('YII_DEBUG',true);
+define('YII_DEBUG',false);
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $yiiEx  = dirname(__FILE__) . '/../core/YiiBaseEx.php';
@@ -13,7 +13,6 @@ defined('YII_TRACE_LEVEL') or define('YII_TRACE_LEVEL',3);
 if(YII_DEBUG === true){
 	ini_set('error_reporting', E_ALL);
 	ini_set('display_errors', 1);
-
 }
 include_once '../core/functions.php';
 function autoload($className){

@@ -14,12 +14,16 @@ class AdvertsController extends ERestController
 		);
 		$limit = Yii::app()->request->getParam('limit', 0, 'int');
 		$offset = Yii::app()->request->getParam('offset', 0, 'int');
+		$with = Yii::app()->request->getParam('with', 0, 'list', array('auctions'));
 		if($limit){
 			$criteria['limit'] = $limit;
 			$criteria['offset'] = $offset;
 		}
-		
-		$adverts = Adverts::model()->with('auctions')->findAll($criteria);
+		$adverts = Adverts::model();
+		if($with){
+			$adverts = Adverts::model()->with('auctions');
+		}
+		$adverts = $adverts->findAll($criteria);
 		$res = array();
 		foreach($adverts as $advert){
 			$res[$advert->id] = $advert->attributes;

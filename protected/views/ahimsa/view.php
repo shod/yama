@@ -1,6 +1,6 @@
 <div class="b-market__item <?php if($popup): ?>pop-up active<?php endif; ?>" id="<?= $model->id ?>">
 	<?php if(!$popup): ?>
-		<?php //Widget::create('YamaTop', 'yamatop')->html(); ?>
+		<?php Widget::create('YamaTop', 'yamatop', array('category' => $model->category, 'region' => $model->region))->html(); ?>
 		<?php 
 			Yii::app()->clientScript->registerScript('yamatop', "
 				jQuery('#searchYama').on('change', function(){
@@ -23,25 +23,31 @@
                 <li>
 					
 					<a href="javascript:void(0)" class="changeStatus <?php if($model->status == 1): ?>activate<?php elseif($model->status == 2): ?>unactivate<?php endif;?>">[ 
-						<span class="unactive">не актуально</span>
-						<span class="active">сделать активным</span>
+						<span class="unactive"><?= Yii::t('Yama', 'не актуально'); ?></span>
+						<span class="active"><?= Yii::t('Yama', 'сделать активным'); ?></span>
 					 ]</a>
 					
                 </li>
                 <li>
-                    <a href="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/update/' . $model->id ?>">[ редактировать ]</a>
+                    <a href="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/update/' . $model->id ?>">[ <?= Yii::t('Yama', 'редактировать'); ?> ]</a>
                 </li>
             </ul>
 			<?php endif; ?>
             <p class="info-1">
-                <strong><?= $users[$model->user_id]->name ?></strong>
+				<?php if($model->name){
+						$name = $model->name;
+					} else {
+						$name = $users[$model->user_id]->name;
+					}
+					?>
+                <strong><?= $name ?></strong>
                 <small>№<?= $model->id ?> <?= Yii::t('Yama', 'размещено') ?> <?= SiteService::getStrDate($model->created_at); ?></small>
                 <?php if($model->user_id == Yii::app()->user->id && $model->status == 1): ?>
-				<a href="javascript:void(0)" title="Объявление поднимется в выдаче, будет среди новых" class="up<?php if($model->last_up > time() - 3600): ?> unactive<?php endif; ?>">[ поднять ]</a>
+				<a href="javascript:void(0)" title="Объявление поднимется в выдаче, будет среди новых" class="up<?php if($model->last_up > time() - 3600): ?> unactive<?php endif; ?>">[ <?= Yii::t('Yama', 'поднять'); ?> ]</a>
 				<?php endif; ?>
             </p>
-            <h1 class="info-2"><?= $model->description ?></h1>
-				<b class="tag-1" style="<?php if($model->status == 1): ?>display:none;<?php endif; ?>">НЕАКТУАЛЬНО</b>
+            <h1 class="info-2"><?= $model->description ?> [<?= Regions::model()->findByPk($model->region)->title ?>]</h1>
+				<b class="tag-1" style="<?php if($model->status == 1): ?>display:none;<?php endif; ?>"><?= Yii::t('Yama', 'НЕАКТУАЛЬНО'); ?></b>
 			<i class="shd"></i>
         </div>
 		<?php if($model->image): ?>
@@ -68,7 +74,7 @@
 						<input class="auction-ahimsa" type="hidden" name="id" value="<?= $model->id ?>">
                         <b>$</b>
                     </div>
-                    <button class="button_yellow btn-submit-1 auction" type="submit">Предложить</button>
+                    <button class="button_yellow btn-submit-1 auction" type="submit"><?= Yii::t('Yama', 'Предложить'); ?></button>
                 </div>
 				<?php //endif; ?>
             
@@ -80,14 +86,14 @@
                 <li>
 					<a href="<?= Yii::app()->params['socialBaseUrl'] . '/user/' . $auc->user_id ?>">
 						<?= $users[$auc->user_id]->name ?>
-					</a> купит за <b><?= $auc->price ?></b> <?= Adverts::$currencySymbol[$model->currency]; ?>
+					</a> <?= Yii::t('Yama', 'купит за'); ?> <b><?= $auc->price ?></b> <?= Adverts::$currencySymbol[$model->currency]; ?>
 				</li>
 				<?php endforeach; ?>
             </ul>
         </div>
 		<?php if(Yii::app()->user->id != $model->user_id): ?>
 		<div class="b-market__item-bottom">
-            <a href="<?= Yii::app()->params['socialBaseUrl'] . '/messages/send/' . $model->user_id ?>" class="mes">Написать ЛС</a>
+            <a href="<?= Yii::app()->params['socialBaseUrl'] . '/messages/send/' . $model->user_id ?>" class="mes"><?= Yii::t('Yama', 'Написать ЛС'); ?></a>
             <div class="b-market__item-bottom-i">
                 <figure>
 					<?= UserService::printAvatar($users[$model->user_id]->id, $users[$model->user_id]->name, 30, true); ?>
@@ -95,7 +101,7 @@
 					<?php $phone = ($model->phone)?$model->phone:$users[$model->user_id]->phone?>
 					<p><strong><?= $users[$model->user_id]->name ?></strong>
 						<?php if($phone): ?>
-							или звоните по телефону <?= preg_replace('/^(\d{2})(\d{3})(\d{2})(\d{2})$/', '<span>+375 $1</span> $2 $3 $4', $phone) ?>
+							<?= Yii::t('Yama', 'или звоните по телефону'); ?> <?= preg_replace('/^(\d{2})(\d{3})(\d{2})(\d{2})$/', '<span>+375 $1</span> $2 $3 $4', $phone) ?>
 						<?php endif; ?>
 					</p>
             </div>
@@ -137,7 +143,7 @@
         </div>-->
 		<div class="addthis_toolbox" 
 			addthis:url="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/' . $model->id ?>" 
-			addthis:title="#<?= $model->id ?>" >
+			addthis:title="<?= $this->title ?>" >
         <ul class="b-market__item-socnet">
 				<li>
 					<a href="#" class="item-1 addthis_button_facebook"><img src="/images/icons/facebook.png" width="50" height="50" border="0" alt="Share to Facebook" /></a>
@@ -180,8 +186,14 @@
 </div>
 
 <?php 
-	Yii::app()->clientScript->registerScript('auction', "
-		jQuery('.b-market__item').on('click', '.auction', function(){
+
+	$js = '';
+	if(Yii::app()->user->isGuest){
+		$js = "jQuery('.b-market__item').on('click', '.auction', function(){
+			window.location = '" . Yii::app()->params['socialBaseUrl'] . '/login' . "'
+		})";
+	} else {
+		$js = "jQuery('.b-market__item').on('click', '.auction', function(){
 			if(!$('.b-market__item-form-i .auction-price').attr('value')){
 				return false;
 			}
@@ -193,13 +205,15 @@
 							res = $.parseJSON(data)
 							if(res.success == true){
 								$('.offer-list').css({ opacity: 1 });
-								$('.offer-list').append(res.content)
+								$('.offer-list').html(res.content)
 								$('.b-market__item-form-i').html('<p>" . Yii::t('Yama', 'Ваша ставка принята') . "</p>')
 							}
 						}
 				)
 			return false;
-		})
+		}) ";
+	}
+	Yii::app()->clientScript->registerScript('auction', $js . "
 		
 		jQuery('.b-market__item-i').on('click', '.changeStatus', function(){
 			if($(this).hasClass('unactivate')){
@@ -229,13 +243,13 @@
 <script>
 	$('.b-market__item-img').fotorama({
 		width:640,
-		//height:493,
+		height:400,
 		background:"#fff",
 		margin:0,
 		navPosition:"bottom",
 		thumbSize:67,
 		thumbMargin:5,
-		zoomToFit: true,
+		zoomToFit: false,
 		thumbBorderColor:"#fff",
 		thumbsCentered: false,
 		shadows:false,
@@ -254,7 +268,7 @@
 			}
 			<?php endforeach; ?>
 		],
-		fullscreenIcon: false
+		fullscreenIcon: true
 	});
 
 	/*$(function() {
