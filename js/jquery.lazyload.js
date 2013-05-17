@@ -129,7 +129,7 @@
                 });
             }
         });
-
+		
         /* Check if something appears when window is resized. */
         $window.bind("resize", function(event) {
             update();
@@ -151,7 +151,7 @@
         $(window).load(function() {
             update();
         });
-        
+        settings.callback()
         return this;
     };
 

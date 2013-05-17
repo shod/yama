@@ -21,7 +21,7 @@
         .b-market__top-par dd small{padding:3px 0 0;display:block;text-align:center;font:normal 9px Tahoma,Verdana,Arial,Sans-serif;color:#aaa}
         .b-market__top-par dd .icon{width:21px;height:11px;margin:15px 0 0 -10px;background:url(../images/market_icons.png) no-repeat 0 -80px;left:50%;top:100%}        
 
-.b-market__top-search{margin:8px 20px 0 0;float:left;position:relative}                
+.b-market__top-search{margin: 8px 20px 0 0;float: left;width: 300px;padding: 2px 35px 2px 9px;float: left;position: relative;}                
     .b-market__top-search input{width:300px;height:24px;margin:0;padding:2px 35px 2px 9px;border:1px solid #bec0c2;outline:none;line-height:21px}                
     .b-market__top-search .btn-search{width:auto;padding:0;margin:0;background-color:transparent;border:0 none;outline:medium none;overflow:visible;cursor:pointer;zoom:1;white-space:nowrap}                
     .b-market__top-search .btn-search{position:absolute;top:0;right:0}                
@@ -264,7 +264,8 @@ nav .b-market__top{float:right;padding: 0px 30px 0;}
 
 /*Market-item*/
 .b-market__item{ background-color: #F2F2F2;}
-.b-market__item.pop-up{width:100%;height:100%;top:70px;left:0;z-index:99999;zoom:1;display:none}
+.b-market__item.ui-dialog{ background-color: transparent;}
+.b-market__item.pop-up{width:100%;height:100%;top:70px;left:0;z-index:99999;zoom:1;display:none;}
 .b-market__item.pop-up.active{display:block}
     .b-market__item.pop-up .b-market__item-i{background:#fff}
         .b-market__item.pop-up .b-market__item-top{margin:0 0 30px;padding:22px 30px 10px 100px;overflow:visible;background:#f6f8fa}
@@ -431,3 +432,6 @@ nav .test{background-color: #FFB400;float: left;margin: 15px 15px 0;padding: 1px
 .right{float:right;}
 .dropdown-menu li{padding-left: 5px}
 .dropdown-menu li:hover{background-color:#ccc; cursor:pointer;}
+
+.searchYama-dis{top: 0}
+#searchYama {z-index: 1;margin:-2px 0px 0px -9px;position: absolute;background-color: transparent;}

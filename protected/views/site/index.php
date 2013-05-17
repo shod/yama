@@ -1,6 +1,6 @@
 <div class="body">
 	<?php 
-		Yii::app()->clientScript->registerScriptFile('/js/jquery.lazyload.js'); 
+		//Yii::app()->clientScript->registerScriptFile('/js/jquery.lazyload.js'); 
 	?>
 	
 
@@ -10,6 +10,8 @@
     
     <script type="text/javascript">
         $(document).ready(function(){
+			
+		
             if($('.videoteaser').length){
                 $('.videoteaser .close-btn').click(function(e){
                     e.preventDefault();
@@ -29,21 +31,15 @@
                     }
                 });
             }
-			/*$(function() {
-				$("img.lazyload").lazyload({
-					effect      : "fadeIn",
-					event: "scroll",
-					callback: function(){
-						$('.b-market__middle-i').masonry('reload')
-					}
-				});
-			});*/
+			
            $(window).load(function(){
-				
+			//alert('init');
                 $('.b-market__middle-i').masonry({
                     itemSelector: '.b-market__item-preview'
                 })
             });
+			
+			
         });
     </script>
     <div class="b-market">

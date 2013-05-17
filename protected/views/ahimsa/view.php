@@ -93,7 +93,7 @@
         </div>
 		<?php if(Yii::app()->user->id != $model->user_id): ?>
 		<div class="b-market__item-bottom">
-            <a href="<?= Yii::app()->params['socialBaseUrl'] . '/messages/send/' . $model->user_id ?>" class="mes"><?= Yii::t('Yama', 'Написать ЛС'); ?></a>
+            <a href="<?= Yii::app()->params['socialBaseUrl'] . '/messages/send/' . $model->user_id . '?ahimsa=' . $model->id ?>" class="mes"><?= Yii::t('Yama', 'Написать ЛС'); ?></a>
             <div class="b-market__item-bottom-i">
                 <figure>
 					<?= UserService::printAvatar($users[$model->user_id]->id, $users[$model->user_id]->name, 30, true); ?>

@@ -277,6 +277,7 @@ class AhimsaController extends Controller
 		if(Adverts::$publicSizeTypes[$type]['op'] == 'crop'){
 				$img->crop(Adverts::$publicSizeTypes[$type]['x'], Adverts::$publicSizeTypes[$type]['y']);
 		}
+		//$img->addWatermark('YAMA.MIGOM.BY');
 		$img->quality(100);
 		FileServices::createDirectory($destanation);
 		$img->save($destanation . $image);

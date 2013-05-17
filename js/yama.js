@@ -40,9 +40,9 @@ YamaBy.index = {
 				}
 				$(State.data.selector).empty().append(State.data.html)
 				
-				if(State.data.selector == '.b-market__middle-i'){
+				//if(State.data.selector == '.b-market__middle-i'){
 					$('.b-market__middle-i').masonry('reload')
-				}
+				//}
 				
 				if(State.data.modal){
 					for(k in State.data.modal){
