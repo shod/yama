@@ -94,6 +94,7 @@ class SiteController extends Controller {
 			$this->description = $querySearch;
 			$adverts = $this->_prepareData($querySearch, Adverts::LIMIT + 1, $offset);
 		} elseif(!$user) {
+			
 			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts order by last_up desc limit 1');
 			$adverts = Adverts::model()->findAll(
 				array(
@@ -113,6 +114,8 @@ class SiteController extends Controller {
 					'params' => array(':uId' => $user),
 				));
 		}
+		
+		
 
 		$count = count($adverts);
 		$else = false;
@@ -143,6 +146,7 @@ class SiteController extends Controller {
 			echo CJSON::encode(array('else' => $else, 'offset' => $offset, 'selector' => '.b-market__middle-i', 'title' => $this->title, 'html' => $html));
 			Yii::app()->end();
 		}
+		
 		$html = $this->render('index', array(
 			'model'=>$adverts,
 			'query'=>$query,

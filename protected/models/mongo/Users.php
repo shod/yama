@@ -18,10 +18,12 @@ class Mongo_Users extends EMongoDocument {
     }
 	
 	public static function getUsers(array $ids){
+		
 		$ids = array_unique($ids);
 		//$criterea = new EMongoCriteria();
         //$criterea->addCond('id', 'in', $ids);
 		//$users = Mongo_Users::model()->findAll($criterea); // временная мера, нужно синхронихировать.
+		
 		$users = array();
 		$res = array();
 		foreach($users as $user){
@@ -30,6 +32,7 @@ class Mongo_Users extends EMongoDocument {
 		if(count($ids) == count($res)){
 			return $res;
 		}
+		
 		$needed = array();
 		foreach($ids as $id){
 			if(!isset($res[$id])){
@@ -43,8 +46,6 @@ class Mongo_Users extends EMongoDocument {
 		if(!$apiUsers){
 			return $res;
 		}
-		
-		
 		
 		$apiUsers = $apiUsers->message;
 		foreach($apiUsers as $apiUser){

@@ -1,5 +1,10 @@
 <?php
-define('YII_DEBUG',false);
+if(isset($_GET['debug'])){
+	define('YII_DEBUG',true);
+} else {
+	define('YII_DEBUG',false);
+}
+
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $yiiEx  = dirname(__FILE__) . '/../core/YiiBaseEx.php';
@@ -22,10 +27,11 @@ function autoload($className){
 
 require_once($yii);
 require_once($yiiEx);
-Yii::getLogger()->autoDump = true;
-Yii::getLogger()->autoFlush=1;
+
 Yii::setPathOfAlias("core", dirname(__FILE__).'/../core');
 $yii = Yii::createWebApplication($config);
 spl_autoload_unregister(array('YiiBase', 'autoload'));
 spl_autoload_register(array('YiiBaseEx', 'autoload'));
+Yii::getLogger()->autoDump = true;
+Yii::getLogger()->autoFlush=1;
 $yii->run();

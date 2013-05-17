@@ -21,6 +21,7 @@ class AhimsaController extends Controller
 		$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
 		$images = FileServices::getImagesFromDir($imageDir);
 		$auction = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
+		
 		$this->title = mb_substr($model->description, 0, 230);
 		$this->description = mb_substr($model->text, 0, 480);
 		
@@ -131,7 +132,7 @@ class AhimsaController extends Controller
 
 		$model->save();
 		
-		$regions = Regions::model()->findAll('parent_id = 1 OR to_menu = 1 OR id = :city ORDER BY to_menu DESC', array(':city' => $advert->region));
+		$regions = Regions::model()->findAll('parent_id = 1 OR to_menu = 1 ORDER BY to_menu DESC');
 
 		$this->render('create',array(
 			'model'=>$model,

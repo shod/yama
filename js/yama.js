@@ -66,14 +66,14 @@ YamaBy.index = {
 		
 		var resultAfterParse = this.parseUrl(window.location.search);
 		
-		var q = ''
-		var user = ''
+		var q = 'undefined'
+		var user = 'undefined'
 		if(resultAfterParse.q){
 			q = decodeURIComponent(resultAfterParse.q)
 			title = title + ' ' + q
 		}
 		
-		url = this.createUrl(Array())
+		url = this.createUrl(resultAfterParse)
 		
 		History.replaceState({"html":$(YamaBy.index._options.contentBlockSelector).html(), 'selector': YamaBy.index._options.contentBlockSelector, 'q': q, 'url': url, 'modal': YamaBy.index._openedModals}, title, url)
 		/*
@@ -181,7 +181,7 @@ YamaBy.index = {
 		url = this.createUrl(params, host)
 		window.location = url
 	},
-	createUrl: function(params, url){
+	createUrl: function(params, url, search){
 		resultAfterParse = this.parseUrl(window.location.search)
 		first = false
 		if(!url){
@@ -192,7 +192,7 @@ YamaBy.index = {
 		}
 		
 		for(var i in this._urlParams){
-			if(params[this._urlParams[i]]){
+			if(params[this._urlParams[i]] != 'undefined'){
 				resultAfterParse[this._urlParams[i]] = params[this._urlParams[i]]
 			}
 		}

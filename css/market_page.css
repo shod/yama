@@ -22,7 +22,7 @@
         .b-market__top-par dd .icon{width:21px;height:11px;margin:15px 0 0 -10px;background:url(../images/market_icons.png) no-repeat 0 -80px;left:50%;top:100%}        
 
 .b-market__top-search{margin: 8px 20px 0 0;float: left;width: 300px;padding: 2px 35px 2px 9px;float: left;position: relative;}                
-    .b-market__top-search input{width:300px;height:24px;margin:0;padding:2px 35px 2px 9px;border:1px solid #bec0c2;outline:none;line-height:21px}                
+    .b-market__top-search input{width:270px;height:24px;margin:0;padding:2px 35px 2px 9px;border:1px solid #bec0c2;outline:none;line-height:21px}                
     .b-market__top-search .btn-search{width:auto;padding:0;margin:0;background-color:transparent;border:0 none;outline:medium none;overflow:visible;cursor:pointer;zoom:1;white-space:nowrap}                
     .b-market__top-search .btn-search{position:absolute;top:0;right:0}                
     .b-market__top-search .btn-search::-moz-focus-inner{padding:0px;border:0px;cursor:pointer}                
