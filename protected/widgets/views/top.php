@@ -7,10 +7,10 @@
 		<dd>
 			<!--<a href="#">вся Беларусь</a>-->
 			    <div class="dropdown">
-					<a class="dropdown-toggle" param="region" data-toggle="dropdown" href="#"><?= Yii::app()->request->getParam('region', $this->regionTitle, 'string') ?></a>
+					<a class="dropdown-toggle" param="region" data-toggle="dropdown" href="#"><?= ($this->region) ? $this->region->title : $this->regionTitle ?></a>
 					<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 					<?php foreach($regions as $region):?>
-						<li><?= $region['title'] ?></li>
+						<li data-id="<?= $region['id'] ?>"><?= $region['title'] ?></li>
 					<?php endforeach; ?>
 					</ul>
 				</div>
@@ -29,10 +29,10 @@
 		<dd>
 			<!--<a href="" >Электроника</a><small>23401 товар</small><i class="icon arr"></i>-->
 			<div class="dropdown">
-				<a class="dropdown-toggle-cat" param="category" data-toggle="dropdown" href="#"><?= Yii::app()->request->getParam('category', $this->categoryTitle, 'string') ?></a>
+				<a class="dropdown-toggle-cat" param="category" data-toggle="dropdown" href="#"><?= ($this->category) ? $this->category->title : $this->categoryTitle ?></a>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
 				<?php foreach($categories as $cat):?>
-					<li><?= $cat['title'] ?></li>
+					<li data-id="<?= $cat['id'] ?>"><?= $cat['title'] ?></li>
 				<?php endforeach; ?>
 				</ul>
 			</div>

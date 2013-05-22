@@ -12,6 +12,7 @@ class Adverts_Temp extends ActiveRecord
 {
 
 	public $free;
+	public $phone_postfix;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -67,7 +68,7 @@ class Adverts_Temp extends ActiveRecord
 	{
 		$phone = str_replace(array('(',')','+375','-'), '', $this->phone);
 		if(strlen($phone) != $params['length'] && strlen($phone) > 0){
-			$this->addError($attribute, Yii::t('Site', 'Телефон введен не верно'));
+			$this->addError('phone_postfix', Yii::t('Site', 'Телефон введен не верно'));
 		}
 		$this->phone = $phone;
 	}

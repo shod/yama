@@ -22,6 +22,7 @@ class Adverts extends ActiveRecord
 		'view' => array('x' => 640, 'y' => 1500, 'op' => 'min'),
 	);
 	public $free;
+	public $phone_postfix;
 
 	/**
 	 * Returns the static model of the specified AR class.
@@ -78,9 +79,10 @@ class Adverts extends ActiveRecord
 	
 	public function phone($attribute,$params)
 	{
-		$phone = str_replace(array('(',')','+375','-'), '', $this->phone);
+		
+		$phone = str_replace(array('(',')','+375','-', ' '), '', $this->phone);
 		if(strlen($phone) != $params['length'] && strlen($phone) > 0 && $phone){
-			$this->addError($attribute, Yii::t('Site', 'Телефон введен не верно'));
+			$this->addError('phone_postfix', Yii::t('Site', 'Телефон введен не верно'));
 		}
 		$this->phone = $phone;
 	}

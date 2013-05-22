@@ -43,15 +43,7 @@
         });
     </script>
     <div class="b-market">
-        <?php Widget::create('YamaTop', 'yamatop', array('query' => $query))->html() ?>
-		<?php if(count($categories)): ?>
-        <!--<ul class="b-market__tags-line">
-			<?php foreach($categories as $cat):?>
-				<li><?= CHtml::link($cat->title, array('/site/index', 'q' => $cat->title)); ?></li>
-			<?php endforeach; ?>
-            <li class="last"><a href="#">Еще 120 уточнений</a></li>
-        </ul>-->
-		<?php endif; ?>
+        <?php Widget::create('YamaTop', 'yamatop', array('query' => $query, 'region' => $region, 'category' => $category))->html() ?>
 		<!--
         <aside class="b-market__banner-1">
             <a href="#">Купить баннер в разделе «Электроника» с 11 по 17 марта</a>
@@ -59,7 +51,7 @@
 		-->
         <div class="b-market__middle">
             <div class="b-market__middle-i">
-				<?php	$this->renderPartial('list', array('model' => $model, 'users' => $users, 'else' => $else)); ?>
+				<?php	$this->renderPartial('list', array('model' => $model, 'users' => $users, 'else' => $else, 'aViews' => $aViews)); ?>
             </div>
 			<a href="javascript:void(0)" class="more-items-btn" offset-value="<?= $offset ?>" <?php if(!$else): ?>style="display:none;"<?php endif; ?>><span>Ещё объявления</span></a>
         </div>

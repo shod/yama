@@ -192,7 +192,7 @@ YamaBy.index = {
 		}
 		
 		for(var i in this._urlParams){
-			if(params[this._urlParams[i]] != 'undefined'){
+			if((params[this._urlParams[i]] && params[this._urlParams[i]] != 'undefined') || params[this._urlParams[i]] == ''){
 				resultAfterParse[this._urlParams[i]] = params[this._urlParams[i]]
 			}
 		}
