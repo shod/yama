@@ -1,9 +1,5 @@
 <?php
-if(isset($_GET['debug'])){
 	define('YII_DEBUG',true);
-} else {
-	define('YII_DEBUG',false);
-}
 
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';

@@ -117,7 +117,7 @@
 			a = $(this).parent().parent().find('a')
 			a.html($(this).html())
 			var param = new Array()
-			param[a.attr('param')] = a.html()
+			param[a.attr('param')] = $(this).attr('data-id')
 			YamaBy.index.changeLocation(param)
 		})
 		

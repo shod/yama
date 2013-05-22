@@ -1,6 +1,6 @@
 <div class="b-market__item <?php if($popup): ?>pop-up active<?php endif; ?>" id="<?= $model->id ?>">
 	<?php if(!$popup): ?>
-		<?php Widget::create('YamaTop', 'yamatop', array('category' => $model->category, 'region' => $model->region))->html(); ?>
+		<?php Widget::create('YamaTop', 'yamatop', array('category_id' => $model->category, 'region_id' => $model->region))->html(); ?>
 		<?php 
 			Yii::app()->clientScript->registerScript('yamatop', "
 				jQuery('#searchYama').on('change', function(){
@@ -108,9 +108,8 @@
         </div>
 		<?php endif; ?>
 		
-		<?php Widget::create('WComments', 'wcomments', array('entity' => 'adverts',
-															'id' => $model->id,
-															'title' => ''))->html(false); ?>
+		{{#comments}}
+		
         <!--<div class="b-market__related-items">
             <h2 class="b-market__related-items-title">Похожие объявления<i class="icon"></i></h2>
             <article>

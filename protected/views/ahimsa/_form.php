@@ -237,7 +237,8 @@
 					<?php $prefix = substr($phone, 0, 2) ?>
 					<?php $phone = substr($phone, 2) ?>
 					<?= CHtml::dropDownList('phone_prefix', $prefix, array('' => '', 29 => 29, 25 => 25, 33 => 33, 44 => 44)) ?>
-					<input class="value-4" type="text" name="phone_postfix" placeholder="" maxlength="7" value="<?= $phone ?>">
+					<?php echo $form->textField($model,'phone_postfix', array('class' => 'value-4', 'maxlength' => 7, 'value' => $phone)); ?>
+					<?php echo $form->error($model,'phone_postfix'); ?>
 				</div>
 				<figure>
 					<div>

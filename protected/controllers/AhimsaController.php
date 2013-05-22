@@ -18,46 +18,88 @@ class AhimsaController extends Controller
 	public function actionView($id)
 	{
 		$model = Adverts::model()->findByPk($id);
-		$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
-		$images = FileServices::getImagesFromDir($imageDir);
-		$auction = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
 		
-		$this->title = mb_substr($model->description, 0, 230);
-		$this->description = mb_substr($model->text, 0, 480);
-		
-		$auctFlag = true;
-		$uids = array();
-		
-		foreach($auction as $auct){
-			$uids[$auct->user_id] = $auct->user_id;
-			if($auct->user_id == Yii::app()->user->id){
-				$auctFlag = false;
-			}
+		if(!$model){
+			throw new CHttpException(404, 'Страница не найдена');
 		}
-		$uids[$model->user_id] = $model->user_id;
-		$users = Mongo_Users::getUsers($uids);
-	
-		if(Yii::app()->getRequest()->isAjaxRequest){
-			$html = $this->renderPartial('view',array(
+		
+		$criterea = new EMongoCriteria();
+        $criterea->addCond('id', '==', $model->id);
+		$views = Mongo_Views::model()->find($criterea);
+		if(!$views){
+			$views = new Mongo_Views();
+			$views->count = 1;
+			$views->id = $model->id;
+		} else {
+			$views->count++;
+		}
+		$views->last_time = time();
+		$views->save();
+		
+		$comments = Widget::create('WComments', 'wcomments', 
+			array(
+				'entity' => 'adverts',
+				'id' => $model->id,
+				'title' => ''
+			))->html(true);
+		
+		$cache_key = 'ahimsa_' . $model->id;
+		if(Yii::app()->request->isAjaxRequest){
+			$cache_key .= '_ajax';
+		}
+		if(Yii::app()->user->id == $model->id){
+			$cache_key .= '_my';
+		}
+		
+		$html = false;//Yii::app()->fileCache->get($cache_key);
+		if(!$html){
+		
+			$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
+			$images = FileServices::getImagesFromDir($imageDir);
+			$auction = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
+			
+			$this->title = mb_substr($model->description, 0, 230);
+			$this->description = mb_substr($model->text, 0, 480);
+			
+			$auctFlag = true;
+			$uids = array();
+			
+			foreach($auction as $auct){
+				$uids[$auct->user_id] = $auct->user_id;
+				if($auct->user_id == Yii::app()->user->id){
+					$auctFlag = false;
+				}
+			}
+			$uids[$model->user_id] = $model->user_id;
+			$users = Mongo_Users::getUsers($uids);
+			
+			$viewParams = array(
 				'model'=>$model,
 				'images'=>$images,
 				'users'=>$users,
-				'popup'=>true,
 				'auction' => $auction,
 				'auctFlag' => $auctFlag,
-			), true, false);
+			);
+		}
+		if(Yii::app()->getRequest()->isAjaxRequest){
+			if(!$html){
+				$viewParams['popup'] = true;
+				$html = $this->renderPartial('view',$viewParams, true, false);
+				Yii::app()->fileCache->set($cache_key, $html, '', new CDbCacheDependency('select updated_at from adverts where id = ' . $model->id));
+			}
+			$html = str_replace('{{#comments}}', $comments, $html);
 			echo CJSON::encode(array('selector' => '#itemWindow .content', 'title' => $this->title, 'description' => $this->description, 'html' => $html));
 			Yii::app()->end();
 		}
-
-		$this->render('view',array(
-			'model'=>$model,
-			'images'=>$images,
-			'users'=>$users,
-			'popup'=>false,
-			'auction'=>$auction,
-			'auctFlag' => $auctFlag,
-		));
+		
+		if(!$html){
+			$viewParams['popup'] = false;
+			$html = $this->render('view',$viewParams, true, true);
+			Yii::app()->fileCache->set($cache_key, $html, '', new CDbCacheDependency('select updated_at from adverts where id = ' . $model->id));
+		}
+		
+		$html = str_replace('{{#comments}}', $comments, $html);
+		echo $html;
 	}
 
 	/**
@@ -75,8 +117,8 @@ class AhimsaController extends Controller
 		$model=new Adverts_Temp('new');
 		$model->user_id = Yii::app()->user->id;
 		
-		if($_POST){
-			$model->phone = $_POST['phone_prefix'] . $_POST['phone_postfix'];
+		if($_POST && isset($_POST['Adverts_Temp'])){
+			$model->phone = $_POST['phone_prefix'] . $_POST['Adverts_Temp']['phone_postfix'];
 			$model->free = $_POST['Adverts_Temp']['free'];
 		}
 
@@ -111,7 +153,7 @@ class AhimsaController extends Controller
 			}
 
 			$model->attributes = $_POST['Adverts_Temp'];
-			$model->phone = $_POST['phone_prefix'] . $_POST['phone_postfix'];
+			$model->phone = $_POST['phone_prefix'] . $_POST['Adverts_Temp']['phone_postfix'];
 			$model->free = $_POST['Adverts_Temp']['free'];
 
 			if($model->validate()){
@@ -185,6 +227,11 @@ class AhimsaController extends Controller
 			}
 		}
 
+		if($_POST && isset($_POST['Adverts'])){
+			$model->phone = $_POST['phone_prefix'] . $_POST['Adverts']['phone_postfix'];
+			$model->free = $_POST['Adverts']['free'];
+		}
+		
 		if (Yii::app()->getRequest()->isAjaxRequest) {
             echo CActiveForm::validate($model);
             Yii::app()->end();
@@ -193,7 +240,7 @@ class AhimsaController extends Controller
 		if(isset($_POST['Adverts']))
 		{
 			$model->attributes=$_POST['Adverts'];
-			$model->phone = $_POST['phone_prefix'] . $_POST['phone_postfix'];
+			$model->phone = $_POST['phone_prefix'] . $_POST['Adverts']['phone_postfix'];
 			$model->free = $_POST['Adverts']['free'];
 			if($model->save()){
 				$tags = Tags::model();

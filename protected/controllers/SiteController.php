@@ -30,7 +30,7 @@ class SiteController extends Controller {
         );
     }
 	
-	protected function _prepareData($text, $limit = 10, $offset = 0){
+	protected function _prepareData($text, $limit = 10, $offset = 0, $region = 0, $category = 0){
 		if(!$entities = Tags::model()->getSearch(array('text' => $text, 'entity_type_id' => 4))){
 			return array();
 		}
@@ -52,8 +52,15 @@ class SiteController extends Controller {
 		}
 		
 		$sIds = implode(',', $ids);
+		$condition = "id IN ({$sIds}) AND status = 1";
+		if($region){
+			$condition .= ' AND region = ' . $region->id;
+		}
+		if($category){
+			$condition .= ' AND category = ' . $category->id;
+		}
 		$model = Adverts::model()->findAll(
-			array('condition' => "id IN ({$sIds}) AND status = 1", 'order' => 'last_up DESC', 'limit' => $limit, 'offset' => $offset));
+			array('condition' => $condition, 'order' => 'last_up DESC', 'limit' => $limit, 'offset' => $offset));
 		$res = array();
 		krsort($levels);
 		
@@ -75,39 +82,52 @@ class SiteController extends Controller {
 		$query = Yii::app()->request->getParam('q', '', 'string');
 		$offset = Yii::app()->request->getParam('offset', 0, 'int');
 		$user = Yii::app()->request->getParam('user', 0, 'int');
-		$category = Yii::app()->request->getParam('category', 0, 'string');
-		$region = Yii::app()->request->getParam('region', 0, 'string');
+		$category = Yii::app()->request->getParam('category', 0, 'int');
+		$region = Yii::app()->request->getParam('region', 0, 'int');
 		//$cacheKey = $query . '|#|' . $offset . '|#|' . $user . 'eugen_was_here:)';
 		// start to cache!!
 		
-		$querySearch = $query;
+		if($region){
+			$region = Regions::model()->findByPk($region);
+		}
 		
 		if($category){
-			$querySearch = $querySearch . ' ' . $category;
-		}
-		if($region){
-			$querySearch = $querySearch . ' ' . $region;
+			$category = Categories::model()->findByPk($category);
 		}
 	
-		if($querySearch){
+		if($query){
 			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts order by last_up desc limit 1');
-			$this->description = $querySearch;
-			$adverts = $this->_prepareData($querySearch, Adverts::LIMIT + 1, $offset);
+			$this->description = $query;
+			$adverts = $this->_prepareData($query, Adverts::LIMIT + 1, $offset, $region, $category);
 		} elseif(!$user) {
 			
 			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts order by last_up desc limit 1');
+			$condition = "status = 1";
+			if($region){
+				$condition .= ' AND region = ' . $region->id;
+			}
+			if($category){
+				$condition .= ' AND category = ' . $category->id;
+			}
 			$adverts = Adverts::model()->findAll(
 				array(
-					'condition' => 'status = 1',
+					'condition' => $condition,
 					'order' => 'last_up DESC',
 					'limit' => Adverts::LIMIT + 1,
 					'offset' => $offset,
 				));
 		} else {
 			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts where user_id = '.$user.' order by last_up desc limit 1');
+			$condition = "user_id = :uId";
+			if($region){
+				$condition .= ' AND region = ' . $region->id;
+			}
+			if($category){
+				$condition .= ' AND category = ' . $category->id;
+			}
 			$adverts = Adverts::model()->findAll(
 				array(
-					'condition' => 'user_id = :uId',
+					'condition' => $condition,
 					'order' => 'last_up DESC',
 					'limit' => Adverts::LIMIT + 1,
 					'offset' => $offset,
@@ -124,7 +144,6 @@ class SiteController extends Controller {
 			array_pop($adverts);
 		}
 		$offset = Adverts::LIMIT + $offset;
-		$categories = array();
 		$uids = array();
 		$catIds = array();
 		foreach($adverts as $adv){
@@ -132,9 +151,6 @@ class SiteController extends Controller {
 			$catIds[] = $adv->category;
 		}
 		array_unique($catIds);
-		if(count($catIds) && !$query){
-			$categories = Categories::model()->findAll('id != 0 AND id in ('.implode(',', $catIds).')');
-		}
 		
 		$users = Mongo_Users::getUsers($uids);
 
@@ -153,7 +169,8 @@ class SiteController extends Controller {
 			'users'=>$users,
 			'else' => $else,
 			'offset' => $offset,
-			'categories' => $categories,
+			'region' => $region,
+			'category' => $category,
 		), true, true);
 		//Yii::app()->cache->set($cacheKey, $html, '', $dependency);
 		echo $html;
