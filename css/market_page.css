@@ -79,6 +79,8 @@ nav .b-market__top{float:right;padding: 0px 30px 0;}
             .b-market__item-preview .info .up b{font-weight:bold}    
         .b-market__item-preview .info .comments{padding:0 15px 0 0;float:right;position:relative;font:normal 11px Tahoma,Verdana,Arial,Sans-serif;color:#3a5f85}
             .b-market__item-preview .info .comments .icon{width:11px;height:10px;background:url(../images/market_icons.png) no-repeat 0 -20px;top:3px;right:0}
+		.b-market__item-preview .info .views{padding:0 15px 0 0;float:right;position:relative;font:normal 11px Tahoma,Verdana,Arial,Sans-serif;color:#3a5f85}
+            .b-market__item-preview .info .views .icon{width:12px;height:10px;background:url(../images/market_icons.png) no-repeat -30px -178px;top:3px;right:0}
         .b-market__item-preview .info .arr{width:11px;height:10px;background:url(../images/market_icons.png) no-repeat -20px -20px;top:100%;left:49px}        
     .b-market__item-preview .author{padding:8px 10px 9px 49px;overflow:hidden;zoom:1; color:#000}
 	.b-market__item-preview .author a{color:#000}

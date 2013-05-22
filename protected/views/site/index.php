@@ -51,7 +51,7 @@
 		-->
         <div class="b-market__middle">
             <div class="b-market__middle-i">
-				<?php	$this->renderPartial('list', array('model' => $model, 'users' => $users, 'else' => $else)); ?>
+				<?php	$this->renderPartial('list', array('model' => $model, 'users' => $users, 'else' => $else, 'aViews' => $aViews)); ?>
             </div>
 			<a href="javascript:void(0)" class="more-items-btn" offset-value="<?= $offset ?>" <?php if(!$else): ?>style="display:none;"<?php endif; ?>><span>Ещё объявления</span></a>
         </div>

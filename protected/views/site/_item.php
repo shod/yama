@@ -28,6 +28,9 @@
 			</span>
 			<!--<span class="up">1 <b>UP</b></span>-->
 			<!--<span class="comments">214<i class="icon"></i></span>-->
+			<?php if(isset($aViews[$data->id])): ?>
+				<span class="views"><?= $aViews[$data->id]->count ?><i class="icon"></i></span>
+			<?php endif; ?>
 			<i class="icon arr"></i>
 		</div>
 		<div class="author">

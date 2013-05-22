@@ -68,7 +68,7 @@ class SiteController extends Controller {
 			foreach($model as $k => $m){
 				foreach($entities as $ent){
 					if($ent->id == $m->id && $l == $ent->weight){
-						$res[] = $m;
+						$res[$m->id] = $m;
 						unset($model[$k]);
 					}
 				}
@@ -134,8 +134,6 @@ class SiteController extends Controller {
 					'params' => array(':uId' => $user),
 				));
 		}
-		
-		
 
 		$count = count($adverts);
 		$else = false;
@@ -144,12 +142,23 @@ class SiteController extends Controller {
 			array_pop($adverts);
 		}
 		$offset = Adverts::LIMIT + $offset;
+		$aIds = array();
 		$uids = array();
 		$catIds = array();
 		foreach($adverts as $adv){
+			$aIds[] = $adv->id;
 			$uids[] = $adv->user_id;
 			$catIds[] = $adv->category;
 		}
+		
+		$criterea = new EMongoCriteria();
+        $criterea->addCond('id', 'in', $aIds);
+		$views = Mongo_Views::model()->findAll($criterea);
+		$aViews = array();
+		foreach($views as $v){
+			$aViews[$v->id] = $v;
+		}
+		
 		array_unique($catIds);
 		
 		$users = Mongo_Users::getUsers($uids);
@@ -158,6 +167,7 @@ class SiteController extends Controller {
 			$html = $this->renderPartial('list', array(
 				'model'=>$adverts,
 				'users'=>$users,
+				'aViews' => $aViews,
 			), true, true);
 			echo CJSON::encode(array('else' => $else, 'offset' => $offset, 'selector' => '.b-market__middle-i', 'title' => $this->title, 'html' => $html));
 			Yii::app()->end();
@@ -171,6 +181,7 @@ class SiteController extends Controller {
 			'offset' => $offset,
 			'region' => $region,
 			'category' => $category,
+			'aViews' => $aViews,
 		), true, true);
 		//Yii::app()->cache->set($cacheKey, $html, '', $dependency);
 		echo $html;
