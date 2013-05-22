@@ -67,7 +67,7 @@ class CommentsController extends Controller {
 		Widget::create('WComments', 'wcomments', array('entity' => $entity, 'id' => $_POST['entity_id']))->deleteCache();
 
 		$model = Comments::model();
-		//$model->debug = 1;
+		
 		$return = $model->postEntity($entity, $params);
 	    $owner_data = array();
 		$data = array();

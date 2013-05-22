@@ -21,7 +21,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'error', 'search', 'subscribe'),
+                'actions' => array('index', 'error', 'search', 'subscribe', 'info'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -187,4 +187,8 @@ class SiteController extends Controller {
                 $this->render('error', $error);
         }
     }
+	
+	public function actionInfo(){
+		phpinfo();
+	}
 }
