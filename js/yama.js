@@ -54,7 +54,10 @@ YamaBy.index = {
 				if(State.data.q !== null){
 					$(YamaBy.index._options.searchField).attr('value', State.data.q)
 				}
-				YamaBy.index._openedModals = State.data.modal
+				if(State.data.modal){
+					YamaBy.index._openedModals = State.data.modal
+				}
+				
 			}
 		};
 
@@ -105,7 +108,7 @@ YamaBy.index = {
 					YamaBy.index._openedModals[YamaBy.index._openedModals.length] = o.id
 				}
 				response = jQuery.parseJSON(data)
-				response.modal = YamaBy.index._openedModals
+				//response.modal = YamaBy.index._openedModals
 				YamaBy.index.addToHistory(response, url)
 			})
 			return false;

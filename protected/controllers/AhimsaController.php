@@ -51,25 +51,19 @@ class AhimsaController extends Controller
 			$cache_key .= '_my';
 		}
 		
-		$html = false;//Yii::app()->fileCache->get($cache_key);
+		$autions = Widget::create('AuctionsList', 'auction', array('advert' => $model))->html(true);
+		
+		
+		$html = Yii::app()->fileCache->get($cache_key);
 		if(!$html){
 		
 			$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
 			$images = FileServices::getImagesFromDir($imageDir);
-			$auction = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
 			
 			$this->title = mb_substr($model->description, 0, 230);
 			$this->description = mb_substr($model->text, 0, 480);
 			
 			$auctFlag = true;
-			$uids = array();
-			
-			foreach($auction as $auct){
-				$uids[$auct->user_id] = $auct->user_id;
-				if($auct->user_id == Yii::app()->user->id){
-					$auctFlag = false;
-				}
-			}
 			$uids[$model->user_id] = $model->user_id;
 			$users = Mongo_Users::getUsers($uids);
 			
@@ -77,7 +71,6 @@ class AhimsaController extends Controller
 				'model'=>$model,
 				'images'=>$images,
 				'users'=>$users,
-				'auction' => $auction,
 				'auctFlag' => $auctFlag,
 			);
 		}
@@ -88,6 +81,7 @@ class AhimsaController extends Controller
 				Yii::app()->fileCache->set($cache_key, $html, '', new CDbCacheDependency('select updated_at from adverts where id = ' . $model->id));
 			}
 			$html = str_replace('{{#comments}}', $comments, $html);
+			$html = str_replace('{{#auctions}}', $autions, $html);
 			echo CJSON::encode(array('selector' => '#itemWindow .content', 'title' => $this->title, 'description' => $this->description, 'html' => $html));
 			Yii::app()->end();
 		}
@@ -99,6 +93,7 @@ class AhimsaController extends Controller
 		}
 		
 		$html = str_replace('{{#comments}}', $comments, $html);
+		$html = str_replace('{{#auctions}}', $autions, $html);
 		echo $html;
 	}
 
@@ -425,13 +420,10 @@ class AhimsaController extends Controller
 		$auction->user_id = Yii::app()->user->id;
 
 		if($auction->save()){
-			$auctions = Auction::model()->findAll('advert_id = :id', array(':id' => $id));
-			foreach($auctions as $auct){
-				$uids[$auct->user_id] = $auct->user_id;
-			}
 			
-			$users = Mongo_Users::getUsers($uids);
-			$res = array('success' => true, 'content' => $this->renderPartial('auctionPost', array('auctions' => $auctions, 'users' => $users), true, true));
+			$html = Widget::create('AuctionsList', 'auction', array('advert' => $advert, 'update' => true))->html(true);
+			
+			$res = array('success' => true, 'content' => $html);
 		}
 
 		echo CJSON::encode($res);

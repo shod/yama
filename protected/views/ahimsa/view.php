@@ -81,15 +81,7 @@
 			<?php else: ?>
 				<span class="price"><?= Yii::t('Yama', 'Отдаю даром'); ?></span>
 			<?php endif;?>
-            <ul class="offer-list" <?php if(!count($auction)): ?>style="opacity:0;"<?php endif; ?>>
-				<?php foreach($auction as $auc): ?>
-                <li>
-					<a href="<?= Yii::app()->params['socialBaseUrl'] . '/user/' . $auc->user_id ?>">
-						<?= $users[$auc->user_id]->name ?>
-					</a> <?= Yii::t('Yama', 'купит за'); ?> <b><?= $auc->price ?></b> <?= Adverts::$currencySymbol[$model->currency]; ?>
-				</li>
-				<?php endforeach; ?>
-            </ul>
+			{{#auctions}}
         </div>
 		<?php if(Yii::app()->user->id != $model->user_id): ?>
 		<div class="b-market__item-bottom">

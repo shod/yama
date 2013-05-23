@@ -14,5 +14,4 @@ class Advert extends QWidget {
 			'images'=>$images,
 		));
 	}
-
 }

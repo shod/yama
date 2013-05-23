@@ -55,6 +55,19 @@ class Auction extends CActiveRecord
 		return array(
 		);
 	}
+	
+	protected function beforeSave()
+    {
+        if ($this->getIsNewRecord()) {
+            if ($this->hasAttribute('created_at')) {
+                $this->created_at = time();
+            }
+        }
+		if ($this->hasAttribute('updated_at')) {
+			$this->updated_at = time();
+		}
+        return parent::beforeSave();
+    }
 
 	/**
 	 * @return array customized attribute labels (name=>label)
