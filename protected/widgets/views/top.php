@@ -44,7 +44,7 @@
 	<div class="right">
 		<div class="b-market__top-search">
 			<form action="" method="" id="">
-				<?= CHtml::textField('searchYama', $query, array('size' => '100', 'id' => 'searchYama', 'class' => 'search ', 'placeholder' => Yii::t('Yama', 'Искать'))) ?>
+				<?= CHtml::textField('searchYama', $query, array('size' => '100', 'id' => 'searchYama', 'class' => 'search ', 'placeholder' => (!$query) ? Yii::t('Yama', 'Искать') : '')) ?>
 				<input class="seachline-dis searchYama-dis" value="" dir="ltr">
 				<button class="btn-search" type="submit" title="Поиск" onclick="return false;" onsubmit="return false;"><span>Поиск</span></button>  
 			</form>

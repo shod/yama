@@ -6,3 +6,14 @@
 	foreach($model as $m){
 		$this->renderPartial('_item', array('data' => $m, 'users' => $users, 'aViews' => $aViews));
 	}
+?>
+<script>
+	$('.b-market__middle-i').masonry()
+	$("img.lazyload")
+		 .lazyload({
+			 event: "lazyload",
+			 effect: "fadeIn",
+			 effectspeed: 2000
+		   })
+		 .trigger("lazyload")
+</script>

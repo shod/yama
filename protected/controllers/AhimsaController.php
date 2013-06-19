@@ -40,28 +40,32 @@ class AhimsaController extends Controller
 			array(
 				'entity' => 'adverts',
 				'id' => $model->id,
-				'title' => ''
+				'title' => false
 			))->html(true);
 		
-		$cache_key = 'ahimsa_' . $model->id;
+		$cache_key = 'ahimsa_' . $model->id . '_' . Yii::app()->user->isGuest;
 		if(Yii::app()->request->isAjaxRequest){
 			$cache_key .= '_ajax';
 		}
-		if(Yii::app()->user->id == $model->id){
+		if(Yii::app()->user->id == $model->user_id){
 			$cache_key .= '_my';
 		}
 		
 		$autions = Widget::create('AuctionsList', 'auction', array('advert' => $model))->html(true);
 		
+		$html = false;
+		if(Yii::app()->getRequest()->isAjaxRequest){
+			//$html = Yii::app()->fileCache->get($cache_key);
+		}
 		
-		$html = Yii::app()->fileCache->get($cache_key);
+		
 		if(!$html){
 		
 			$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
 			$images = FileServices::getImagesFromDir($imageDir);
 			
-			$this->title = mb_substr($model->description, 0, 230);
-			$this->description = mb_substr($model->text, 0, 480);
+			$this->title = mb_substr($model->description, 0, 230, 'UTF-8');
+			$this->description = mb_substr($model->text, 0, 480, 'UTF-8');
 			
 			$auctFlag = true;
 			$uids[$model->user_id] = $model->user_id;
@@ -78,7 +82,7 @@ class AhimsaController extends Controller
 			if(!$html){
 				$viewParams['popup'] = true;
 				$html = $this->renderPartial('view',$viewParams, true, false);
-				Yii::app()->fileCache->set($cache_key, $html, '', new CDbCacheDependency('select updated_at from adverts where id = ' . $model->id));
+				Yii::app()->fileCache->set($cache_key, $html, 3600*12, new CDbCacheDependency('select updated_at from adverts where id = ' . $model->id));
 			}
 			$html = str_replace('{{#comments}}', $comments, $html);
 			$html = str_replace('{{#auctions}}', $autions, $html);
@@ -89,7 +93,7 @@ class AhimsaController extends Controller
 		if(!$html){
 			$viewParams['popup'] = false;
 			$html = $this->render('view',$viewParams, true, true);
-			Yii::app()->fileCache->set($cache_key, $html, '', new CDbCacheDependency('select updated_at from adverts where id = ' . $model->id));
+			Yii::app()->fileCache->set($cache_key, $html, 3600*12, new CDbCacheDependency('select updated_at from adverts where id = ' . $model->id));
 		}
 		
 		$html = str_replace('{{#comments}}', $comments, $html);
@@ -157,11 +161,18 @@ class AhimsaController extends Controller
 				$publicModel->free = $model->free;
 				
 				if($publicModel->save()){
+					if($publicModel->image){
+						ImagesService::resizeAdvertIndexImage($publicModel);
+						$file = Yii::app()->basePath . '/..' . Adverts::IMAGE_PATH . '/' . $publicModel->id . '/index/' . $publicModel->image;
+						$publicModel->image_y = FileServices::getImageHeight($file);
+						$publicModel->save();
+					}
 					$tags = Tags::model();
 					$textToTags = $publicModel->text . ' ' . $publicModel->description;
 					$textToTags = $textToTags . ' ' . Regions::model()->findByPk($publicModel->region)->title;
 					$textToTags = $textToTags . ' ' . Categories::model()->findByPk($publicModel->category)->title;
 					$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $publicModel->id));
+					Api_SubscribeEvents::model()->postEvent($publicModel->id, array('entity_type_id' => 4));
 				}
 				$this->redirect('/');
 			}
@@ -197,10 +208,11 @@ class AhimsaController extends Controller
 		
 		$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
 		$images = FileServices::getImagesFromDir($imageDir);
-		
-		if($k = in_array($model->image, $images)){
-			unset($images[$k-1]);
+		$k = array_search($model->image, $images);
+		if(isset($images[$k])){
+			unset($images[$k]);
 		}
+		
 		sort($images);
 		
 		$infoProd = Info_Products::model();
@@ -237,6 +249,14 @@ class AhimsaController extends Controller
 			$model->attributes=$_POST['Adverts'];
 			$model->phone = $_POST['phone_prefix'] . $_POST['Adverts']['phone_postfix'];
 			$model->free = $_POST['Adverts']['free'];
+			
+			if($model->image){
+				ImagesService::resizeAdvertIndexImage($model);
+				$file = Yii::app()->basePath . '/..' . Adverts::IMAGE_PATH . '/' . $model->id . '/index/' . $model->image;
+				$model->image_y = FileServices::getImageHeight($file);
+				
+			}
+			
 			if($model->save()){
 				$tags = Tags::model();
 				$textToTags = $model->text . ' ' . $model->description;
@@ -313,12 +333,22 @@ class AhimsaController extends Controller
 		
 		$img = Yii::app()->image->load($file);
 		$resizeType = Image::MAX;
-		if($type == 'view'){
+		if($type == 'view' || $type == 'index'){
 			$resizeType = Image::NO_MORE;
 		}
 		$img->resize(Adverts::$publicSizeTypes[$type]['x'], Adverts::$publicSizeTypes[$type]['y'], $resizeType);
 		if(Adverts::$publicSizeTypes[$type]['op'] == 'crop'){
 				$img->crop(Adverts::$publicSizeTypes[$type]['x'], Adverts::$publicSizeTypes[$type]['y']);
+		}
+		if($type == 'view'){
+			$text = 'yama.migom.by';
+			$advert = Adverts::model()->findByPk($id);
+			$user = Users::model()->getInfo($advert->user_id);
+			if($user && $user->success && isset($user->message)){
+				$text = $user->message->fullname . ' для ' . $text;
+			}
+			
+			$img->addWatermark($text);
 		}
 		//$img->addWatermark('YAMA.MIGOM.BY');
 		$img->quality(100);
@@ -441,7 +471,7 @@ class AhimsaController extends Controller
 	public function actionUp($id){
 		$id = Yii::app()->request->getParam('id', 0, 'int');
 		$adv = Adverts::model()->findByPk($id);
-		$res = array('success' => false);
+		$res = array('success' => false, 'user' => time() - 3600*24);
 		if($adv->user_id == Yii::app()->user->id && $adv->last_up < time() - 3600*24){
 			$adv->last_up = time();
 			$adv->save();
@@ -511,9 +541,12 @@ class AhimsaController extends Controller
 			$images = FileServices::getImagesFromDir($imageDir);
 			$model->scenario = 'specialUpdate';
 			if(!count($images)){
+				$model->image_y = 0;
 				$model->image = '';
 			} else {
 				$model->image = array_shift($images);
+				$file = $dir . $model->image;
+				$model->image_y = FileServices::getImageHeight($file);
 			}
 			$model->save();
 		}

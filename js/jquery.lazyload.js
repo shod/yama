@@ -148,9 +148,9 @@
         }
 
         /* Force initial check if images should appear. */
-        $(window).load(function() {
+        //$(window).load(function() {
             update();
-        });
+        //});
         settings.callback()
         return this;
     };

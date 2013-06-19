@@ -55,13 +55,12 @@
             </div>
 			<a href="javascript:void(0)" class="more-items-btn" offset-value="<?= $offset ?>" <?php if(!$else): ?>style="display:none;"<?php endif; ?>><span>Ещё объявления</span></a>
         </div>
-        <div class="b-market__bottom">
+        <div class="b-market__bottom" <?php if(!Yii::app()->request->getParam('q')): ?>style="display:none;"<?php endif; ?>>
             <figure class="b-market__bottom-logo">
                 <a href="<?= Yii::app()->getBaseUrl(true) ?>">
 					<?= CHtml::image('/images/market_logo_2.png', 'migom.by', array('width' => 77, 'height' => 34)) ?>
                 </a>    
             </figure>
-			<?php if(Yii::app()->request->getParam('q')): ?>
             <div class="b-market__bottom-sub">
 				<label for="" class="success" style="display:none;"><?= Yii::t('Yama', 'Вы получите уведомления о всех новый объявлениях в разделе'); ?> "<span></span>"</label>
                 <form action="" method="" class="">
@@ -77,7 +76,6 @@
                     <button class="button_yellow btn-submit-1" type="submit">Подписаться</button>-->
                 </form>   
             </div>   
-			<?php endif; ?>
         </div>
         
     </div>         
@@ -92,7 +90,8 @@
 						'modal' => true,
 						'width' => '715px',
 						'resizable' => false,
-						'closeOnEscape' => true,
+						'closeOnEscape' => false,
+						'position' => array('my' => 'top', 'at' => 'top', 'of' => 'header.orange'),
 						//'beforeClose'=>'js:function(){YamaBy.index.closeModal("advert", "itemWindow")}',
                     ),
                 ));
@@ -143,7 +142,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 	subscribe = function(){
 		$.post('<?= Yii::app()->getBaseUrl(true) . '/site/subscribe/text/' ?>' + $('.seachline-input').val())
 		$(".b-market__bottom-sub form").hide()
-		$(".b-market__bottom-sub label.success").html($('.seachline-input').val())
+		$(".b-market__bottom-sub label.success span").html($('.seachline-input').val())
 		$(".b-market__bottom-sub label.success").show()
 	}
 	
@@ -161,7 +160,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 		}
 	})
 	
-	jQuery('#itemWindow').on('click', '.up', function(){
+	jQuery('#itemWindow').on('click', '.info-1 .up', function(){
 		if($(this).hasClass('unactive')){
 			return false;
 		}
@@ -188,6 +187,25 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 			YamaBy.index.closeModal("advert", "itemWindow")
 			return false; 
 	});
+	
+	jQuery('.btn-search').on('click', function(){
+			YamaBy.index.search('<?= Yii::app()->getBaseUrl(true) ?>', $('#searchYama').val())
+			
+			$('.seachline-input').val($('#searchYama').val())
+			
+			$('.more-items-btn').attr('offset-value', pageLimit)
+			if($('#searchYama').val()){
+				$(".b-market__bottom").show()
+				$(".b-market__bottom-sub form").show()
+				$(".b-market__bottom-sub label.success").hide()
+				$(".b-market__bottom-sub form label span").html($('#searchYama').val())
+			} else {
+				$(".b-market__bottom-sub form").hide()
+				$(".b-market__bottom").hide()
+			}
+			
+			return false;
+	})
 
 	jQuery('.seachline-input, #searchYama').on('change', function(){
 			YamaBy.index.search('<?= Yii::app()->getBaseUrl(true) ?>', this.value)
@@ -196,12 +214,18 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 			$('#searchYama').val(this.value)
 			
 			$('.more-items-btn').attr('offset-value', pageLimit)
-			$(".b-market__bottom-sub form").show()
-			$(".b-market__bottom-sub label.success").hide()
-			$(".b-market__bottom-sub form label span").html(this.value)
+			if(this.value){
+				$(".b-market__bottom").show()
+				$(".b-market__bottom-sub form").show()
+				$(".b-market__bottom-sub label.success").hide()
+				$(".b-market__bottom-sub form label span").html(this.value)
+			} else {
+				$(".b-market__bottom-sub form").hide()
+				$(".b-market__bottom").hide()
+			}
+			
 			return false;
 	})
-	
 	jQuery('.more-items-btn').on('click', function(){
 		YamaBy.index.moreItems('<?= Yii::app()->getBaseUrl(true) ?>', $('.seachline-input').val(), $(this).attr('offset-value'))
 		$(this).attr('offset-value', parseFloat($(this).attr('offset-value')) + pageLimit)

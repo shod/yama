@@ -18,6 +18,16 @@ class FileServices
 		}
 		return $listImages;
 	}
+	
+	public static function getImageHeight($file){
+		if(is_file($file)){
+			$size = getimagesize($file);
+			if(isset($size[1])){
+				return $size[1];
+			}
+		}
+		return 0;
+	}
 
 
 }

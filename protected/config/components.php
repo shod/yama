@@ -6,11 +6,12 @@ return array(
     'session'       => require(dirname(__FILE__) . '/components/session.php'),
     'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
     'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
+	'sessionCache'  => require(dirname(__FILE__) . '/components/session/cache.php'),
     'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
 	'social'        => require(dirname(__FILE__) . '/components/social.php'),
-    'log'           => require(dirname(__FILE__) . '/components/log.php'),
+    //'log'           => require(dirname(__FILE__) . '/components/log.php'),
 	'fileCache'		=> require(dirname(__FILE__) . '/components/fileCache.php'),
 	'notify' => array(
 		'class' => 'core.components.QUserNotify',

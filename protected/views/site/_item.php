@@ -2,18 +2,20 @@
 	<a href="<?= Yii::app()->getBaseUrl(true). $this->createUrl('/ahimsa/view', array('id' => $data->id)) ?>" class="item_to">
 		<?php if($data->image): ?>
 		<figure>
-			<!--<?= CHtml::image(
-					Yii::app()->getBaseUrl(true) . '/images/grey.gif', 
-					$data->description,
+			<?= CHtml::image(
+					//Yii::app()->getBaseUrl(true) . '/images/grey.gif'
+					'', 
+					'',
 					array(
+						'style' => ($data->image_y) ? 'height:' . $data->image_y . 'px;' : '',
 						'data-original' => Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image, // lazy load
 						'class' => 'lazyload',
 					)
-				); ?>-->
-			<?= CHtml::image(
+				); ?>
+			<!--<?= CHtml::image(
 					Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image,
-					$data->description
-			); ?>
+					$data->description, array('style' => ($data->image_y) ? 'height:' . $data->image_y . 'px;' : '')
+			); ?>-->
 		</figure>
 		<?php endif; ?>
 

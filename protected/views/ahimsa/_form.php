@@ -351,7 +351,7 @@
 				parent.append("<div class=\"size\"></div>")
 				if(document.getElementById("'. get_class($model) .'_image")){
 					value = $("#createForm .qq-uploader .img img:first").attr("src")
-					if(value == "undefunded"){
+					if(!value){
 						document.getElementById("'. get_class($model) .'_image").value = ""
 					} else {
 						document.getElementById("'. get_class($model) .'_image").value = value

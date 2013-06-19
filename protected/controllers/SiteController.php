@@ -31,7 +31,7 @@ class SiteController extends Controller {
     }
 	
 	protected function _prepareData($text, $limit = 10, $offset = 0, $region = 0, $category = 0){
-		if(!$entities = Tags::model()->getSearch(array('text' => $text, 'entity_type_id' => 4))){
+		if(!$entities = Tags::model()->getSearch(array('text' => $text, 'entity_type_id' => 4, 'user' => Yii::app()->user->id))){
 			return array();
 		}
 		
@@ -85,7 +85,7 @@ class SiteController extends Controller {
 		$category = Yii::app()->request->getParam('category', 0, 'int');
 		$region = Yii::app()->request->getParam('region', 0, 'int');
 		//$cacheKey = $query . '|#|' . $offset . '|#|' . $user . 'eugen_was_here:)';
-		// start to cache!!
+		//start to cache!!
 		
 		if($region){
 			$region = Regions::model()->findByPk($region);
@@ -116,6 +116,7 @@ class SiteController extends Controller {
 					'limit' => Adverts::LIMIT + 1,
 					'offset' => $offset,
 				));
+				
 		} else {
 			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts where user_id = '.$user.' order by last_up desc limit 1');
 			$condition = "user_id = :uId";
@@ -188,20 +189,13 @@ class SiteController extends Controller {
     }
 	
 	public function actionSubscribe(){
-        $text = Yii::app()->request->getParam('text', '', 'subscribe');
+        $text = Yii::app()->request->getParam('text');
 		if(Yii::app()->user->isGuest){
 			return false;
 		}
-		$tags = Tags::model()->getTags(array('text' => $text));
-		foreach($tags as $tag){
-			if(Subscribes::model()->find('user_id = :u and tag_id = :t', array(':u' => Yii::app()->user->id, ':t' => $tag))){
-				continue;
-			}
-			$sub = new Subscribes();
-			$sub->user_id = Yii::app()->user->id;
-			$sub->tag_id = $tag;
-			$sub->save();
-		}
+		
+		Api_Subscribe::model()->postNew(Yii::app()->user->id, array('text' => $text));
+		
 		Yii::app()->end();
 		
     }
@@ -217,6 +211,35 @@ class SiteController extends Controller {
     }
 	
 	public function actionInfo(){
-		phpinfo();
+		Users::model();
+		die;
+		$criterea = new EMongoCriteria();
+        $criterea->addCond('id', 'in', array('21921', '1'));
+		$users = Mongo_Users::model();
+		//$users->setMongoDBComponent(Yii::app()->socialmongo);
+		$res = $users->findAll($criterea);
+		d($res);
+		die;
+		Api_Subscribe::model()->debug = 1;
+		$res = Api_Subscribe::model()->getUserSubscribe(Yii::app()->user->id, array('text' => 'samsung'));
+		d($res);
+		die;
+		
+	
+		die;
+		$ids = '21812,21802,21774,17857,21799,21793,21788,21785';
+		$ids = explode(',', $ids);
+		
+		d(Mongo_Users::getUsers($ids));
+		die;
+		$criterea = new EMongoCriteria();
+        $criterea->addCond('id', 'in', $ids);
+		$users = Mongo_Userstest::model()->findAll($criterea);
+		//d($users);
+		//die;
+		//$model = Catalog_Sections::model();
+		//$model->debug = 1;
+
+		//$model = $model->find('section_id = :id', array(':id' => 3210));
 	}
 }

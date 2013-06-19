@@ -5,6 +5,9 @@
 <!-- saved from url=(0020)http://www.migom.by/ -->
 <html lang="ru" class=" js no-flexbox flexbox-legacy canvas canvastext webgl no-touch geolocation postmessage websqldatabase indexeddb hashchange history draganddrop websockets rgba hsla multiplebgs backgroundsize borderimage borderradius boxshadow textshadow opacity cssanimations csscolumns cssgradients cssreflections csstransforms csstransforms3d csstransitions fontface generatedcontent video audio localstorage sessionstorage webworkers applicationcache svg inlinesvg smil svgclippaths"><!--<![endif]-->
 <head>
+	<title> <?= $this->title ?> </title>
+	<meta name="keywords" content="<?= $this->keywords ?>">
+	<meta name="description" content="<?= $this->description ?>">
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<!--<script type="text/javascript" async="" src="./for_delete/ef4a000df4772abf9d2e3b05819fdcdcdc45ca3a.1.js"></script>
 	<script type="text/javascript" async="" src="./for_delete/i.js"></script>
@@ -15,9 +18,6 @@
 	<script type="text/javascript" src="./for_delete/default.js"></script>
 	<script type="text/javascript" src="./for_delete/modernizr.js"></script>
 	<script type="text/javascript" src="./for_delete/html5fix.js"></script>-->
-	<title> <?= $this->title ?> </title>
-	<meta name="keywords" content="<?= $this->keywords ?>">
-	<meta name="description" content="<?= $this->description ?>">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 	<meta http-equiv="Cache-Control" content="max-age=3600, must-revalidate">
 	<meta http-equiv="Cache-Control" content="no-store">
@@ -55,11 +55,11 @@
 		Yii::app()->getClientScript()->registerCssFile('/css/fotorama.css');
         Yii::app()->clientScript->registerScriptFile('/js/form.js');
 		
-		Yii::app()->clientScript->registerScriptFile('/js/history.js/scripts/bundled/html4+html5/jquery.history.js');
+		Yii::app()->clientScript->registerScriptFile('/js/history.js/scripts/bundled/html5/jquery.history.js');
         Yii::app()->clientScript->registerCoreScript('jquery');
         Yii::app()->clientScript->registerCoreScript('jquery.ui');
-		Yii::app()->clientScript->registerScriptFile('/js/yama.js');
-		Yii::app()->getClientScript()->registerCssFile('/css/market_page.css');
+		Yii::app()->clientScript->registerScriptFile('/js/yama.js?v=1');
+		Yii::app()->getClientScript()->registerCssFile('/css/market_page.css?v=1');
 		Yii::app()->clientScript->registerScriptFile('/js/jquery.masonry.min.js');
 		Yii::app()->clientScript->registerScriptFile('/js/fotorama.js');
     ?>

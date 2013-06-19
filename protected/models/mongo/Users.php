@@ -1,5 +1,4 @@
- <?php
-
+<?php
 class Mongo_Users extends EMongoDocument {
     
     public $id;
@@ -18,17 +17,17 @@ class Mongo_Users extends EMongoDocument {
     }
 	
 	public static function getUsers(array $ids){
-		
+		$res = array();
 		$ids = array_unique($ids);
+		$key = 'mongoUsersIdsKey' . implode(',', $ids);
 		$criterea = new EMongoCriteria();
         $criterea->addCond('id', 'in', $ids);
 		$users = Mongo_Users::model()->findAll($criterea); // временная мера, нужно синхронихировать.
 		
-		$users = array();
-		$res = array();
 		foreach($users as $user){
 			$res[$user->id] = $user; 
 		}
+		
 		if(count($ids) == count($res)){
 			return $res;
 		}
@@ -40,7 +39,6 @@ class Mongo_Users extends EMongoDocument {
 			}
 		}
 		$apiUsers = Users::model();
-		//$apiUsers->debug = 1;
 		$apiUsers = $apiUsers->getInfoByIds('list', array('ids' => $needed));
 		
 		if(!$apiUsers){
@@ -59,6 +57,7 @@ class Mongo_Users extends EMongoDocument {
 			$user->save();
 			$res[$user->id] = $user;
 		}
+		Yii::app()->cache->set($key, $res);
 		return $res;
 	}
 
@@ -71,7 +70,7 @@ class Mongo_Users extends EMongoDocument {
             // NOTE: you should only define rules for those attributes that
             // will receive user inputs.
             return array(
-                    array('id, email, name', 'required'),
+                    array('id, name', 'required'),
                     array('id, phone', 'numerical', 'integerOnly'=>true),
                     array('id, email, name, login, phone, date_add', 'safe'),
                     // The following rule is used by search().

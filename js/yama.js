@@ -35,7 +35,7 @@ YamaBy.index = {
 					$("#"+YamaBy.index._openedModals[k]).dialog("close")
 				}
 				
-				if($(State.data.selector).length == 0){
+				if(!$(State.data.selector).length){
 					window.location = window.location.href
 				}
 				$(State.data.selector).empty().append(State.data.html)
@@ -51,13 +51,12 @@ YamaBy.index = {
 						}
 					}
 				}
-				if(State.data.q !== null){
+				if(State.data.q !== null && State.data.q !== 'undefined'){
 					$(YamaBy.index._options.searchField).attr('value', State.data.q)
 				}
 				if(State.data.modal){
 					YamaBy.index._openedModals = State.data.modal
 				}
-				
 			}
 		};
 
@@ -108,7 +107,7 @@ YamaBy.index = {
 					YamaBy.index._openedModals[YamaBy.index._openedModals.length] = o.id
 				}
 				response = jQuery.parseJSON(data)
-				//response.modal = YamaBy.index._openedModals
+				response.modal = YamaBy.index._openedModals
 				YamaBy.index.addToHistory(response, url)
 			})
 			return false;
@@ -132,6 +131,7 @@ YamaBy.index = {
 	moreItems: function(url, string, offset){
 		params = new Array()
 		params.q = string
+		params.offset = offset
 		url = this.createUrl(params, this.getHost())
 		
 		YamaBy.index.appendToBlock(url, function(data){
@@ -141,15 +141,16 @@ YamaBy.index = {
 			} else {
 				$('.more-items-btn').hide();
 			}
+			
 		})
 	},
 	appendToBlock: function(url, successFunction){
 		$.get(url, function(data){
 			response = jQuery.parseJSON(data)
 			$(response.selector).append(response.html)
-			if(response.selector == '.b-market__middle-i'){
+			$('.b-market__middle-i img').load(function(){
 				$('.b-market__middle-i').masonry('reload')
-			}
+			})
 		})
 		.done(successFunction)
 	},
@@ -163,8 +164,11 @@ YamaBy.index = {
 	changeContent: function(selector, html){
 		$(selector).html(html)
 		if(selector == '.b-market__middle-i'){
-			$('.b-market__middle-i').masonry('reload')
+			//$('.b-market__middle-i').masonry('reload')
 		}
+		$('.b-market__middle-i img').load(function(){
+			$('.b-market__middle-i').masonry('reload')
+		})
 	},
 	addToHistory: function(response, url){
 		this._urls[this._urls.length] = url;

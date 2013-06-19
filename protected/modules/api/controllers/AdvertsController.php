@@ -35,4 +35,11 @@ class AdvertsController extends ERestController
 		$this->render()->sendResponse(array(ERestComponent::CONTENT_RESPONCE => $res,
 			ERestComponent::CONTENT_SUCCESS => true));
 	}
+	
+	public function actionGetAdverts(){
+		$ids = Yii::app()->request->getParam('ids');
+		$res = Adverts::model()->findAll('id IN ('.implode(',', $ids).') AND status = 1');
+		$this->render()->sendResponse(array(ERestComponent::CONTENT_RESPONCE => $res,
+			ERestComponent::CONTENT_SUCCESS => true));
+	}
 }

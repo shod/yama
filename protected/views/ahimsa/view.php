@@ -14,7 +14,7 @@
         <div class="b-market__item-top cfix">
             <div class="b-market__item-top-i">
                 <figure>
-					<?= UserService::printAvatar($users[$model->user_id]->id, $users[$model->user_id]->name, 50, true); ?>
+					<?= UserService::printAvatar($users[$model->user_id]->id, $users[$model->user_id]->name, 50, true, true); ?>
                 </figure>
                 <!--<a href="#" class="bookmark-link" title="Добавить в закладки"></a>-->
             </div>
@@ -26,10 +26,9 @@
 						<span class="unactive"><?= Yii::t('Yama', 'не актуально'); ?></span>
 						<span class="active"><?= Yii::t('Yama', 'сделать активным'); ?></span>
 					 ]</a>
-					
                 </li>
                 <li>
-                    <a href="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/update/' . $model->id ?>">[ <?= Yii::t('Yama', 'редактировать'); ?> ]</a>
+                    <a href="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/update/' . $model->id ?>">[&nbsp;<?= Yii::t('Yama', 'редактировать'); ?>&nbsp;]</a>
                 </li>
             </ul>
 			<?php endif; ?>
@@ -43,7 +42,7 @@
                 <strong><?= $name ?></strong>
                 <small>№<?= $model->id ?> <?= Yii::t('Yama', 'размещено') ?> <?= SiteService::getStrDate($model->created_at); ?></small>
                 <?php if($model->user_id == Yii::app()->user->id && $model->status == 1): ?>
-				<a href="javascript:void(0)" title="Объявление поднимется в выдаче, будет среди новых" class="up<?php if($model->last_up > time() - 3600): ?> unactive<?php endif; ?>">[ <?= Yii::t('Yama', 'поднять'); ?> ]</a>
+				<a href="javascript:void(0)" title="Объявление поднимется в выдаче, будет среди новых" class="up<?php if($model->last_up > time() - (3600 * 24)): ?> unactive<?php endif; ?>">[&nbsp;<?= Yii::t('Yama', 'поднять'); ?>&nbsp;]</a>
 				<?php endif; ?>
             </p>
             <h1 class="info-2"><?= $model->description ?> [<?= Regions::model()->findByPk($model->region)->title ?>]</h1>
@@ -85,15 +84,15 @@
         </div>
 		<?php if(Yii::app()->user->id != $model->user_id): ?>
 		<div class="b-market__item-bottom">
-            <a href="<?= Yii::app()->params['socialBaseUrl'] . '/messages/send/' . $model->user_id . '?ahimsa=' . $model->id ?>" class="mes"><?= Yii::t('Yama', 'Написать ЛС'); ?></a>
+            <a target="_blank" href="<?= Yii::app()->params['socialBaseUrl'] . '/messages/send/' . $model->user_id . '?ahimsa=' . $model->id ?>" class="mes"><?= Yii::t('Yama', 'Напишите ЛС'); ?></a>
             <div class="b-market__item-bottom-i">
                 <figure>
-					<?= UserService::printAvatar($users[$model->user_id]->id, $users[$model->user_id]->name, 30, true); ?>
+					<?= UserService::printAvatar($users[$model->user_id]->id, $users[$model->user_id]->name, 30, true, true); ?>
                 </figure>
 					<?php $phone = ($model->phone)?$model->phone:$users[$model->user_id]->phone?>
 					<p><strong><?= $users[$model->user_id]->name ?></strong>
 						<?php if($phone): ?>
-							<?= Yii::t('Yama', 'или звоните по телефону'); ?> <?= preg_replace('/^(\d{2})(\d{3})(\d{2})(\d{2})$/', '<span>+375 $1</span> $2 $3 $4', $phone) ?>
+							<?= Yii::t('Yama', 'или звоните '); ?> <?= preg_replace('/^(\d{2})(\d{3})(\d{2})(\d{2})$/', '<span>+375 $1</span> $2 $3 $4', $phone) ?>
 						<?php endif; ?>
 					</p>
             </div>
@@ -134,7 +133,7 @@
         </div>-->
 		<div class="addthis_toolbox" 
 			addthis:url="<?= Yii::app()->getBaseUrl(true) . '/ahimsa/' . $model->id ?>" 
-			addthis:title="<?= $this->title ?>" >
+			addthis:title="<?= $model->description ?> " >
         <ul class="b-market__item-socnet">
 				<li>
 					<a href="#" class="item-1 addthis_button_facebook"><img src="/images/icons/facebook.png" width="50" height="50" border="0" alt="Share to Facebook" /></a>
@@ -220,7 +219,7 @@
 			}
 		})
 		
-		jQuery('.b-market__item-i').on('click', '.up', function(){
+		jQuery('.b-market__item-i').on('click', '.info-1 .up', function(){
 			if($(this).hasClass('unactive')){
 				return false;
 			}

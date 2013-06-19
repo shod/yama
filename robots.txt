@@ -1,0 +1,26 @@
+User-agent: msnbot
+Disallow: /
+
+User-agent: psbot
+Disallow: /
+
+User-agent: MJ12bot
+Disallow: /
+
+User-agent: twiceler
+Disallow: /
+
+User-agent: Aport
+Disallow: /
+
+User-Agent: Yahoo! Slurp
+Disallow: /
+
+User-agent: Webalta
+Disallow: /
+
+User-agent: dotbot
+Disallow: /
+
+User-agent: baiduspider
+Disallow: /
