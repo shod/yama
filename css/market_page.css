@@ -16,7 +16,7 @@
     .b-market__top-par dt{padding:0 10px 0 0;float:left}        
         .b-market__top-par dt span{padding:0 21px 0 0;border-bottom:1px dotted;color:#3a5f85;position:relative;text-decoration:none;}        
             .b-market__top-par dt span .icon{width:20px;height:20px;background:#fff url(../images/market_icons.png) no-repeat 0 0;right:0;top:0}        
-    .b-market__top-par dd{padding:0 0 26px;position:relative;float:left;color:#333;color:#3a5f85;}        
+    .b-market__top-par dd{padding:0 0 0;position:relative;float:left;color:#333;color:#3a5f85;}        
 		.b-market__top-par dd a{border-bottom:1px dotted;text-decoration: none;}        
         .b-market__top-par dd small{padding:3px 0 0;display:block;text-align:center;font:normal 9px Tahoma,Verdana,Arial,Sans-serif;color:#aaa}
         .b-market__top-par dd .icon{width:21px;height:11px;margin:15px 0 0 -10px;background:url(../images/market_icons.png) no-repeat 0 -80px;left:50%;top:100%}        
@@ -50,7 +50,7 @@ nav .b-market__top{float:right;padding: 0px 30px 0;}
 
 /*Market-tags-line*/
 .b-market__tags-line{padding:3px 30px 0;overflow:hidden;zoom:1}
-    .b-market__tags-line li{height:18px;margin:0 20px 20px 0;padding:0 5px;background:#ffe59f;border:1px solid #ffc833;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;float:left;font:normal 11px/15px Tahoma,Verdana,Arial,Sans-serif;color:#4c4534}
+    .b-market__tags-line li{height:18px;margin:0 20px 20px 0;padding:0 5px;background:#ffe59f;border:1px solid #ffc833;-moz-border-radius:3px;-webkit-border-radius:3px;border-radius:3px;float:left;font:normal 11px/15px Tahoma,Verdana,Arial,Sans-serif;color:#4c4534; cursor: pointer;}
     .b-market__tags-line li.last{background:#ffca9f;border-color:#ff8e33}
         .b-market__tags-line li a{border-bottom:1px dotted;text-decoration:none;color:#4c4534}
 

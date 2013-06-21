@@ -27,7 +27,6 @@
 			<span><i class="icon"></i></span>
 		</dt>
 		<dd>
-			<!--<a href="" >Электроника</a><small>23401 товар</small><i class="icon arr"></i>-->
 			<div class="dropdown">
 				<a class="dropdown-toggle-cat" param="category" data-toggle="dropdown" href="#"><?= ($this->category) ? $this->category->title : $this->categoryTitle ?></a>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">

@@ -23,6 +23,7 @@ class Adverts extends ActiveRecord
 	);
 	public $free;
 	public $phone_postfix;
+	public $top = false;
 
 	/**
 	 * Returns the static model of the specified AR class.

@@ -63,11 +63,17 @@ class SiteController extends Controller {
 			array('condition' => $condition, 'order' => 'last_up DESC', 'limit' => $limit, 'offset' => $offset));
 		$res = array();
 		krsort($levels);
-		
-		foreach($levels as $l){
+		$topLevel = false;
+		if(count($levels) > 1){
+			$topLevel = count($levels);
+		}
+		foreach($levels as $lk => $l){
 			foreach($model as $k => $m){
 				foreach($entities as $ent){
 					if($ent->id == $m->id && $l == $ent->weight){
+						if($lk == $topLevel){
+							$m->top = true;
+						}
 						$res[$m->id] = $m;
 						unset($model[$k]);
 					}
@@ -80,6 +86,7 @@ class SiteController extends Controller {
     public function actionIndex()
 	{
 		$query = Yii::app()->request->getParam('q', '', 'string');
+		$query = trim($query);
 		$offset = Yii::app()->request->getParam('offset', 0, 'int');
 		$user = Yii::app()->request->getParam('user', 0, 'int');
 		$category = Yii::app()->request->getParam('category', 0, 'int');
@@ -170,7 +177,16 @@ class SiteController extends Controller {
 				'users'=>$users,
 				'aViews' => $aViews,
 			), true, true);
-			echo CJSON::encode(array('else' => $else, 'offset' => $offset, 'selector' => '.b-market__middle-i', 'title' => $this->title, 'html' => $html));
+			$tagsHtml = Widget::create('YamaTags', 'yamatags', array('query' => $query, 'limit' => 14))->html(true);
+			echo CJSON::encode(array(
+				'else' => $else, 
+				'offset' => $offset, 
+				'selector' => '.b-market__middle-i', 
+				'title' => $this->title, 
+				'html' => $html,
+				'tags_selector' => '.b-market__tags-line',
+				'tags_html' => $tagsHtml,
+			));
 			Yii::app()->end();
 		}
 		

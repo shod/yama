@@ -158,6 +158,9 @@ YamaBy.index = {
 		$.get(url, function(data){
 			response = jQuery.parseJSON(data)
 			YamaBy.index.changeContent(response.selector, response.html)
+			if(response.tags_selector){
+				YamaBy.index.changeContent(response.tags_selector, response.tags_html)
+			}
 		})
 		.done(successFunction)
 	},

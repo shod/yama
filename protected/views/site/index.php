@@ -44,6 +44,9 @@
     </script>
     <div class="b-market">
         <?php Widget::create('YamaTop', 'yamatop', array('query' => $query, 'region' => $region, 'category' => $category))->html() ?>
+		
+		<?php Widget::create('YamaTags', 'yamatags', array('query' => $query, 'limit' => 14))->html() ?>
+		
 		<!--
         <aside class="b-market__banner-1">
             <a href="#">Купить баннер в разделе «Электроника» с 11 по 17 марта</a>
@@ -145,6 +148,13 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 		$(".b-market__bottom-sub label.success span").html($('.seachline-input').val())
 		$(".b-market__bottom-sub label.success").show()
 	}
+	
+	jQuery('.b-market').on('click', '.b-market__tags-line li', function(){
+		val = $('#searchYama').val()
+		val = val + " " + $(this).html();
+		$('#searchYama').val(val);
+		$('button.btn-search').click()
+	})
 	
 	jQuery('#itemWindow').on('click', '.b-market__item-i .changeStatus', function(){
 		if($(this).hasClass('unactivate')){
