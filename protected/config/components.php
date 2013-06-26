@@ -11,6 +11,7 @@ return array(
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),
 	'tags'          => require(dirname(__FILE__) . '/components/tags.php'),
 	'social'        => require(dirname(__FILE__) . '/components/social.php'),
+	'sphinx'		=> require(dirname(__FILE__) . '/components/sphinx.php'),
     //'log'           => require(dirname(__FILE__) . '/components/log.php'),
 	'fileCache'		=> require(dirname(__FILE__) . '/components/fileCache.php'),
 	'notify' => array(
