@@ -32,7 +32,9 @@ return CMap::mergeArray(
             'core.extensions.YiiMongoDbSuite.*',
             'core.extensions.YiiMongoDbSuite.extra.*',
             'core.extensions.yiiRestSuite.*',
-            'core.extensions.yiiRestSuite.server.*',
+            'core.extensions.DGSphinxSearch.*',
+			'core.extensions.DGSphinxSearch.models.*',
+			
         ),
         'modules' => require(dirname(__FILE__) . '/modules.php'),
 		'params' => require(dirname(__FILE__) . '/params.php'),

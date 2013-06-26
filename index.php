@@ -1,5 +1,5 @@
 <?php
-	define('YII_DEBUG',false);
+	define('YII_DEBUG',true);
 // change the following paths if necessary
 $yii=dirname(__FILE__).'/../framework/yii.php';
 $yiiEx  = dirname(__FILE__) . '/../core/YiiBaseEx.php';
@@ -30,7 +30,7 @@ spl_autoload_register(array('YiiBaseEx', 'autoload'));
 //Yii::getLogger()->autoDump = true;
 //Yii::getLogger()->autoFlush=1;
 
-//if(isset($_GET['profiling'])){
+if(isset($_GET['profiling'])){
 	define('XHPROF_LIB_ROOT', dirname(__FILE__) .  "/xhprof-master/xhprof_lib");
 
 	ini_set('display_errors','On'); 
@@ -52,9 +52,9 @@ spl_autoload_register(array('YiiBaseEx', 'autoload'));
 	$run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_testing");
 
 	//echo "http://yama.migom.by/xhprof-master/xhprof_html/index.php?run={$run_id}&source=xhprof_testing\n";
-/*} else {
+} else {
 	$yii->run();
-}*/
+}
 
 
 

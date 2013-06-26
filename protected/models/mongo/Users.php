@@ -27,8 +27,9 @@ class Mongo_Users extends EMongoDocument {
 		foreach($users as $user){
 			$res[$user->id] = $user; 
 		}
-		
+
 		if(count($ids) == count($res)){
+		
 			return $res;
 		}
 		
@@ -38,9 +39,9 @@ class Mongo_Users extends EMongoDocument {
 				$needed[] = $id;
 			}
 		}
+		
 		$apiUsers = Users::model();
 		$apiUsers = $apiUsers->getInfoByIds('list', array('ids' => $needed));
-		
 		if(!$apiUsers){
 			return $res;
 		}

@@ -110,7 +110,7 @@
 				}
 			},
 			searchField: '#searchYama',
-			contentBlockSelector: '.b-market__middle-i',
+			contentBlockSelector: '.b-market__middle',
 		});
 		
 		$(".dropdown-menu li").click(function(){

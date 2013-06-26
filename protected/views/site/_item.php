@@ -12,10 +12,10 @@
 						'class' => 'lazyload',
 					)
 				); ?>
-			<!--<?= CHtml::image(
+			<?php /* CHtml::image(
 					Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image,
 					$data->description, array('style' => ($data->image_y) ? 'height:' . $data->image_y . 'px;' : '')
-			); ?>-->
+			); */?>
 		</figure>
 		<?php endif; ?>
 
@@ -48,5 +48,5 @@
 			<strong><?= Chtml::link($name, Yii::app()->params['socialBaseUrl'] . '/user/' . $data->user_id) ?></strong>
 			<small><?= SiteService::getStrDate($data->created_at); ?><!--добавил 1 минуту назад--></small>
 		</div>
-	</a>      
+	</a>   
 </article>

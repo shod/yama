@@ -45,7 +45,7 @@
     <div class="b-market">
         <?php Widget::create('YamaTop', 'yamatop', array('query' => $query, 'region' => $region, 'category' => $category))->html() ?>
 		
-		<?php Widget::create('YamaTags', 'yamatags', array('query' => $query, 'limit' => 14))->html() ?>
+		<?php Widget::create('YamaTags', 'yamatags', array('tags' => $tags))->html() ?>
 		
 		<!--
         <aside class="b-market__banner-1">
@@ -53,10 +53,8 @@
         </aside>
 		-->
         <div class="b-market__middle">
-            <div class="b-market__middle-i">
-				<?php	$this->renderPartial('list', array('model' => $model, 'users' => $users, 'else' => $else, 'aViews' => $aViews)); ?>
-            </div>
-			<a href="javascript:void(0)" class="more-items-btn" offset-value="<?= $offset ?>" <?php if(!$else): ?>style="display:none;"<?php endif; ?>><span>Ещё объявления</span></a>
+			<?php	$this->renderPartial('list', array('model' => $model, 'users' => $users, 'else' => $else, 'aViews' => $aViews, 'top' => true)); ?>
+			<a href="<?= Yii::app()->getBaseUrl(true) . '/?m=1&offset=' . $offset ?>" class="more-items-btn" offset-value="<?= $offset ?>" <?php if(!$else): ?>style="display:none;"<?php endif; ?>><span>Ещё объявления</span></a>
         </div>
         <div class="b-market__bottom" <?php if(!Yii::app()->request->getParam('q')): ?>style="display:none;"<?php endif; ?>>
             <figure class="b-market__bottom-logo">
@@ -239,7 +237,7 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 	jQuery('.more-items-btn').on('click', function(){
 		YamaBy.index.moreItems('<?= Yii::app()->getBaseUrl(true) ?>', $('.seachline-input').val(), $(this).attr('offset-value'))
 		$(this).attr('offset-value', parseFloat($(this).attr('offset-value')) + pageLimit)
-		return true;
+		return false;
 	})
 
 </script>

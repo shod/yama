@@ -6,6 +6,7 @@ return array(
     'session'       => require(dirname(__FILE__) . '/components/session.php'),
     'eauth'         => require(dirname(__FILE__) . '/components/eauth.php'),
     'cache'         => require(dirname(__FILE__) . '/components/cache.php'),
+	'sphinx'        => require(dirname(__FILE__) . '/components/sphinx.php'),
 	'sessionCache'  => require(dirname(__FILE__) . '/components/session/cache.php'),
     'widgetFactory' => require(dirname(__FILE__) . '/components/widgetFactory.php'),
     'migom'         => require(dirname(__FILE__) . '/components/migom.php'),

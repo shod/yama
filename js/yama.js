@@ -34,7 +34,7 @@ YamaBy.index = {
 				for(k in YamaBy.index._openedModals){
 					$("#"+YamaBy.index._openedModals[k]).dialog("close")
 				}
-				
+
 				if(!$(State.data.selector).length){
 					window.location = window.location.href
 				}
