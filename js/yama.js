@@ -53,6 +53,8 @@ YamaBy.index = {
 				}
 				if(State.data.q !== null && State.data.q !== 'undefined'){
 					$(YamaBy.index._options.searchField).attr('value', State.data.q)
+				} else {
+					$(YamaBy.index._options.searchField).attr('value', '')
 				}
 				if(State.data.modal){
 					YamaBy.index._openedModals = State.data.modal

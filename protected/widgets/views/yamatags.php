@@ -4,7 +4,9 @@
 <?php foreach($tags as $tag): ?>
 	<li><?= $tag->name ?></li>
 <?php endforeach;?>
-	<!--<li class="last"><a href="#">Еще 120 уточнений</a></li>-->
+<?php if(count($tags) == 14): ?>
+	<li class="last"><a href="#">Еще уточнения</a></li>
+<?php endif; ?>
 <?php if(!Yii::app()->request->isAjaxRequest): ?>
 </ul>
 <?php endif; ?>
