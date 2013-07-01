@@ -21,7 +21,7 @@ class SiteController extends Controller {
     public function accessRules() {
         return array(
             array('allow', // allow readers only access to the view file
-                'actions' => array('index', 'error', 'search', 'subscribe', 'info', 'testnewsearch'),
+                'actions' => array('index', 'error', 'search', 'subscribe', 'info', 'testnewsearch', 'getmoretags'),
                 'users' => array('*')
             ),
             array('deny', // deny everybody else
@@ -93,6 +93,11 @@ class SiteController extends Controller {
 		//$cacheKey = $query . '|#|' . $offset . '|#|' . $user . 'eugen_was_here:)';
 		//start to cache!!
 		$tags = array();
+		
+		if($query){
+			$userId = (!Yii::app()->user->isGuest) ? Yii::app()->user->id : 0;
+			Tags::model()->postSearch(1, array('text' => $query, 'is_good' => 1, 'user' => $userId));
+		}
 		
 		if($region){
 			$region = Regions::model()->findByPk($region);
@@ -232,7 +237,7 @@ class SiteController extends Controller {
         }
     }
 	
-	public function _prepareData($strSearch, $limit = 10, $offset = 0, $region = 0, $category = 0){
+	public function _prepareData($strSearch, $limit = 10, $offset = 0, $region = 0, $category = 0, $tagsLimit = 14){
 	
 		$ids = array();
 		$full = array();
@@ -273,9 +278,13 @@ class SiteController extends Controller {
 				}
 			}
 		}
+		if(empty($ids)){
+			return array('res' => array(), 'tags' => array());
+		}
+		
 		$all = array_diff_key($all, $full);
 		
-		$tags = Tags::model()->getTagsByEntities(array('entities' => $ids, 'entity_type_id' => 4, 'limit' => 10, 'text' => $strSearch));
+		$tags = Tags::model()->getTagsByEntities(array('entities' => $ids, 'entity_type_id' => 4, 'limit' => $tagsLimit, 'text' => $strSearch));
 		
 		$levels = array();
 		foreach($all as $ent){
@@ -316,5 +325,21 @@ class SiteController extends Controller {
 			}
 		}
 		return array('res' => $res, 'tags' => $tags);
+	}
+	
+	public function actionGetMoreTags(){
+		if($q = Yii::app()->request->getParam('q', '', 'string')){
+			$limit = Yii::app()->request->getParam('limit', 0, 'int');
+			$offset = Yii::app()->request->getParam('offset', 0, 'int');
+			$category = Yii::app()->request->getParam('category', 0, 'int');
+			$region = Yii::app()->request->getParam('region', 0, 'int');
+			$res = $this->_prepareData($q, $limit, $offset, $region, $category, 30);
+			if(count($res['tags'])){
+			
+			}
+			Widget::create('YamaTags', 'yamaTags', array('limit' => 30, 'tags' => $res['tags']))->html();
+		} else {
+			Widget::create('YamaTags', 'yamaTags', array('limit' => 30))->html();
+		}
 	}
 }

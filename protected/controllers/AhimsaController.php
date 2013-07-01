@@ -321,6 +321,7 @@ class AhimsaController extends Controller
 		}
 	}
 
+
 	public function actionUploadImage($id)
 	{
         Yii::import("core.extensions.EAjaxUpload.qqFileUploader");

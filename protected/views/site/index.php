@@ -148,6 +148,9 @@ $this->endWidget('zii.widgets.jui.CJuiDialog');
 	}
 	
 	jQuery('.b-market').on('click', '.b-market__tags-line li', function(){
+		if($(this).hasClass("last")){
+			return false;
+		}
 		val = $('#searchYama').val()
 		val = val + " " + $(this).html();
 		$('#searchYama').val(val);
