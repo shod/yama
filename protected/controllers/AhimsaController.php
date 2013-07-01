@@ -173,6 +173,8 @@ class AhimsaController extends Controller
 					$textToTags = $textToTags . ' ' . Categories::model()->findByPk($publicModel->category)->title;
 					$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $publicModel->id));
 					Api_SubscribeEvents::model()->postEvent($publicModel->id, array('entity_type_id' => 4));
+					
+					$this->_uploadImages($publicModel);
 				}
 				$this->redirect('/');
 			}
@@ -263,6 +265,7 @@ class AhimsaController extends Controller
 				$textToTags = $textToTags . ' ' . Regions::model()->findByPk($model->region)->title;
 				$textToTags .= ' ' . Categories::model()->findByPk($model->category)->title;
 				$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $model->id));
+				$this->_uploadImages($model);
 				$this->redirect('/');
 			}
 		}
@@ -286,6 +289,36 @@ class AhimsaController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+	}
+	
+	protected function _uploadImages($model){
+		if(count($_FILES)){
+			$path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
+			$folder = $path . Adverts::IMAGE_PATH . DIRECTORY_SEPARATOR . $model->id . DIRECTORY_SEPARATOR;
+			FileServices::createDirectory($folder);
+			$delFiles = true;
+			foreach($_FILES as $file){
+				if(!$file['name']){
+					continue;
+				}
+				if($delFiles){
+					foreach(FileServices::getImagesFromDir($folder) as $f){
+						$dir = Yii::app()->getBasePath(true) . '/..' . Adverts::IMAGE_PATH . '/' . $model->id . '/';
+						@unlink($dir . $f);
+						foreach(Adverts::$publicSizeTypes as $type => $val){
+							@unlink($dir . $type . '/' . $f);
+						}
+					}
+					$delFiles = false;
+				}
+				$image = Yii::app()->image->load($file['tmp_name']);
+				$image->resize(Adverts::$size['min']['x'], Adverts::$size['min']['y'], Image::NO_MORE)->quality(100);
+				FileServices::createDirectory($folder);
+				$image->save($folder . $file['name']);
+				$model->image = $file['name'];
+				$model->save();
+			}
+		}
 	}
 
 	public function actionUploadImage($id)

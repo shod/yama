@@ -4,6 +4,9 @@
       'id'=>'createForm',
       'enableAjaxValidation'=>true,
       'enableClientValidation'=>true,
+	  'htmlOptions' => array(
+		'enctype'=>'multipart/form-data',
+	  ),
       'clientOptions'=>array(
 		'validateOnSubmit'=>true,
 		'inputContainer' => 'div',
