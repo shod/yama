@@ -14,7 +14,7 @@ class YamaTop extends QWidget {
 	public function init(){
 		
 		$this->regionTitle = Yii::t('Yama', 'Беларусь');
-		$this->categoryTitle = Yii::t('Yama', 'Все объявления');
+		$this->categoryTitle = Yii::t('Yama', 'Все рубрики');
 		
 		$res = Yii::app()->cache->get('all_select_regions');
 		if(!$res){
