@@ -1,7 +1,7 @@
 <article class="b-market__item-preview <?php if($data->premium): ?>outline<?php endif; ?>">
 	<a href="<?= Yii::app()->getBaseUrl(true). $this->createUrl('/ahimsa/view', array('id' => $data->id)) ?>" class="item_to">
 		<?php if($data->image): ?>
-		<figure>
+		<figure <?php if($data->image_y): ?>style="height:<?= $data->image_y ?>px"<?php endif; ?>>
 			<?= CHtml::image(
 					//Yii::app()->getBaseUrl(true) . '/images/grey.gif'
 					'', 
@@ -10,6 +10,7 @@
 						'style' => ($data->image_y) ? 'height:' . $data->image_y . 'px;' : '',
 						'data-original' => Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $data->id . '/index/' .$data->image, // lazy load
 						'class' => 'lazyload',
+						'height' => $data->image_y,
 					)
 				); ?>
 			<?php /* CHtml::image(
