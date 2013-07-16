@@ -1,5 +1,7 @@
 .htaccess
 assets/
+xhprof-master/
+testXProf.php
 protected/runtime/
 themes/classic/views/
 !/protected/extensions/eauth/assets/
