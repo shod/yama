@@ -96,6 +96,9 @@ function xhprof_generate_mime_header($type, $length) {
 function xhprof_generate_image_by_dot($dot_script, $type) {
   // get config => yep really dirty - but unobstrusive
   global $_xhprof;
+  echo '<pre>';
+  var_dump($_xhprof);
+	die;
   
   $errorFile    = $_xhprof['dot_errfile'];
   $tmpDirectory = $_xhprof['dot_tempdir'];
@@ -121,7 +124,7 @@ function xhprof_generate_image_by_dot($dot_script, $type) {
        );
 
   $cmd = ' "'.$dotBinary.'" -T'.$type;
-
+	
   $process = proc_open($cmd, $descriptorspec, $pipes, $tmpDirectory, array());
 
   if (is_resource($process)) {

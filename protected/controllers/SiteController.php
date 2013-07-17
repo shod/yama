@@ -114,7 +114,6 @@ class SiteController extends Controller {
 			$adverts = $data['res'];
 			$tags = $data['tags'];
 		} elseif(!$user) {
-			
 			//$dependency = new CDbCacheDependency('SELECT last_up FROM adverts order by last_up desc limit 1');
 			$condition = "status = 1";
 			if($region){
@@ -285,7 +284,6 @@ class SiteController extends Controller {
 		$all = array_diff_key($all, $full);
 		
 		$tags = Tags::model()->getTagsByEntities(array('entities' => $ids, 'entity_type_id' => 4, 'limit' => $tagsLimit, 'text' => $strSearch));
-		
 		$levels = array();
 		foreach($all as $ent){
 			$levels[$ent['weight']] = $ent['weight'];
