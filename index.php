@@ -23,7 +23,7 @@ function autoload($className){
 require_once($yii);
 require_once($yiiEx);
 
-Yii::setPathOfAlias("core", dirname(__FILE__).'/../core');
+Yii::setPathOfAlias("core", dirname(__FILE__).'/../core_ek');
 $yii = Yii::createWebApplication($config);
 spl_autoload_unregister(array('YiiBase', 'autoload'));
 spl_autoload_register(array('YiiBaseEx', 'autoload'));

@@ -189,13 +189,14 @@ nav .b-market__top{float:right;padding: 0px 30px 0;}
         .ie7 .b-market__add-item-form-i.short-description .b-market__tags-line .del{}
     .b-market__add-item-form-i.short-description .txt-2{width:100%;height:70px;margin:4px 0 1px;padding:5px 10px;border:1px solid #bec0c2;-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;resize:none;line-height:17px;color:#333}
 
-.b-market__add-item-form-i.images{margin-left:-149px;padding-right:377px;padding-left:363px;padding-bottom:42px;border-bottom:1px solid #e8e8e8}                 
-    .b-market__add-item-form-i.images .hint{width:278px;margin:1px 0 -100% 0;padding:3px 0 20px;background:#ffefc5;border:none 0;float:right;position:relative;right:-308px}
-        .b-market__add-item-form-i.images .hint dt{padding:12px 24px 11px;position:relative;font:normal 11px Tahoma,Verdana,Arial,Sans-serif;color:#3f3f3f}
-            .b-market__add-item-form-i.images .hint dt b{font-weight:bold}
-            .b-market__add-item-form-i.images .hint dt .icon{width:7px;height:13px;background:url(../images/market_icons.png) no-repeat -29px -80px;top:4px;left:-7px}
-        .b-market__add-item-form-i.images .hint dd{padding:0 65px 9px 24px;position:relative;font:normal 11px/13px Tahoma,Verdana,Arial,Sans-serif;color:#3f3f3f}
-            .b-market__add-item-form-i.images .hint dd .icon{width:10px;height:1px;background:#f0d285;top:7px;left:10px}
+.b-market__add-item-form-i.images{border-bottom:1px solid #e8e8e8}
+.b-market__add-item-form-i.with-hint{margin-left:-149px;padding-right:377px;padding-left:363px;padding-bottom:42px;}                 
+    .b-market__add-item-form-i .hint{width:278px;margin:1px 0 -100% 0;padding:3px 0 20px;background:#ffefc5;border:none 0;float:right;position:relative;right:-308px}
+        .b-market__add-item-form-i .hint dt{padding:12px 24px 11px;position:relative;font:normal 11px Tahoma,Verdana,Arial,Sans-serif;color:#3f3f3f}
+            .b-market__add-item-form-i .hint dt b{font-weight:bold}
+            .b-market__add-item-form-i .hint dt .icon{width:7px;height:13px;background:url(../images/market_icons.png) no-repeat -29px -80px;top:4px;left:-7px}
+        .b-market__add-item-form-i .hint dd{padding:0 65px 9px 24px;position:relative;font:normal 11px/13px Tahoma,Verdana,Arial,Sans-serif;color:#3f3f3f}
+            .b-market__add-item-form-i .hint dd .icon{width:10px;height:1px;background:#f0d285;top:7px;left:10px}
 
 .b-market__add-item-form-i.images .images-wrap{padding:1px 0 0;position:relative}                                
     .b-market__add-item-form-i.images .images-wrap-i{margin:0 -20px 0 0}                                

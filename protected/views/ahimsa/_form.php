@@ -4,6 +4,9 @@
       'id'=>'createForm',
       'enableAjaxValidation'=>true,
       'enableClientValidation'=>true,
+	  'htmlOptions' => array(
+		'enctype'=>'multipart/form-data',
+	  ),
       'clientOptions'=>array(
 		'validateOnSubmit'=>true,
 		'inputContainer' => 'div',
@@ -37,6 +40,10 @@
 				<dl>
 					<dt>Текст объявления: <sup>*</sup></dt>
 					<dd>Поставьте себя на место покупателя и напишите ту, информацию, которую бы вы хотели получить от продавца.</dd>
+				</dl>
+				<dl class="hint">
+					<dt><b>Примечание:</b><i class="icon"></i></dt>
+					<dd>В тексте объявления запрещено указывать номер телефона. Для этого есть отдельное поле.<i class="icon"></i></dd>
 				</dl>
 				<?php if($model->product_id): ?>
 				<div class="from-catalog">
@@ -104,7 +111,7 @@
 					</label>
 				</div>
 			</div>
-			<div class="b-market__add-item-form-i images cfix">
+			<div class="b-market__add-item-form-i images with-hint cfix">
 				<dl>
 					<dt>Фотографии:</dt>
 					<dd>Загрузите фото. Котов в мешке покупают единицы.</dd>
@@ -119,18 +126,19 @@
 				<?php echo $form->hiddenField($model,'image'); ?>
 				<?php 
 					$template = '<div class="qq-uploader images-wrap">
-						<div class="qq-upload-button images-wrap-i cfix qq-upload-list qq-upload-drop-area">
-						<div class="qq-upload-drop-zone"><span>Drop files here to upload</span></div>';
+						<div class="qq-upload-button cfix qq-upload-drop-area">
+						<div class="qq-upload-drop-zone"><span>Drop files here to upload</span></div>
+						<div id="sortable" class="images-wrap-i qq-upload-list" >';
 					$count = 8;
 					if($model->image){
-						$template .= '<div class="img"><span></span>';
+						$template .= '<div class="img"><span class="del-icon"></span><span class="rot-icon"></span>';
 						$template .= Chtml::image(Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $model->id . '/mini/' . $model->image);
 						$template .= '</div>';
 						$count = 7;
 					}
 					for($i = 0; $i < $count; $i++){
 						if(isset($images[$i])){
-							$template .= '<div class="img"><span></span>';
+							$template .= '<div class="img"><span class="del-icon"></span><span class="rot-icon"></span>';
 							$template .= Chtml::image(Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $model->id . '/mini/' . $images[$i]);
 							$template .= '</div>';
 						} else {
@@ -138,6 +146,7 @@
 						}
 					}
 					$template .= '
+							</div>
 							<p>Упрощенная <a href="#" onclick="toggleForm(this); return false">форма добавления</a></p>
 							<small href="#" class="main-img">Главное фото <i class="icon"></i></small>   
 						</div>
@@ -204,12 +213,16 @@
 					<p>Основная <a href="#" onclick="toggleForm(this); return false">форма добавления</a></p>
 				</div>
 			</div>
-			<div class="b-market__add-item-form-i cfix region ">
+			<div class="b-market__add-item-form-i cfix region with-hint">
 				<dl class="val-2">
 					<dt>Рубрика: <small></small></dt>
 					<dd>
 						Ваше объявление будет добавлено в этот раздел
 					</dd>
+				</dl>
+				<dl class="hint" style="display:none;">
+					<dt><b>Например:</b><i class="icon"></i></dt>
+					<dd>.<i class="icon"></i></dd>
 				</dl>
 				<div class="region-i">
 					<?= $form->dropDownList($model,'category', CHtml::listData(Categories::model()->findAll(array('order' => 'sort ASC')), 'id', 'title')); ?>
@@ -338,7 +351,23 @@
 				$(".simple-uploader").toggle();
 			}
 			
-			$("#createForm").on("click", ".qq-uploader .img span", function(){
+			$("#createForm").on("click", ".qq-uploader .img span.rot-icon", function(){
+				image = $(this).parent().find("img")
+				image.animate({
+					opacity: 0.2
+				}, 200);
+				$.post("'.Yii::app()->getBaseUrl(true).'/ahimsa/rotateImage", {
+					url: $(this).parent().find("img").attr("src"),
+					id: '. $model->id .'
+				}, function(data){
+					image.attr("src", data)
+					image.animate({
+						opacity: 1
+					}, 5000);
+				})
+			})
+			
+			$("#createForm").on("click", ".qq-uploader .img span.del-icon", function(){
 				$.post("'.Yii::app()->getBaseUrl(true).'/ahimsa/dellImage", {
 					url: $(this).parent().find("img").attr("src"),
 					id: '. $model->id .'
@@ -358,6 +387,24 @@
 					}
 				}
 				
+			})
+			
+			$(".region-i select").change(function(){
+				arr = {
+						0: "Ваше объявление не подходит ни под один раздел? Выберите раздел \"Другое\"",
+						1: "Ремонт(одежа, обувь, авто...), выгул собак...",
+						3: "Телефон, эл.бритва, эл.двигатель, розетка, ноутбук, монитор...",
+						4: "Пылесос, двери, окна ПВХ, ковер, ламинат...",
+						5: "Автомобиль, авто запчасти, шины, магнитолы...",
+						6: "Коляска, игрушка, плюшевый мишка, подгузники...",
+						7: "Ошейники, корма, аквариумы, кормушки...",
+						8: "Мячи, теннисные ракетки, бутсы, коньки...",
+						9: "Джинсы, кроссовки, галстук, часы, портфель...",
+						10: "...",
+					}
+				$(this).val()
+				$(".b-market__add-item-form-i.region .hint").show("slow")
+				$(".b-market__add-item-form-i.region .hint dd").html(arr[$(this).val()])
 			})
 			
 			uploadImagesCallback = function(id, fileName, responseJSON, e){

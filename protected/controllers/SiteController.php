@@ -96,7 +96,12 @@ class SiteController extends Controller {
 		
 		if($query){
 			$userId = (!Yii::app()->user->isGuest) ? Yii::app()->user->id : 0;
-			Tags::model()->postSearch(1, array('text' => $query, 'is_good' => 1, 'user' => $userId));
+			$ser = new Search;
+			$ser->value = $query;
+			$ser->user_id = $userId;
+			$ser->is_good = 1;
+			$ser->save();
+			//Tags::model()->postSearch(1, array('text' => $query, 'is_good' => 1, 'user' => $userId));
 		}
 		
 		if($region){

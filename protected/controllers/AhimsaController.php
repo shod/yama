@@ -127,11 +127,11 @@ class AhimsaController extends Controller
             Yii::app()->end();
         }
 		
-		$infoProd = Info_Products::model();
+		$infoProd = Mongo_Info_Products::model();
 		if($model->product_id){
 			$criterea = new EMongoCriteria();
 			$criterea->product_id('==', $model->product_id);
-			$infoProd = Info_Products::model()->find($criterea);
+			$infoProd = Mongo_Info_Products::model()->find($criterea);
 			if(!$infoProd){
 				$api = Api_Product::model();
 				$apiRes = (array) $api->getInfo('attr', array('id' => array($model->product_id), 'list' => array('title', 'url', 'image', 'cost', 'id', 'section'), 'image_size' => 'small'));
@@ -173,6 +173,8 @@ class AhimsaController extends Controller
 					$textToTags = $textToTags . ' ' . Categories::model()->findByPk($publicModel->category)->title;
 					$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $publicModel->id));
 					Api_SubscribeEvents::model()->postEvent($publicModel->id, array('entity_type_id' => 4));
+					
+					$this->_uploadImages($publicModel);
 				}
 				$this->redirect('/');
 			}
@@ -215,16 +217,16 @@ class AhimsaController extends Controller
 		
 		sort($images);
 		
-		$infoProd = Info_Products::model();
+		$infoProd = Mongo_Info_Products::model();
 		if($model->product_id){
 			$criterea = new EMongoCriteria();
 			$criterea->product_id('==', $model->product_id);
-			$infoProd = Info_Products::model()->find($criterea);
+			$infoProd = Mongo_Info_Products::model()->find($criterea);
 			if(!$infoProd){
 				$api = Api_Product::model();
 				$apiRes = (array) $api->getInfo('attr', array('id' => array($model->product_id), 'list' => array('title', 'url', 'image', 'cost', 'id', 'section'), 'image_size' => 'small'));
 				if($arp = array_pop($apiRes)){
-					$infoProd = new Info_Products();
+					$infoProd = new Mongo_Info_Products();
 					$infoProd->product_id = $arp->id;
 					$infoProd->section_id = $arp->section;
 					$infoProd->name = $arp->title;
@@ -263,6 +265,7 @@ class AhimsaController extends Controller
 				$textToTags = $textToTags . ' ' . Regions::model()->findByPk($model->region)->title;
 				$textToTags .= ' ' . Categories::model()->findByPk($model->category)->title;
 				$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $model->id));
+				$this->_uploadImages($model);
 				$this->redirect('/');
 			}
 		}
@@ -286,6 +289,36 @@ class AhimsaController extends Controller
 		$this->render('index',array(
 			'dataProvider'=>$dataProvider,
 		));
+	}
+	
+	protected function _uploadImages($model){
+		if(count($_FILES)){
+			$path = Yii::app()->getBasePath() . DIRECTORY_SEPARATOR . '..';
+			$folder = $path . Adverts::IMAGE_PATH . DIRECTORY_SEPARATOR . $model->id . DIRECTORY_SEPARATOR;
+			FileServices::createDirectory($folder);
+			$delFiles = true;
+			foreach($_FILES as $file){
+				if(!$file['name']){
+					continue;
+				}
+				if($delFiles){
+					foreach(FileServices::getImagesFromDir($folder) as $f){
+						$dir = Yii::app()->getBasePath(true) . '/..' . Adverts::IMAGE_PATH . '/' . $model->id . '/';
+						@unlink($dir . $f);
+						foreach(Adverts::$publicSizeTypes as $type => $val){
+							@unlink($dir . $type . '/' . $f);
+						}
+					}
+					$delFiles = false;
+				}
+				$image = Yii::app()->image->load($file['tmp_name']);
+				$image->resize(Adverts::$size['min']['x'], Adverts::$size['min']['y'], Image::NO_MORE)->quality(100);
+				FileServices::createDirectory($folder);
+				$image->save($folder . $file['name']);
+				$model->image = $file['name'];
+				$model->save();
+			}
+		}
 	}
 
 
@@ -518,6 +551,48 @@ class AhimsaController extends Controller
             $code = array('type' => 'compare','data' =>$data, 'user_id' => Yii::app()->user->id);
             Sys_Job::model()->replace('soc_sync_data', Yii::app()->user->id, $code, time());
         }
+	}
+	
+	public function actionRotateImage(){
+		if(Yii::app()->user->isGuest && !Yii::app()->request->isAjaxRequest){
+			return false;
+		}
+		$id = Yii::app()->request->getParam('id', 0, 'int');
+		$url = Yii::app()->request->getParam('url', 0, 'string');
+		$url = array_shift(explode("?", $url));
+		$model = Adverts::model()->findByPk($id);
+		if(Yii::app()->user->id != $model->user_id){
+			return false;
+		}
+		$file = array_pop(explode('/', $url));
+		
+		$dir = Yii::app()->getBasePath(true) . '/..' . Adverts::IMAGE_PATH . '/' . $model->id . '/';
+		$image = Yii::app()->image->load($dir . $file);
+		$image->rotate(90);
+		$fileType = substr($file, strrpos($file, '.'));
+		$fileName = substr($file, 0, strrpos($file, '.'));
+		$pattern = '#([\d]+)$#';
+		preg_match($pattern, $fileName, $matches);
+		if(count($matches)){
+			$fileName = substr($fileName, 0, strrpos($fileName, $matches[0][0])-1);
+		}
+		$fileNew = $fileName . '_' . time() . $fileType;
+		if($image->save($dir . $fileNew)){
+			@unlink($dir . $file);
+		}
+
+		foreach(Adverts::$publicSizeTypes as $type => $val){
+			@unlink($dir . $type . '/' . $file);
+		}
+		if($model->image == $file){
+			$model->scenario = 'specialUpdate';
+			$model->image = $fileNew;
+			//$file = $dir . $model->image;
+			//$model->image_y = FileServices::getImageHeight($fileNew);
+			$model->save();
+		}
+		echo Yii::app()->getBaseUrl(true) . '/images/ahimsa/' . $model->id . '/mini/' . $fileNew;
+		Yii::app()->end();
 	}
 	
 	public function actionDellImage(){
