@@ -38,7 +38,8 @@ class Auction extends CActiveRecord
 		// will receive user inputs.
 		return array(
 			array('user_id, advert_id, price', 'required'),
-			array('user_id, advert_id, price', 'numerical', 'integerOnly'=>true),
+			array('user_id, advert_id', 'numerical', 'integerOnly'=>true),
+			array('price', 'numerical', 'min'=>1),
 			// The following rule is used by search().
 			// Please remove those attributes that should not be searched.
 			array('id, user_id, advert_id, price', 'safe', 'on'=>'search'),

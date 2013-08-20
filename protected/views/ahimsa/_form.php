@@ -364,6 +364,14 @@
 					image.animate({
 						opacity: 1
 					}, 5000);
+					if(document.getElementById("'. get_class($model) .'_image")){
+						value = $("#createForm .qq-uploader .img:first img:first").attr("src")
+						if(!value){
+							document.getElementById("'. get_class($model) .'_image").value = ""
+						} else {
+							document.getElementById("'. get_class($model) .'_image").value = value
+						}
+					}
 				})
 			})
 			

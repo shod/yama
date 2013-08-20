@@ -55,7 +55,7 @@ class AhimsaController extends Controller
 		
 		$html = false;
 		if(Yii::app()->getRequest()->isAjaxRequest){
-			//$html = Yii::app()->fileCache->get($cache_key);
+			$html = Yii::app()->fileCache->get($cache_key);
 		}
 		
 		
@@ -64,8 +64,8 @@ class AhimsaController extends Controller
 			$imageDir = Yii::app()->getBasePath() . '/..' . Adverts::IMAGE_PATH . '/' . $id . '/';
 			$images = FileServices::getImagesFromDir($imageDir);
 			
-			$this->title = mb_substr($model->description, 0, 230, 'UTF-8');
-			$this->description = mb_substr($model->text, 0, 480, 'UTF-8');
+			$this->title = mb_substr($model->description, 0, 230, 'UTF-8') . ' продам б/у';
+			$this->description = mb_substr($model->text, 0, 480, 'UTF-8') . ' продам б/у';
 			
 			$auctFlag = true;
 			$uids[$model->user_id] = $model->user_id;
@@ -253,10 +253,10 @@ class AhimsaController extends Controller
 			$model->free = $_POST['Adverts']['free'];
 			
 			if($model->image){
+				$model->image = array_pop(explode('/', $model->image));
 				ImagesService::resizeAdvertIndexImage($model);
 				$file = Yii::app()->basePath . '/..' . Adverts::IMAGE_PATH . '/' . $model->id . '/index/' . $model->image;
 				$model->image_y = FileServices::getImageHeight($file);
-				
 			}
 			
 			if($model->save()){
