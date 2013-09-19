@@ -113,7 +113,7 @@ YamaBy.index = {
 				$(".ui-dialog.ui-widget.ui-widget-content.ui-corner-all.b-market__item.ui-draggable")
 				.css("overflow-x", "hidden")
 				.css("overflow-y", "auto")
-				.css("width", $(window).width() + "px")
+				.css("width", ($(window).width() - parseInt(left)) + "px")
 				.css("height", $(window).height() + "px")
 				.css("padding-left", left)
 				.css("left", "")
