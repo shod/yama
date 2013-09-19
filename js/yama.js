@@ -89,6 +89,10 @@ YamaBy.index = {
 		*/
 	},
 	closeModal: function(param, modalId){
+		$("body").css("overflow", "")
+		$(".ui-dialog.ui-widget.ui-widget-content.ui-corner-all.b-market__item.ui-draggable")
+		.css("padding-left", 0)
+		.css("left", 0)
 		k = jQuery.inArray(modalId, YamaBy.index._openedModals)
 		if(k != -1){
 			delete YamaBy.index._openedModals[k]
@@ -104,6 +108,17 @@ YamaBy.index = {
 			url = this.href
 			YamaBy.index.getBlock(this.href, function(data){
 				$("#"+o.id).dialog("open")
+				$("body").css("overflow", "hidden")
+				var left = $(".ui-dialog.ui-widget.ui-widget-content.ui-corner-all.b-market__item.ui-draggable").css("left")
+				$(".ui-dialog.ui-widget.ui-widget-content.ui-corner-all.b-market__item.ui-draggable")
+				.css("overflow-x", "hidden")
+				.css("overflow-y", "auto")
+				.css("width", $(window).width() + "px")
+				.css("height", $(window).height() + "px")
+				.css("padding-left", left)
+				.css("left", "")
+				
+				$(".ui-dialog.ui-widget.ui-widget-content .content").css("width","700px").css("padding","20px 0 20px 0")
 				k = jQuery.inArray(o.id, YamaBy.index._openedModals)
 				if(k == -1){
 					YamaBy.index._openedModals[YamaBy.index._openedModals.length] = o.id

@@ -11,7 +11,7 @@ class YamaTags extends QWidget {
 		if(empty($this->tags)){
 			if(!$this->tags = Yii::app()->cache->get('pupular_tags_for_yama_index_' . $this->limit)){
 				$this->tags = Tags::model()->getPopularTags(array('limit' => $this->limit));
-				Yii::app()->cache->set('pupular_tags_for_yama_index', $this->tags, 3600);
+				Yii::app()->cache->set('pupular_tags_for_yama_index_' . $this->limit, $this->tags, 3600);
 			}
 		}
 		$this->addScript();

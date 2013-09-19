@@ -13,7 +13,7 @@ require_once(dirname(__FILE__).'/../../framework/yii.php');
 require_once(dirname(__FILE__) . '/../../core/YiiBaseEx.php');
 
 
-Yii::setPathOfAlias("core", dirname(__FILE__).'/../../core_ek');
+Yii::setPathOfAlias("core", dirname(__FILE__).'/../../core');
 Yii::getLogger()->autoDump = true;
 Yii::getLogger()->autoFlush=1;
 if(isset($config))

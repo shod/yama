@@ -47,9 +47,12 @@ class LikesController extends Controller
 		Yii::app()->cache->delete($cacheDeleteKey);
         
 		$model = Likes::model();
+		$model->debug =1 ;
 		$a = $model->postLike($entity, $params);
 		$isNew = true;
 		$success = false;
+		d($a);
+		die;
 		if(is_object($a) && isset($a->update) && $a->update == true){
 			$isNew = $a->new;
 			$success = $a->update;
