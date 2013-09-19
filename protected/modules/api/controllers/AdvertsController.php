@@ -42,4 +42,17 @@ class AdvertsController extends ERestController
 		$this->render()->sendResponse(array(ERestComponent::CONTENT_RESPONCE => $res,
 			ERestComponent::CONTENT_SUCCESS => true));
 	}
+	
+	public function actionGetSuggest() {
+		$search = Yii::app()->request->getParam('search');
+		$adverts = AhimsaSearchService::prepareData($search, 4);
+		$adverts = array_slice( $adverts['res'], 0, 4 );
+		if(count($adverts)){
+			$this->render()->sendResponse(array(ERestComponent::CONTENT_RESPONCE => $adverts,
+				ERestComponent::CONTENT_SUCCESS => true));
+		} else {
+			$this->render()->sendResponse(array(ERestComponent::CONTENT_SUCCESS => false));
+		}
+		
+	}
 }
