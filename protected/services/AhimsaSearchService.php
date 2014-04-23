@@ -20,6 +20,7 @@ class AhimsaSearchService {
 		$cl->SetLimits($offset = 0, $limit = 1000, $max_matches = 1000, $cutoff = 0);
 		$cl->SetRankingMode(SPH_RANK_PROXIMITY_BM25);
 		$cl->SetSortMode(SPH_SORT_RELEVANCE);
+		$cl->SetSortMode(SPH_SORT_ATTR_DESC, 'created_at');
 		
 		$cl->SetArrayResult(true);
 		

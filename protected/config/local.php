@@ -23,6 +23,7 @@ return CMap::mergeArray(
             'core.components.*',
             'core.widgets.*',
             'core.services.*',
+			'core.components.caching.*',
             'core.extensions.yiidebugtb.*',
             'core.extensions.eoauth.*',
             'core.extensions.eoauth.lib.*',

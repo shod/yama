@@ -9,6 +9,7 @@ return array(
         'core.services.*',
         'application.models.mongo.*',
         'core.components.*',
+		'core.components.caching.*',
         'core.components.ConsoleCommand',
         'core.extensions.yiiRestSuite.*',
         'core.extensions.YiiMongoDbSuite.*',
