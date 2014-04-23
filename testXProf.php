@@ -13,13 +13,13 @@ for ($i = 0; $i <= 1000; $i++) {
 
 $xhprof_data = xhprof_disable();
 
-$XHPROF_ROOT = "xhprof-master";
-include_once $XHPROF_ROOT . "/xhprof_lib/config.php";
-include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_lib.php";
-include_once $XHPROF_ROOT . "/xhprof_lib/utils/xhprof_runs.php";
+$XHPROF_ROOT = XHPROF_LIB_ROOT;
+include_once $XHPROF_ROOT . "/config.php";
+include_once $XHPROF_ROOT . "/utils/xhprof_lib.php";
+include_once $XHPROF_ROOT . "/utils/xhprof_runs.php";
 
 $xhprof_runs = new XHProfRuns_Default();
 $run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_testing");
 
-echo "http://yama.migom.by/xhprof-master/xhprof_html/index.php?run={$run_id}&source=xhprof_testing\n";
+echo "http://sell.ek.dev.migom.by/xhprof-master/xhprof_html/index.php?run={$run_id}&source=xhprof_testing\n";
 ?>

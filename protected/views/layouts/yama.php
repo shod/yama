@@ -64,6 +64,20 @@
 		Yii::app()->clientScript->registerScriptFile('/js/fotorama.js');
     ?>
 	<link href='http://fonts.googleapis.com/css?family=Cuprum&subset=latin,latin-ext,cyrillic' rel='stylesheet' type='text/css'>
+	<style>
+		.line-search-full{
+			position: relative;
+			top: -10px;
+		}
+		.b-seach-cont-text{
+			position: relative;
+			top: 11px;
+		}
+		.b-seach{
+			position: relative;
+			top: -12px;
+		}
+	</style>
 </head>
 <body cz-shortcut-listen="true" class="market-page">
 <script type="text/javascript">
@@ -90,11 +104,11 @@
 </noindex>	
 </div></div>-->
 
-<?php CController::widget('Header'); ?>
 
 <div class="wrapper_content">
 
     <?php CController::widget('HeaderNavigation'); ?>
+<?php CController::widget('Header'); ?>
 	<?php //Widget::get('Breadcrumbs')->html(); ?>
     <?= $content ?>
 </div>

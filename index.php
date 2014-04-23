@@ -51,7 +51,7 @@ if(isset($_GET['profiling'])){
 	$xhprof_runs = new XHProfRuns_Default();
 	$run_id = $xhprof_runs->save_run($xhprof_data, "xhprof_testing");
 
-	echo "http://yama.migom.by/xhprof-master/xhprof_html/index.php?run={$run_id}&source=xhprof_testing\n";
+	echo "http://sell.ek.dev.migom.by/xhprof-master/xhprof_html/index.php?run={$run_id}&source=xhprof_testing\n";
 } else {
 	$yii->run();
 }
