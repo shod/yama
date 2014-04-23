@@ -43,6 +43,11 @@ class AdvertsController extends ERestController
 			ERestComponent::CONTENT_SUCCESS => true));
 	}
 	
+	public function actionGetTesttttt(){
+		$this->render()->sendResponse(array(ERestComponent::CONTENT_RESPONCE => array('test' => 'asdfasdf'),
+			ERestComponent::CONTENT_SUCCESS => true));
+	}
+	
 	public function actionGetSuggest() {
 		$search = Yii::app()->request->getParam('search');
 		$adverts = AhimsaSearchService::prepareData($search, 4);

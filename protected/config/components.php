@@ -67,7 +67,7 @@ return array(
             '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
             '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
 			'<controller:\w+>/<action:\w+>/<url>' => '<controller>/<action>',
-			'<query>' => 'site/index',
+			//'<query>' => 'site/index',
         ),
     ),
     'request' => array(
