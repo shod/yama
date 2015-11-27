@@ -52,7 +52,7 @@
 	
 	<?php
         Yii::app()->getClientScript()->registerCssFile('/css/yama.css');
-		Yii::app()->getClientScript()->registerCssFile('/css/fotorama.css');
+		Yii::app()->getClientScript()->registerCssFile('/css/fotorama.css?r=1');
         Yii::app()->clientScript->registerScriptFile('/js/form.js');
 		
 		Yii::app()->clientScript->registerScriptFile('/js/history.js/scripts/bundled/html5/jquery.history.js');
@@ -67,15 +67,15 @@
 	<style>
 		.line-search-full{
 			position: relative;
-			top: -10px;
+		/*	top: -10px;*/
 		}
 		.b-seach-cont-text{
 			position: relative;
-			top: 11px;
+			/*top: 11px;*/
 		}
 		.b-seach{
 			position: relative;
-			top: -12px;
+			/*top: -12px;*/
 		}
 	</style>
 </head>
@@ -107,13 +107,13 @@
 
 <div class="wrapper_content">
 
-    <?php CController::widget('HeaderNavigation'); ?>
+    <?php //CController::widget('HeaderNavigation'); ?>
 <?php CController::widget('Header'); ?>
 	<?php //Widget::get('Breadcrumbs')->html(); ?>
     <?= $content ?>
 </div>
 
-<?php CController::widget('Footer'); ?>
+<?php //CController::widget('Footer'); ?>
     </div>
 	<script>
 		YamaBy.index.init({

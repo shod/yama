@@ -8,8 +8,8 @@ class AhimsaController extends Controller
 	 */
 	public $layout='yama';
 	public $title='Yama.Migom.by';
-	public $description='Сайт бесплатных объявлений';
-	public $keywords = '';
+	public $description='Сайт бесплатных объявлений. Покупка продажа';
+	public $keywords = 'купить куплю бу недорого‏';
 
 	/**
 	 * Displays a particular model.
@@ -172,7 +172,10 @@ class AhimsaController extends Controller
 					$textToTags = $textToTags . ' ' . Regions::model()->findByPk($publicModel->region)->title;
 					$textToTags = $textToTags . ' ' . Categories::model()->findByPk($publicModel->category)->title;
 					$tags->postProductLink(array('text' => $textToTags, 'entity_type_id' => 4, 'entity_id' => $publicModel->id));
-					Api_SubscribeEvents::model()->postEvent($publicModel->id, array('entity_type_id' => 4));
+					if($publicModel->image){ // чтобы в рассылке были объявления только с картинками
+						Api_SubscribeEvents::model()->postEvent($publicModel->id, array('entity_type_id' => 4));
+					}
+					
 					
 					$this->_uploadImages($publicModel);
 				}

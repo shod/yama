@@ -71,7 +71,7 @@
                         <span><?= Yii::t('Yama', 'Куплю дешевле за') ?></span>
                         <input class="auction-price" type="text" name="price" placeholder="">
 						<input class="auction-ahimsa" type="hidden" name="id" value="<?= $model->id ?>">
-                        <b>$</b>
+                        <b></b>
                     </div>
                     <button class="button_yellow btn-submit-1 auction" type="submit"><?= Yii::t('Yama', 'Предложить'); ?></button>
                 </div>

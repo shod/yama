@@ -114,7 +114,7 @@
 
 
 .fotorama__arr { display: block; position: absolute; font-family: sans-serif; width: 44px; text-align: center; z-index: 10; color: white; font-size: 18px; top: 50%; line-height: 72px; margin-top: -36px; cursor: pointer; opacity: 0; font-style: normal }
-.fotorama__arr {width:38px;height:50px;margin:-49px 0 0;padding:20px;background:url(../images/sprite_1.png) no-repeat;border:0 none;top:50%;text-indent:-9999px}
+.fotorama__arr {width:38px;height:50px;margin:-49px 0 0;padding:20px;/*background:url(../images/sprite_1.png) no-repeat;border:0 none;top:50%;*/text-indent:-9999px}
 
 
 
@@ -147,7 +147,7 @@
 .fotorama__wrap_mouseover .fotorama__arr_disabled, .fotorama__wrap_mouseover .fotorama__arr_disabled:hover, .fotorama_touch .fotorama__arr_disabled, .fotorama_touch .fotorama__arr_disabled:hover { opacity: 0.11; text-shadow: none; }
 
 		
-			.b-main-gallery__nav{width:38px;height:50px;margin:-49px 0 0;padding:20px;background:url(../images/sprite_1.png) no-repeat;border:0 none;top:50%}
+			.b-main-gallery__nav{width:38px;height:50px;margin:-49px 0 0;padding:20px;/*background:url(../images/sprite_1.png) no-repeat;border:0 none;top:50%*/}
 			.b-main-gallery__nav:hover{border:0 none}
 
 			.b-main-gallery__nav.l-ar{background-position:0 -286px;left:0}				
